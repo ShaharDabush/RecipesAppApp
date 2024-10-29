@@ -8,7 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 //using RecipesAppApp.Models;
 
-namespace TasksManagementApp.Services
+namespace RecipesAppApp.Services
 {
     public class RecipesAppWebAPIProxy
     {
