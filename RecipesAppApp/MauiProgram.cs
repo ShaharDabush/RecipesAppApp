@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
+using RecipesAppApp.ViewModels;
+using RecipesAppApp.Views;
 
 namespace RecipesAppApp
 {
@@ -30,6 +32,8 @@ namespace RecipesAppApp
 
             builder.Services.AddTransient<AppShell>();
 
+            builder.Services.AddTransient<LoginView>();
+
             return builder;
         }
 
@@ -39,7 +43,8 @@ namespace RecipesAppApp
             return builder;
         }
         public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)
-        { 
+        {
+            builder.Services.AddSingleton<LoginViewModel>();
             return builder;
         }
     }

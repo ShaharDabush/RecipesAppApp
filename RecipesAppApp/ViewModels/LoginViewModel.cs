@@ -7,113 +7,119 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using RecipesAppApp.Services;
 using RecipesAppApp.Models;
+using RecipesAppApp.Views;
 
 namespace RecipesAppApp.ViewModels
 {
-    internal class LoginViewModel : ViewModelBase
+    public class LoginViewModel : ViewModelBase
     {
-        private RecipesAppWebAPIProxy proxy;
-        private IServiceProvider serviceProvider;
-        public LoginViewModel(RecipesAppWebAPIProxy proxy, IServiceProvider serviceProvider)
-        {
-            this.serviceProvider = serviceProvider;
-            this.proxy = proxy;
-            LoginCommand = new Command(OnLogin);
-            RegisterCommand = new Command(OnRegister);
-            email = "";
-            password = "";
-            InServerCall = false;
-            errorMsg = "";
-        }
+            #region attributes and properties
+            private RecipesAppWebAPIProxy RecipesService;
+        private SignUpView signupView;
 
-        private string email;
-        private string password;
-
-        public string Email
-        {
-            get => email;
-            set
+        private string pass;
+            public string Pass
             {
-                if (email != value)
+                get { return pass; }
+                set
                 {
-                    email = value;
-                    OnPropertyChanged(nameof(Email));
+                    pass = value;
+                    OnPropertyChanged("Pass");
                 }
             }
-        }
-
-        public string Password
-        {
-            get => password;
-            set
+            private string mail;
+            public string Mail
             {
-                if (password != value)
+                get { return mail; }
+                set
                 {
-                    password = value;
-                    OnPropertyChanged(nameof(Password));
+                    mail = value;
+                    OnPropertyChanged("Mail");
                 }
             }
-        }
-
-        private string errorMsg;
-        public string ErrorMsg
-        {
-            get => errorMsg;
-            set
+            private bool inServerCall;
+            public bool InServerCall
             {
-                if (errorMsg != value)
+                get
                 {
-                    errorMsg = value;
-                    OnPropertyChanged(nameof(ErrorMsg));
+                    return this.inServerCall;
+                }
+                set
+                {
+                    this.inServerCall = value;
+                    OnPropertyChanged("NotInServerCall");
+                    OnPropertyChanged("InServerCall");
                 }
             }
-        }
 
-
-        public ICommand LoginCommand { get; }
-        public ICommand RegisterCommand { get; }
-
-
-
-        private async void OnLogin()
-        {
-            //Choose the way you want to blobk the page while indicating a server call
-            InServerCall = true;
-            ErrorMsg = "";
-            //Call the server to login
-            LoginInfo loginInfo = new LoginInfo { Email = Email, Password = Password };
-            AppUser? u = await this.proxy.LoginAsync(loginInfo);
-
-            InServerCall = false;
-
-            //Set the application logged in user to be whatever user returned (null or real user)
-            ((App)Application.Current).LoggedInUser = u;
-            if (u == null)
+            public bool NotInServerCall
             {
-                ErrorMsg = "Invalid email or password";
+                get
+                {
+                    return !this.InServerCall;
+                }
             }
-            else
+            #endregion
+
+
+            //constractor
+            //initialize the properties, attributes and commands
+            public LoginViewModel(RecipesAppWebAPIProxy service, SignUpView signUp)
             {
-                ErrorMsg = "";
-                //Navigate to the main page
-                AppShell shell = serviceProvider.GetService<AppShell>();
-                TasksViewModel tasksViewModel = serviceProvider.GetService<TasksViewModel>();
-                tasksViewModel.Refresh(); //Refresh data and user in the tasksview model as it is a singleton
-                ((App)Application.Current).MainPage = shell;
-                Shell.Current.FlyoutIsPresented = false; //close the flyout
-                Shell.Current.GoToAsync("Tasks"); //Navigate to the Tasks tab page
+                InServerCall = false;
+                this.signupView = signUp;
+                this.RecipesService = service;
+                this.LoginCommand = new Command(OnLogin);
+                this.SignUpCommand = new Command(GoToSignUp);
             }
-        }
 
-        private void OnRegister()
+            //command on pressing the login button
+            public ICommand LoginCommand { get; set; }
+
+            //command on pressing the signup button sends you to to SignUpView
+            public Command SignUpCommand { protected set; get; }
+
+            //method
+            //activated by the LoginCommand
+            //checks with the servise if the given email and password match a user in the DB
+            //and if so login to the user and go to profile page in the shell
+            private async void OnLogin()
+            {
+                //Choose the way you want to blob the page while indicating a server call
+                InServerCall = true;
+                //await Shell.Current.GoToAsync("connectingToServer");
+                User? u = await this.RecipesService.LoginAsync(mail, pass);
+                //await Shell.Current.Navigation.PopModalAsync();
+                InServerCall = false;
+
+                //Set the application logged in user to be whatever user returned (null or real user)
+                ((App)Application.Current).LoggedInUser = u;
+                if (u == null)
+                {
+
+                    await Application.Current.MainPage.DisplayAlert("Login", "Login Failed!", "ok");
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Login", $"Login Succeed!", "ok");
+                    u = null;
+                    Mail = "";
+                    Pass = "";
+
+
+                    Application.Current.MainPage = new AppShell(new ShellViewModel());
+
+                }
+            }
+
+        //method
+        //activated by SignUpCommand
+        //send you to SignUpView
+        private async void GoToSignUp()
         {
-            ErrorMsg = "";
-            Email = "";
-            Password = "";
-            // Navigate to the Register View page
-            ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<RegisterView>());
+            await App.Current.MainPage.Navigation.PushAsync(signupView);
+
         }
-
-
     }
+    
 }
