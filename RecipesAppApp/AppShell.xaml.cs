@@ -1,10 +1,19 @@
-﻿namespace RecipesAppApp
+﻿using RecipesAppApp.ViewModels;
+
+namespace RecipesAppApp
 {
     public partial class AppShell : Shell
     {
-        public AppShell()
+        //public AppShell()
+        //{
+        //    InitializeComponent();
+        //}
+        public AppShell(ShellViewModel vm)
         {
+
             InitializeComponent();
+            this.BindingContext = vm;
+            //RegisterRoutes();
         }
     }
 }

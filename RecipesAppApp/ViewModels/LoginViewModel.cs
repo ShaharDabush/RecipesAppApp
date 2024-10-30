@@ -87,8 +87,9 @@ namespace RecipesAppApp.ViewModels
             {
                 //Choose the way you want to blob the page while indicating a server call
                 InServerCall = true;
-                //await Shell.Current.GoToAsync("connectingToServer");
-                User? u = await this.RecipesService.LoginAsync(mail, pass);
+            //await Shell.Current.GoToAsync("connectingToServer");
+            LoginInfo loginInfo = new(mail, pass);
+                User? u = await this.RecipesService.LoginAsync(loginInfo);
                 //await Shell.Current.Navigation.PopModalAsync();
                 InServerCall = false;
 

@@ -6,10 +6,16 @@ using System.Threading.Tasks;
 
 namespace RecipesAppApp.Models
 {
-    internal class LoginInfo
+    public class LoginInfo
     {
-        public string Email { get; set; } = null!;
+        public string UserEmail { get; set; } = null!;
 
-        public string UserPassword { get; set; } = null!;
+        public string Password { get; set; } = null!;
+
+        public LoginInfo(string UserEmail,string Password)
+        {
+            this.UserEmail = UserEmail;
+            this.Password = Password;
+        }
     }
 }
