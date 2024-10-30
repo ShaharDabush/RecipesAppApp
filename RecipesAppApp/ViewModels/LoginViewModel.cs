@@ -15,7 +15,7 @@ namespace RecipesAppApp.ViewModels
     {
             #region attributes and properties
             private RecipesAppWebAPIProxy RecipesService;
-        private SignUpView signupView;
+            private SignUpView signupView;
 
         private string pass;
             public string Pass
@@ -37,28 +37,28 @@ namespace RecipesAppApp.ViewModels
                     OnPropertyChanged("Mail");
                 }
             }
-            private bool inServerCall;
-            public bool InServerCall
-            {
-                get
-                {
-                    return this.inServerCall;
-                }
-                set
-                {
-                    this.inServerCall = value;
-                    OnPropertyChanged("NotInServerCall");
-                    OnPropertyChanged("InServerCall");
-                }
-            }
+            //private bool inServerCall;
+            //public bool InServerCall
+            //{
+            //    get
+            //    {
+            //        return this.inServerCall;
+            //    }
+            //    set
+            //    {
+            //        this.inServerCall = value;
+            //        OnPropertyChanged("NotInServerCall");
+            //        OnPropertyChanged("InServerCall");
+            //    }
+            //}
 
-            public bool NotInServerCall
-            {
-                get
-                {
-                    return !this.InServerCall;
-                }
-            }
+            //public bool NotInServerCall
+            //{
+            //    get
+            //    {
+            //        return !this.InServerCall;
+            //    }
+            //}
             #endregion
 
 
@@ -66,7 +66,7 @@ namespace RecipesAppApp.ViewModels
             //initialize the properties, attributes and commands
             public LoginViewModel(RecipesAppWebAPIProxy service, SignUpView signUp)
             {
-                InServerCall = false;
+                //InServerCall = false;
                 this.signupView = signUp;
                 this.RecipesService = service;
                 this.LoginCommand = new Command(OnLogin);
@@ -86,12 +86,12 @@ namespace RecipesAppApp.ViewModels
             private async void OnLogin()
             {
                 //Choose the way you want to blob the page while indicating a server call
-                InServerCall = true;
+                //InServerCall = true;
             //await Shell.Current.GoToAsync("connectingToServer");
             LoginInfo loginInfo = new(mail, pass);
                 User? u = await this.RecipesService.LoginAsync(loginInfo);
                 //await Shell.Current.Navigation.PopModalAsync();
-                InServerCall = false;
+                //InServerCall = false;
 
                 //Set the application logged in user to be whatever user returned (null or real user)
                 ((App)Application.Current).LoggedInUser = u;
