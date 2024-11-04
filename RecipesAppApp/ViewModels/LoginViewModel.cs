@@ -27,7 +27,8 @@ namespace RecipesAppApp.ViewModels
                     OnPropertyChanged("Pass");
                 }
             }
-            private string mail;
+
+        private string mail;
             public string Mail
             {
                 get { return mail; }
@@ -85,20 +86,21 @@ namespace RecipesAppApp.ViewModels
             //and if so login to the user and go to profile page in the shell
             private async void OnLogin()
             {
-                //Choose the way you want to blob the page while indicating a server call
-                //InServerCall = true;
+            //Choose the way you want to blob the page while indicating a server call
+            InServerCall = true;
             //await Shell.Current.GoToAsync("connectingToServer");
             LoginInfo loginInfo = new(mail, pass);
                 User? u = await this.RecipesService.LoginAsync(loginInfo);
                 //await Shell.Current.Navigation.PopModalAsync();
-                //InServerCall = false;
+                InServerCall = false;
 
                 //Set the application logged in user to be whatever user returned (null or real user)
                 ((App)Application.Current).LoggedInUser = u;
                 if (u == null)
                 {
 
-                    await Application.Current.MainPage.DisplayAlert("Login", "Login Failed!", "ok");
+                await Application.Current.MainPage.DisplayAlert("Login", "Login failed!", "ok");
+                
                 }
                 else
                 {

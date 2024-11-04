@@ -7,12 +7,12 @@
         <Entry 
         Placeholder="Email"
         Keyboard="Email"
-        Text="{Binding Email}" IsEnabled="{Binding NotInServerCall}"/>
+        Text="{Binding Mail}" IsEnabled="{Binding NotInServerCall}"/>
 
         <Entry 
         Placeholder="Password"
         IsPassword="True"
-        Text="{Binding Password}" IsEnabled="{Binding NotInServerCall}"/>
+        Text="{Binding Pass}" IsEnabled="{Binding NotInServerCall}"/>
 
         <Button 
         Text="Login"

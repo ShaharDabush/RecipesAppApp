@@ -13,205 +13,324 @@ namespace RecipesAppApp.ViewModels
 
     public class SignUpViewModel : ViewModelBase
     {
-        //#region FormValidation
-        //#region Name
-        //private bool showNameError;
+        private RecipesAppWebAPIProxy proxy;
+        public SignUpViewModel(RecipesAppWebAPIProxy proxy)
+        {
+            this.proxy = proxy;
+            RegisterCommand = new Command(OnRegister);
+            CancelCommand = new Command(OnCancel);
+            ShowPasswordCommand = new Command(OnShowPassword);
+            UploadPhotoCommand = new Command(OnUploadPhoto);
+            PhotoURL = proxy.GetDefaultProfilePhotoUrl();
+            LocalPhotoPath = "";
+            IsPassword = true;
+            NameError = "Name is required";
+            EmailError = "Email is required";
+            PasswordError = "Password must be at least 4 characters long and contain letters and numbers";
+        }
 
-        //public bool ShowNameError
-        //{
-        //    get => showNameError;
-        //    set
-        //    {
-        //        showNameError = value;
-        //        OnPropertyChanged("ShowNameError");
-        //    }
-        //}
+        //Defiine properties for each field in the registration form including error messages and validation logic
+        #region Name
+        private bool showNameError;
 
-        //private string name;
+        public bool ShowNameError
+        {
+            get => showNameError;
+            set
+            {
+                showNameError = value;
+                OnPropertyChanged("ShowNameError");
+            }
+        }
 
-        //public string Name
-        //{
-        //    get => name;
-        //    set
-        //    {
-        //        name = value;
-        //        ValidateName();
-        //        OnPropertyChanged("Name");
-        //    }
-        //}
+        private string name;
 
-        //private string nameError;
+        public string Name
+        {
+            get => name;
+            set
+            {
+                name = value;
+                ValidateName();
+                OnPropertyChanged("Name");
+            }
+        }
 
-        //public string NameError
-        //{
-        //    get => nameError;
-        //    set
-        //    {
-        //        nameError = value;
-        //        OnPropertyChanged("NameError");
-        //    }
-        //}
-        //private void ValidateName()
-        //{
-        //    this.ShowNameError = string.IsNullOrEmpty(Name);
-        //}
-        //#endregion
-        //#region password
-        //private bool showPasswordError;
+        private string nameError;
 
-        //public bool ShowPasswordError
-        //{
-        //    get => showPasswordError;
-        //    set
-        //    {
-        //        showPasswordError = value;
-        //        OnPropertyChanged("ShowPasswordError");
-        //    }
-        //}
+        public string NameError
+        {
+            get => nameError;
+            set
+            {
+                nameError = value;
+                OnPropertyChanged("NameError");
+            }
+        }
 
-        //private string password;
+        private void ValidateName()
+        {
+            this.ShowNameError = string.IsNullOrEmpty(Name);
+        }
+        #endregion
 
-        //public string Password
-        //{
-        //    get => password;
-        //    set
-        //    {
-        //        password = value;
-        //        ValidatePassword();
-        //        OnPropertyChanged("Password");
-        //    }
-        //}
+        
+        #region Email
+        private bool showEmailError;
 
-        //private string passwordError;
+        public bool ShowEmailError
+        {
+            get => showEmailError;
+            set
+            {
+                showEmailError = value;
+                OnPropertyChanged("ShowEmailError");
+            }
+        }
 
-        //public string PasswordError
-        //{
-        //    get => passwordError;
-        //    set
-        //    {
-        //        passwordError = value;
-        //        OnPropertyChanged("PasswordError");
-        //    }
-        //}
-        //private void ValidatePassword()
-        //{
-        //    this.ShowPasswordError = (Password == null) || Password.Length < 8 || !Password.Any(x => char.IsLetter(x)); // need to inclode one letter  
-        //}
-        //#endregion
-        //#region Email
-        //private bool showEmailError;
+        private string email;
 
-        //public bool ShowEmailError
-        //{
-        //    get => showEmailError;
-        //    set
-        //    {
-        //        showEmailError = value;
-        //        OnPropertyChanged("ShowEmailError");
-        //    }
-        //}
+        public string Email
+        {
+            get => email;
+            set
+            {
+                email = value;
+                ValidateEmail();
+                OnPropertyChanged("Email");
+            }
+        }
 
-        //private string userEmail;
+        private string emailError;
 
-        //public string UserEmail
-        //{
-        //    get => userEmail;
-        //    set
-        //    {
-        //        userEmail = value;
-        //        ValidateEmail();
-        //        OnPropertyChanged("Email");
-        //    }
-        //}
+        public string EmailError
+        {
+            get => emailError;
+            set
+            {
+                emailError = value;
+                OnPropertyChanged("EmailError");
+            }
+        }
 
-        //private string emailError;
+        private void ValidateEmail()
+        {
+            this.ShowEmailError = string.IsNullOrEmpty(Email);
+            if (!ShowEmailError)
+            {
+                //check if email is in the correct format using regular expression
+                if (!System.Text.RegularExpressions.Regex.IsMatch(Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
+                {
+                    EmailError = "Email is not valid";
+                    ShowEmailError = true;
+                }
+                else
+                {
+                    EmailError = "";
+                    ShowEmailError = false;
+                }
+            }
+            else
+            {
+                EmailError = "Email is required";
+            }
+        }
+        #endregion
+        #region Password
+        private bool showPasswordError;
 
-        //public string EmailError
-        //{
-        //    get => emailError;
-        //    set
-        //    {
-        //        emailError = value;
-        //        OnPropertyChanged("EmailError");
-        //    }
-        //}
-        //private void ValidateEmail()
-        //{
-        //    Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-        //    Match match = regex.Match(UserEmail);
-        //    if (match.Success)
-        //    {
-        //        ShowEmailError = false;
-        //    }
-        //    else
-        //    {
-        //        ShowEmailError = true;
-        //    }
+        public bool ShowPasswordError
+        {
+            get => showPasswordError;
+            set
+            {
+                showPasswordError = value;
+                OnPropertyChanged("ShowPasswordError");
+            }
+        }
 
-        //}
-        //#endregion
-        ////on sighing up
-        //public Command SaveDataCommand { protected set; get; }
+        private string password;
 
-        ////the service
-        //private RecipesAppWebAPIProxy RecipesService;
+        public string Password
+        {
+            get => password;
+            set
+            {
+                password = value;
+                ValidatePassword();
+                OnPropertyChanged("Password");
+            }
+        }
 
-        ////constractor initializing all the errors the service and the command
-        //public SignUpViewModel(RecipesAppWebAPIProxy service)
-        //{
-        //    this.NameError = "This is must";
-        //    this.ShowNameError = false;
-        //    this.PasswordError = "The password must include at least 8 digits and with at least 1 letter";
-        //    this.ShowPasswordError = false;
-        //    this.EmailError = "The email was not found";
-        //    this.ShowEmailError = false;
-        //    this.SaveDataCommand = new Command(() => SaveData());
-        //    this.RecipesService = service;
-        //    ;
-        //}
-        ////This function validate the entire form upon submit!
-        //private bool ValidateForm()
-        //{
-        //    //Validate all fields first
-        //    ValidatePassword();
-        //    ValidateEmail();
-        //    ValidateName();
+        private string passwordError;
 
-        //    //check if any validation failed
-        //    if (ShowPasswordError || ShowEmailError || ShowNameError)
-        //        return false;
-        //    return true;
-        //}
+        public string PasswordError
+        {
+            get => passwordError;
+            set
+            {
+                passwordError = value;
+                OnPropertyChanged("PasswordError");
+            }
+        }
 
-        ////method 
-        //// if the data is valid (accepted by ValidateForm) then register the user in the DB via the servise 
-        //private async void SaveData()
-        //{
-        //    if (ValidateForm())
-        //    {
-        //        User u = new User();
-        //        u.Email = this.UserEmail;
-        //        u.UserPassword = this.Password;
-        //        u.UserName = this.Name;
-        //        u.UserImage = "Defult";
-        //        u.StorageId = 0;
-        //        u.StorageId = 0;
-        //        if (null != await this.RecipesService.Register(u))
-        //        {
-        //            await App.Current.MainPage.DisplayAlert("Save data", "your data is saved", "Confirm", FlowDirection.RightToLeft);
-        //            await App.Current.MainPage.Navigation.PopAsync();
-        //        }
-        //        else
-        //        {
-        //            await App.Current.MainPage.DisplayAlert("Save data", "there is a problem with your data", "Confirm", FlowDirection.RightToLeft);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        await App.Current.MainPage.DisplayAlert("Save data", "there is a problem with your data", "Confirm", FlowDirection.RightToLeft);
-        //    }
+        private void ValidatePassword()
+        {
+            //Password must include characters and numbers and be longer than 4 characters
+            if (string.IsNullOrEmpty(password) ||
+                password.Length < 4 ||
+                !password.Any(char.IsDigit) ||
+                !password.Any(char.IsLetter))
+            {
+                this.ShowPasswordError = true;
+            }
+            else
+                this.ShowPasswordError = false;
+        }
 
-        //}
+        //This property will indicate if the password entry is a password
+        private bool isPassword = true;
+        public bool IsPassword
+        {
+            get => isPassword;
+            set
+            {
+                isPassword = value;
+                OnPropertyChanged("IsPassword");
+            }
+        }
+        //This command will trigger on pressing the password eye icon
+        public Command ShowPasswordCommand { get; }
+        //This method will be called when the password eye icon is pressed
+        public void OnShowPassword()
+        {
+            //Toggle the password visibility
+            IsPassword = !IsPassword;
+        }
+        #endregion
+
+        #region Photo
+
+        private string photoURL;
+
+        public string PhotoURL
+        {
+            get => photoURL;
+            set
+            {
+                photoURL = value;
+                OnPropertyChanged("PhotoURL");
+            }
+        }
+
+        private string localPhotoPath;
+
+        public string LocalPhotoPath
+        {
+            get => localPhotoPath;
+            set
+            {
+                localPhotoPath = value;
+                OnPropertyChanged("LocalPhotoPath");
+            }
+        }
+
+        public Command UploadPhotoCommand { get; }
+        //This method open the file picker to select a photo
+        private async void OnUploadPhoto()
+        {
+            try
+            {
+                var result = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
+                {
+                    Title = "Please select a photo",
+                });
+
+                if (result != null)
+                {
+                    // The user picked a file
+                    this.LocalPhotoPath = result.FullPath;
+                    this.PhotoURL = result.FullPath;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+        }
+
+        private void UpdatePhotoURL(string virtualPath)
+        {
+            Random r = new Random();
+            PhotoURL = proxy.GetImagesBaseAddress() + virtualPath + "?v=" + r.Next();
+            LocalPhotoPath = "";
+        }
+
+        #endregion
+
+        //Define a command for the register button
+        public Command RegisterCommand { get; }
+        public Command CancelCommand { get; }
+
+        //Define a method that will be called when the register button is clicked
+        public async void OnRegister()
+        {
+            ValidateName();
+            ValidateEmail();
+            ValidatePassword();
+
+            if (!ShowNameError && !ShowEmailError && !ShowPasswordError)
+            {
+                //Create a new AppUser object with the data from the registration form
+                var newUser = new User
+                {
+                    UserName = Name,
+                    Email = Email,
+                    UserPassword = Password,
+                    IsAdmin = 0
+                };
+
+                //Call the Register method on the proxy to register the new user
+                InServerCall = true;
+                newUser = await proxy.Register(newUser);
+                InServerCall = false;
+
+                //If the registration was successful, navigate to the login page
+                if (newUser != null)
+                {
+                    //UPload profile imae if needed
+                    if (!string.IsNullOrEmpty(LocalPhotoPath))
+                    {
+                        
+                        LoginInfo li = new(newUser.Email, newUser.UserPassword);
+                        await proxy.LoginAsync(li);
+                        User? updatedUser = await proxy.UploadProfileImage(LocalPhotoPath);
+                        if (updatedUser == null)
+                        {
+                            InServerCall = false;
+                            await Application.Current.MainPage.DisplayAlert("Registration", "User Data Was Saved BUT Profile image upload failed", "ok");
+                        }
+                    }
+                    InServerCall = false;
+
+                    ((App)(Application.Current)).MainPage.Navigation.PopAsync();
+                }
+                else
+                {
+
+                    //If the registration failed, display an error message
+                    string errorMsg = "Registration failed. Please try again.";
+                    await Application.Current.MainPage.DisplayAlert("Registration", errorMsg, "ok");
+                }
+            }
+        }
+
+        //Define a method that will be called upon pressing the cancel button
+        public void OnCancel()
+        {
+            //Navigate back to the login page
+            ((App)(Application.Current)).MainPage.Navigation.PopAsync();
+        }
     }
             //#endregion
         

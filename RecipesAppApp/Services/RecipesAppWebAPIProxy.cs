@@ -27,11 +27,11 @@ namespace RecipesAppApp.Services
 
         #region with tunnel
         //Define the serevr IP address! (should be realIP address if you are using a device that is not running on the same machine as the server)
-        private static string serverIP = "32zgfnxw-7228.euw.devtunnels.ms";
+        private static string serverIP = "32zgfnxw-5281.euw.devtunnels.ms";
         private HttpClient client;
         private string baseUrl;
-        public static string BaseAddress = "https://32zgfnxw-7228.euw.devtunnels.ms/api/";
-        private static string ImageBaseAddress = "https://32zgfnxw-7228.euw.devtunnels.ms/";
+        public static string BaseAddress = "https://32zgfnxw-5281.euw.devtunnels.ms/api/";
+        private static string ImageBaseAddress = "https://32zgfnxw-5281.euw.devtunnels.ms/";
         #endregion
 
         public RecipesAppWebAPIProxy()
@@ -101,6 +101,45 @@ namespace RecipesAppApp.Services
                 string json = JsonSerializer.Serialize(user);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
+                //Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    User? result = JsonSerializer.Deserialize<User>(resContent, options);
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        //This method call the UploadProfileImage web API on the server and return the AppUser object with the given URL
+        //of the profile image or null if the call fails
+        //when registering a user it is better first to call the register command and right after that call this function
+        public async Task<User?> UploadProfileImage(string imagePath)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}uploadprofileimage";
+            try
+            {
+                //Create the form data
+                MultipartFormDataContent form = new MultipartFormDataContent();
+                var fileContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
+                form.Add(fileContent, "file", imagePath);
+                //Call the server API
+                HttpResponseMessage response = await client.PostAsync(url, form);
                 //Check status
                 if (response.IsSuccessStatusCode)
                 {
