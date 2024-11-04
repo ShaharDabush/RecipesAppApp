@@ -24,7 +24,7 @@
         HorizontalOptions="Center"
         VerticalOptions="End" IsEnabled="{Binding NotInServerCall}">
             <Label.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding RegisterCommand}"/>
+                <TapGestureRecognizer Command="{Binding SignUpCommand}"/>
             </Label.GestureRecognizers>
         </Label>
         <ActivityIndicator IsRunning="{Binding InServerCall}" Color="Red"></ActivityIndicator>

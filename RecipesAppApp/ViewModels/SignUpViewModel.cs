@@ -73,8 +73,6 @@ namespace RecipesAppApp.ViewModels
             this.ShowNameError = string.IsNullOrEmpty(Name);
         }
         #endregion
-
-        
         #region Email
         private bool showEmailError;
 
@@ -208,7 +206,6 @@ namespace RecipesAppApp.ViewModels
             IsPassword = !IsPassword;
         }
         #endregion
-
         #region Photo
 
         private string photoURL;
@@ -264,6 +261,56 @@ namespace RecipesAppApp.ViewModels
             Random r = new Random();
             PhotoURL = proxy.GetImagesBaseAddress() + virtualPath + "?v=" + r.Next();
             LocalPhotoPath = "";
+        }
+
+        #endregion
+        #region Storage
+        private bool isNewStorage;
+
+        public bool IsNewStorage
+        {
+            get => isNewStorage;
+            set
+            {
+                isNewStorage = value;
+                OnPropertyChanged("IsNewStorage");
+            }
+        }
+
+        private bool isCodeStorage;
+
+        public bool IsCodeStorage
+        {
+            get => isCodeStorage;
+            set
+            {
+                isCodeStorage = value;
+                OnPropertyChanged("IsCodeStorage");
+            }
+        }
+
+        private String storageName;
+
+        public String StorageName
+        {
+            get => storageName;
+            set
+            {
+                storageName = value;
+                OnPropertyChanged("StorageName;");
+            }
+        }
+
+        private String storageCode;
+
+        public String StorageCode
+        {
+            get => storageCode;
+            set
+            {
+                storageCode = value;
+                OnPropertyChanged("StorageCode");
+            }
         }
 
         #endregion
