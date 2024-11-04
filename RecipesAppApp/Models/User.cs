@@ -13,5 +13,6 @@
         public required string? UserImage { get; set; }
 
         public required int? StorageId { get; set; }
+        public int? IsAdmin { get; set; }
     }
 }

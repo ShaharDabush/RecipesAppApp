@@ -37,34 +37,34 @@ namespace RecipesAppApp.ViewModels
                     OnPropertyChanged("Mail");
                 }
             }
-            //private bool inServerCall;
-            //public bool InServerCall
-            //{
-            //    get
-            //    {
-            //        return this.inServerCall;
-            //    }
-            //    set
-            //    {
-            //        this.inServerCall = value;
-            //        OnPropertyChanged("NotInServerCall");
-            //        OnPropertyChanged("InServerCall");
-            //    }
-            //}
+        private bool inServerCall;
+        public bool InServerCall
+        {
+            get
+            {
+                return this.inServerCall;
+            }
+            set
+            {
+                this.inServerCall = value;
+                OnPropertyChanged("NotInServerCall");
+                OnPropertyChanged("InServerCall");
+            }
+        }
 
-            //public bool NotInServerCall
-            //{
-            //    get
-            //    {
-            //        return !this.InServerCall;
-            //    }
-            //}
-            #endregion
+        public bool NotInServerCall
+        {
+            get
+            {
+                return !this.InServerCall;
+            }
+        }
+        #endregion
 
 
-            //constractor
-            //initialize the properties, attributes and commands
-            public LoginViewModel(RecipesAppWebAPIProxy service, SignUpView signUp)
+        //constractor
+        //initialize the properties, attributes and commands
+        public LoginViewModel(RecipesAppWebAPIProxy service, SignUpView signUp)
             {
                 //InServerCall = false;
                 this.signupView = signUp;

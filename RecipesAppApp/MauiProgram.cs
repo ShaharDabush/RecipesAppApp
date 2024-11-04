@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using RecipesAppApp.ViewModels;
 using RecipesAppApp.Views;
+using RecipesAppApp.Services;
 
 namespace RecipesAppApp
 {
@@ -40,7 +41,7 @@ namespace RecipesAppApp
 
         public static MauiAppBuilder RegisterDataServices(this MauiAppBuilder builder)
         {
-
+            builder.Services.AddSingleton<RecipesAppWebAPIProxy>();
             return builder;
         }
         public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)
