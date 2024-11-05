@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecipesAppApp.Views.SignUpView"
              Title="SignUpView">
+    <ScrollView>
     <Grid>
 
 
         <!-- Main Content -->
+        
         <VerticalStackLayout IsEnabled="{Binding NotInServerCall}" Padding="20">
             <!-- Photo -->
             <Frame BorderColor="Black" Padding="5" Margin="10">
@@ -72,22 +74,34 @@ VerticalOptions="End">
             </Grid>
 
             <!-- Storage -->
-            <RadioButton Content="If you want to create new storage" IsChecked="{Binding IsNewStorage}"/>
-            <RadioButton Content="If you have storage to use " IsChecked="{Binding IsCodeStorage}" />
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Entry Grid.Column="0" Placeholder="Type the name of your storage" Text="{Binding StorageName}" IsVisible="{Binding IsNewStorage}" />
-                <!--<ImageButton Grid.Column="1" HeightRequest="25" Source="passwordeye.jpg" Command="{Binding ShowPasswordCommand}" />-->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <RadioButton Grid.Row="0" Grid.Column="0" Content="If you want to create new storage" IsChecked="{Binding IsNewStorage}"/>
+                <RadioButton Grid.Row="0" Grid.Column="1" Content="If you have storage to use " IsChecked="{Binding IsCodeStorage}" />
+                <Label Text="{Binding StorageError}" IsVisible="{Binding ShowStorageError}" Grid.Row="1" Grid.ColumnSpan="1"  />
             </Grid>
-            
+            <!-- Storage Name-->
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
+                <Label Text="{Binding StorageNameError}" IsVisible="{Binding ShowStorageNameError}" Grid.Column="1"  />
+                <Entry Grid.Column="0" Placeholder="Type the name of your storage" Text="{Binding StorageName}" IsVisible="{Binding IsNewStorage}" />
+            </Grid>
+            <!-- Storage Code-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+                <Label Text="{Binding StorageCodeError}" IsVisible="{Binding ShowStorageCodeError}" Grid.Column="1"  />
                 <Entry Grid.Column="0" Placeholder="Type your storage code" Text="{Binding StorageCode}"  IsVisible="{Binding IsCodeStorage}" />
                 <!--<ImageButton Grid.Column="1" HeightRequest="25" Source="passwordeye.jpg" Command="{Binding ShowPasswordCommand}" />-->
             </Grid>
@@ -108,4 +122,5 @@ VerticalOptions="End">
                    VerticalOptions="Center" 
                    HorizontalOptions="Center" />
     </Grid>
+    </ScrollView>
 </ContentPage>

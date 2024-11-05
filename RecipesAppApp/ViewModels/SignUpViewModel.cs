@@ -27,6 +27,9 @@ namespace RecipesAppApp.ViewModels
             NameError = "Name is required";
             EmailError = "Email is required";
             PasswordError = "Password must be at least 4 characters long and contain letters and numbers";
+            StorageError = "Choose to create new storage or enter one";
+            StorageNameError = "Storage Name is required";
+            StorageCodeError = "Storage Code is required";
         }
 
         //Defiine properties for each field in the registration form including error messages and validation logic
@@ -264,7 +267,21 @@ namespace RecipesAppApp.ViewModels
         }
 
         #endregion
-        #region Storage
+        #region Choose Storage
+
+
+        private bool showStorageError;
+
+        public bool ShowStorageError
+        {
+            get => showStorageError;
+            set
+            {
+                showStorageError = value;
+                OnPropertyChanged("ShowStorageError");
+            }
+        }
+
         private bool isNewStorage;
 
         public bool IsNewStorage
@@ -289,6 +306,45 @@ namespace RecipesAppApp.ViewModels
             }
         }
 
+        private string storageError;
+
+        public string StorageError
+        {
+            get => storageError;
+            set
+            {
+                storageError = value;
+                OnPropertyChanged("StorageError");
+            }
+        }
+        private void ValidateStorage()
+        {
+            if(IsCodeStorage == false && IsNewStorage == false)
+            {
+                this.ShowStorageError = true;
+            }
+            else 
+            {
+                this.ShowStorageError = false;
+            }
+            
+            
+        }
+        #endregion
+        #region Storage Name
+
+        private bool showStorageNameError;
+
+        public bool ShowStorageNameError
+        {
+            get => showStorageNameError;
+            set
+            {
+                showStorageNameError = value;
+                OnPropertyChanged("ShowStorageNameError");
+            }
+        }
+
         private String storageName;
 
         public String StorageName
@@ -300,6 +356,44 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged("StorageName;");
             }
         }
+        private string storageNameError;
+
+        public string StorageNameError
+        {
+            get => storageNameError;
+            set
+            {
+                storageNameError = value;
+                OnPropertyChanged("StorageNameError");
+            }
+        }
+
+        private void ValidateStorageName()
+        {
+            if((IsCodeStorage == false && IsNewStorage == false) || !(string.IsNullOrEmpty(StorageCode)))
+            {
+                this.showStorageNameError = false;
+            }
+            else
+            {
+                this.ShowStorageNameError = string.IsNullOrEmpty(StorageName);
+            }
+            
+        }
+        #endregion
+        #region Storage Code
+
+        private bool showStorageCodeError;
+
+        public bool ShowStorageCodeError
+        {
+            get => showStorageCodeError;
+            set
+            {
+                showStorageCodeError = value;
+                OnPropertyChanged("ShowStorageCodeError");
+            }
+        } 
 
         private String storageCode;
 
@@ -313,6 +407,28 @@ namespace RecipesAppApp.ViewModels
             }
         }
 
+        private string storageCodeError;
+
+        public string StorageCodeError
+        {
+            get => storageCodeError;
+            set
+            {
+                storageCodeError = value;
+                OnPropertyChanged("StorageCodeError");
+            }
+        }
+        private void ValidateStorageCode()
+        {
+            if ((IsCodeStorage == false && IsNewStorage == false) || !(string.IsNullOrEmpty(StorageName)))
+            {
+                this.showStorageCodeError = false;
+            }
+            else
+            {
+                this.ShowStorageCodeError = string.IsNullOrEmpty(StorageCode);
+            }       
+        }
         #endregion
 
         //Define a command for the register button
@@ -325,8 +441,10 @@ namespace RecipesAppApp.ViewModels
             ValidateName();
             ValidateEmail();
             ValidatePassword();
-
-            if (!ShowNameError && !ShowEmailError && !ShowPasswordError)
+            ValidateStorage();
+            ValidateStorageCode();
+            ValidateStorageName();
+            if (!ShowNameError && !ShowEmailError && !ShowPasswordError && !ShowStorageError &&(!showStorageCodeError || !showStorageNameError))
             {
                 //Create a new AppUser object with the data from the registration form
                 var newUser = new User
