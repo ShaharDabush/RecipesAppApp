@@ -4,8 +4,12 @@
     {
         public int Id { get; set; }
 
-        public string StorangeName { get; set; } = null!;
+        public string StorageName { get; set; } = null!;
+
+        public string StorageCode { get; set; } = null!;
 
         public int Manager { get; set; }
+
+        public Storage() { } 
     }
 }

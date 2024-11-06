@@ -290,6 +290,9 @@ namespace RecipesAppApp.ViewModels
             set
             {
                 isNewStorage = value;
+                ValidateStorage();
+                ValidateStorageCode();
+                ValidateStorageName();
                 OnPropertyChanged("IsNewStorage");
             }
         }
@@ -302,6 +305,9 @@ namespace RecipesAppApp.ViewModels
             set
             {
                 isCodeStorage = value;
+                ValidateStorage();
+                ValidateStorageCode();
+                ValidateStorageName();
                 OnPropertyChanged("IsCodeStorage");
             }
         }
@@ -353,6 +359,7 @@ namespace RecipesAppApp.ViewModels
             set
             {
                 storageName = value;
+                ValidateStorageName();
                 OnPropertyChanged("StorageName;");
             }
         }
@@ -370,7 +377,7 @@ namespace RecipesAppApp.ViewModels
 
         private void ValidateStorageName()
         {
-            if((IsCodeStorage == false && IsNewStorage == false) || !(string.IsNullOrEmpty(StorageCode)))
+            if((IsCodeStorage == false && IsNewStorage == false) || (IsCodeStorage == true))
             {
                 this.showStorageNameError = false;
             }
@@ -403,6 +410,7 @@ namespace RecipesAppApp.ViewModels
             set
             {
                 storageCode = value;
+                ValidateStorageCode();
                 OnPropertyChanged("StorageCode");
             }
         }
@@ -420,7 +428,7 @@ namespace RecipesAppApp.ViewModels
         }
         private void ValidateStorageCode()
         {
-            if ((IsCodeStorage == false && IsNewStorage == false) || !(string.IsNullOrEmpty(StorageName)))
+            if ((IsCodeStorage == false && IsNewStorage == false) || (IsNewStorage == true))
             {
                 this.showStorageCodeError = false;
             }
@@ -446,7 +454,20 @@ namespace RecipesAppApp.ViewModels
             ValidateStorageName();
             if (!ShowNameError && !ShowEmailError && !ShowPasswordError && !ShowStorageError &&(!showStorageCodeError || !showStorageNameError))
             {
-                //Create a new AppUser object with the data from the registration form
+                if (StorageName == null)
+                {
+
+                }
+                else
+                {
+
+                    var newStorage = new Storage 
+                    { 
+                        StorageName = StorageName,
+
+                    };
+                }
+                //Create a new User object with the data from the registration form
                 var newUser = new User
                 {
                     UserName = Name,
