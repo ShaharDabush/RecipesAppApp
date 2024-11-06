@@ -7,6 +7,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using RecipesAppApp.Views;
 using RecipesAppApp.Services;
+//using Android.Webkit;
+//using Android.Webkit;
 
 namespace RecipesAppApp.ViewModels
 {
@@ -293,6 +295,7 @@ namespace RecipesAppApp.ViewModels
                 ValidateStorage();
                 ValidateStorageCode();
                 ValidateStorageName();
+                StorageCode = "";
                 OnPropertyChanged("IsNewStorage");
             }
         }
@@ -308,6 +311,7 @@ namespace RecipesAppApp.ViewModels
                 ValidateStorage();
                 ValidateStorageCode();
                 ValidateStorageName();
+                StorageName = "";
                 OnPropertyChanged("IsCodeStorage");
             }
         }
@@ -379,7 +383,7 @@ namespace RecipesAppApp.ViewModels
         {
             if((IsCodeStorage == false && IsNewStorage == false) || (IsCodeStorage == true))
             {
-                this.showStorageNameError = false;
+                this.ShowStorageNameError = false;
             }
             else
             {
@@ -430,7 +434,7 @@ namespace RecipesAppApp.ViewModels
         {
             if ((IsCodeStorage == false && IsNewStorage == false) || (IsNewStorage == true))
             {
-                this.showStorageCodeError = false;
+                this.ShowStorageCodeError = false;
             }
             else
             {
@@ -452,33 +456,44 @@ namespace RecipesAppApp.ViewModels
             ValidateStorage();
             ValidateStorageCode();
             ValidateStorageName();
+            var newUser = new User { };
+            var newStorage = new Storage { };
             if (!ShowNameError && !ShowEmailError && !ShowPasswordError && !ShowStorageError &&(!showStorageCodeError || !showStorageNameError))
             {
                 if (StorageName == null)
                 {
-
+                    
                 }
                 else
                 {
+                    Random randForCode = new Random();
+                    string Code = "";
+                    for (int i = 0; i < 8; i++)
+                    {
+                        int Rand = randForCode.Next(1, 10);
+                        Code += Convert.ToString(Rand);
 
+                    }
                     var newStorage = new Storage 
                     { 
                         StorageName = StorageName,
-
+                        StorageCode = Code,
+                        Manager = newUser.Id,
                     };
+                    newUser.StorageId = newStorage.Id;
                 }
+                newUser.UserName = Name;
+                newUser.Email = Email;
+                newUser.UserPassword= Password;
+                newUser.IsAdmin = 0;
+                RegisterInfo registerInfo = new RegisterInfo {UserInfo = newUser,StorageInfo = newStorage,StorageCodeInfo = storageCode };
+
                 //Create a new User object with the data from the registration form
-                var newUser = new User
-                {
-                    UserName = Name,
-                    Email = Email,
-                    UserPassword = Password,
-                    IsAdmin = 0
-                };
+
 
                 //Call the Register method on the proxy to register the new user
                 InServerCall = true;
-                newUser = await proxy.Register(newUser);
+                registerInfo = await proxy.Register(registerInfo);
                 InServerCall = false;
 
                 //If the registration was successful, navigate to the login page

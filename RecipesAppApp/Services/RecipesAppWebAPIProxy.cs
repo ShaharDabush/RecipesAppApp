@@ -91,14 +91,14 @@ namespace RecipesAppApp.Services
 
         //This methos call the Register web API on the server and return the AppUser object with the given ID
         //or null if the call fails
-        public async Task<User?> Register(User user)
+        public async Task<RegisterInfo?> Register(RegisterInfo registerInfo)
         {
             //Set URI to the specific function API
             string url = $"{this.baseUrl}register";
             try
             {
                 //Call the server API
-                string json = JsonSerializer.Serialize(user);
+                string json = JsonSerializer.Serialize(registerInfo);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 //Check status
@@ -111,7 +111,7 @@ namespace RecipesAppApp.Services
                     {
                         PropertyNameCaseInsensitive = true
                     };
-                    User? result = JsonSerializer.Deserialize<User>(resContent, options);
+                    RegisterInfo? result = JsonSerializer.Deserialize<RegisterInfo>(resContent, options);
                     return result;
                 }
                 else
@@ -163,6 +163,35 @@ namespace RecipesAppApp.Services
                 return null;
             }
         }
+
+        //public async Task<Storage> GetStorageByCode()
+        //{
+        //    try
+        //    {
+        //        HttpResponseMessage response = await this.client.GetAsync($"{this.baseUrl}GetStorageByCode");
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            JsonSerializerOptions options = new JsonSerializerOptions
+        //            {
+        //                PropertyNameCaseInsensitive = true
+        //            };
+        //            string content = await response.Content.ReadAsStringAsync();
+        //            Questions q = JsonSerializer.Deserialize<Storage>(content, options);
+        //            if (q == null)
+        //                return null;
+        //            else return q.questions[r.Next(0, q.questions.Count)];
+        //        }
+        //        else
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e.Message);
+        //        return null;
+        //    }
+        //}
 
     }
 }
