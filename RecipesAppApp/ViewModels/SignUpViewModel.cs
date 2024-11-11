@@ -461,11 +461,7 @@ namespace RecipesAppApp.ViewModels
             bool IsNewStorage = false;
             if (!ShowNameError && !ShowEmailError && !ShowPasswordError && !ShowStorageError &&(!showStorageCodeError || !showStorageNameError))
             {
-                if (StorageName == null)
-                {
-                    return this.p.Where(c => c.StorageCode == StorageCode).FirstOrDefault();
-                }
-                else
+                if (StorageName != null)
                 {
 
                      newStorage = new Storage 
