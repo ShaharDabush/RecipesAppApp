@@ -11,5 +11,7 @@ namespace RecipesAppApp.Models
         public User UserInfo { get; set; }
         public Storage StorageInfo { get; set; }
         public string StorageCodeInfo { get; set; }
+        public bool IsNewStorage { get; set; }
+
     }
 }

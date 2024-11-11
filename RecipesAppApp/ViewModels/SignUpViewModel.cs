@@ -458,35 +458,30 @@ namespace RecipesAppApp.ViewModels
             ValidateStorageName();
             var newUser = new User { };
             var newStorage = new Storage { };
+            bool IsNewStorage = false;
             if (!ShowNameError && !ShowEmailError && !ShowPasswordError && !ShowStorageError &&(!showStorageCodeError || !showStorageNameError))
             {
                 if (StorageName == null)
                 {
-                    
+                    return this.p.Where(c => c.StorageCode == StorageCode).FirstOrDefault();
                 }
                 else
                 {
-                    Random randForCode = new Random();
-                    string Code = "";
-                    for (int i = 0; i < 8; i++)
-                    {
-                        int Rand = randForCode.Next(1, 10);
-                        Code += Convert.ToString(Rand);
 
-                    }
-                    var newStorage = new Storage 
+                     newStorage = new Storage 
                     { 
                         StorageName = StorageName,
-                        StorageCode = Code,
+                        StorageCode = "",
                         Manager = newUser.Id,
                     };
                     newUser.StorageId = newStorage.Id;
+                    IsNewStorage = true;
                 }
                 newUser.UserName = Name;
                 newUser.Email = Email;
                 newUser.UserPassword= Password;
                 newUser.IsAdmin = 0;
-                RegisterInfo registerInfo = new RegisterInfo {UserInfo = newUser,StorageInfo = newStorage,StorageCodeInfo = storageCode };
+                RegisterInfo registerInfo = new RegisterInfo {UserInfo = newUser,StorageInfo = newStorage,StorageCodeInfo = StorageCode,IsNewStorage = IsNewStorage};
 
                 //Create a new User object with the data from the registration form
 
