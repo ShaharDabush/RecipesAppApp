@@ -364,7 +364,7 @@ namespace RecipesAppApp.ViewModels
             {
                 storageName = value;
                 ValidateStorageName();
-                OnPropertyChanged("StorageName;");
+                OnPropertyChanged("StorageName");
             }
         }
         private string storageNameError;
@@ -459,19 +459,19 @@ namespace RecipesAppApp.ViewModels
             var newUser = new User { };
             var newStorage = new Storage { };
             bool IsNewStorage = false;
-            if (!ShowNameError && !ShowEmailError && !ShowPasswordError && !ShowStorageError &&(!showStorageCodeError || !showStorageNameError))
+            if (!ShowNameError && !ShowEmailError && !ShowPasswordError && !ShowStorageError &&(!ShowStorageCodeError || !ShowStorageNameError))
             {
                 if (StorageName != null)
                 {
-
-                     newStorage = new Storage 
-                    { 
-                        StorageName = StorageName,
-                        StorageCode = "",
-                        Manager = newUser.Id,
-                    };
+                    newStorage.StorageName = StorageName;
+                    newStorage.StorageCode = "";
+                    newStorage.Manager = newUser.Id;
                     newUser.StorageId = newStorage.Id;
                     IsNewStorage = true;
+                }
+                else
+                {
+                    IsNewStorage = false;
                 }
                 newUser.UserName = Name;
                 newUser.Email = Email;

@@ -164,34 +164,7 @@ namespace RecipesAppApp.Services
             }
         }
 
-        public async Task<Storage> GetStorageByCode()
-        {
-            try
-            {
-                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUrl}GetStorageByCode");
-                if (response.IsSuccessStatusCode)
-                {
-                    JsonSerializerOptions options = new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    };
-                    string content = await response.Content.ReadAsStringAsync();
-                    Questions q = JsonSerializer.Deserialize<Storage>(content, options);
-                    if (q == null)
-                        return null;
-                    else return q.questions[r.Next(0, q.questions.Count)];
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
-        }
+
 
     }
 }
