@@ -32,9 +32,19 @@ namespace RecipesAppApp
         {
 
             builder.Services.AddTransient<AppShell>();
-
             builder.Services.AddTransient<SignUpView>();
             builder.Services.AddTransient<LoginView>();
+            builder.Services.AddTransient<CreateIngredientView>();
+            builder.Services.AddTransient<CreateRecipeView>();
+            builder.Services.AddTransient<EditProfileView>();
+            builder.Services.AddTransient<HomePageView>();
+            builder.Services.AddTransient<ProfileView>();
+            builder.Services.AddTransient<RecipeDetailsViews>();
+            builder.Services.AddTransient<RecipesAproveView>();
+            builder.Services.AddTransient<RemoveIngredientsView>();
+            builder.Services.AddTransient<SettingsView>();
+            builder.Services.AddTransient<StorageView>();
+            builder.Services.AddTransient<UsersListView>();
 
             return builder;
         }
@@ -48,6 +58,17 @@ namespace RecipesAppApp
         {
             builder.Services.AddSingleton<LoginViewModel>();
             builder.Services.AddSingleton<SignUpViewModel>();
+            builder.Services.AddSingleton<CreateIngredientView>();
+            builder.Services.AddSingleton<CreateRecipeView>();
+            builder.Services.AddSingleton<EditProfileView>();
+            builder.Services.AddSingleton<HomePageView>();
+            builder.Services.AddSingleton<ProfileView>();
+            builder.Services.AddSingleton<RecipeDetailsViews>();
+            builder.Services.AddSingleton<RecipesAproveView>();
+            builder.Services.AddSingleton<RemoveIngredientsView>();
+            builder.Services.AddSingleton<SettingsView>();
+            builder.Services.AddSingleton<StorageView>();
+            builder.Services.AddSingleton<UsersListView>();
             return builder;
         }
     }

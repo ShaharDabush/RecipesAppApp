@@ -461,7 +461,7 @@ namespace RecipesAppApp.ViewModels
             bool IsNewStorage = false;
             if (!ShowNameError && !ShowEmailError && !ShowPasswordError && !ShowStorageError &&(!ShowStorageCodeError || !ShowStorageNameError))
             {
-                if (StorageName != null)
+                if (StorageName != "" && StorageName != null)
                 {
                     newStorage.StorageName = StorageName;
                     newStorage.StorageCode = "";
@@ -472,6 +472,8 @@ namespace RecipesAppApp.ViewModels
                 else
                 {
                     IsNewStorage = false;
+                    newStorage.StorageName = "" ;
+                    newStorage.StorageCode = "";
                 }
                 newUser.UserName = Name;
                 newUser.Email = Email;

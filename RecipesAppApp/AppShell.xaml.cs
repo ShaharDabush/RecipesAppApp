@@ -13,7 +13,11 @@ namespace RecipesAppApp
 
             InitializeComponent();
             this.BindingContext = vm;
-            //RegisterRoutes();
+            RegisterRoutes();
+        }
+
+        private void RegisterRoutes()
+        {
         }
     }
 }
