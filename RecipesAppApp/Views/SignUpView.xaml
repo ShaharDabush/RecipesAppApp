@@ -22,7 +22,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Frame Grid.Row="0"  Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="3" CornerRadius="150" HeightRequest="300" WidthRequest="300">
-                        <Image x:Name="theImageBug" Source="MariTest.png" Grid.Row="0"  Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="3" HeightRequest="500" VerticalOptions="StartAndExpand" />
+                        <Image x:Name="theImageBug" Source="maritest.png" Grid.Row="0"  Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="3" HeightRequest="500" VerticalOptions="StartAndExpand" />
                     </Frame>
                     <!--{Binding PhotoURL}-->
                     <Image x:Name="theEditImage" Source="edit.png"  HeightRequest="150" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
