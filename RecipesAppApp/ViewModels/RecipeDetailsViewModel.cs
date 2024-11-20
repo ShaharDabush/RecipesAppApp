@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RecipesAppApp.ViewModels
 {
-    internal class RecipeDetailsViewModel : ViewModelBase
+    public class RecipeDetailsViewModel : ViewModelBase
     {
     }
 }

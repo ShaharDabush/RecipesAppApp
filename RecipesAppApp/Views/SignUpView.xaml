@@ -8,10 +8,11 @@
 
 
         <!-- Main Content -->
-        
-        <VerticalStackLayout IsEnabled="{Binding NotInServerCall}" Padding="20">
+
+
+            <VerticalStackLayout IsEnabled="{Binding NotInServerCall}" Padding="20">
             <!-- Photo -->
-            <Frame BorderColor="Black" Padding="5" Margin="10">
+
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -20,19 +21,17 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Image x:Name="theImageBug" Source="{Binding PhotoURL}"  HeightRequest="150"/>
-                    <Label Grid.Row="1"
-Text="Click Here To Upload Photo!"
-TextColor="Blue"
-HorizontalOptions="Center"
-VerticalOptions="End">
-                        <Label.GestureRecognizers>
+                    <Frame Grid.Row="0"  Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="3" CornerRadius="150" HeightRequest="300" WidthRequest="300">
+                        <Image x:Name="theImageBug" Source="MariTest.png" Grid.Row="0"  Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="3" HeightRequest="500" VerticalOptions="StartAndExpand" />
+                    </Frame>
+                    <!--{Binding PhotoURL}-->
+                    <Image x:Name="theEditImage" Source="edit.png"  HeightRequest="150" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                        <Image.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding UploadPhotoCommand}"/>
-                        </Label.GestureRecognizers>
-                    </Label>
+                        </Image.GestureRecognizers>
+                    </Image>
                 </Grid>
-            </Frame>
-            <!-- First Name -->
+                <!-- First Name -->
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
