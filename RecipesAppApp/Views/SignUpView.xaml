@@ -17,19 +17,27 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="0.85*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Frame Grid.Row="0"  Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="3" CornerRadius="150" HeightRequest="300" WidthRequest="300">
-                        <Image x:Name="theImageBug" Source="maritest.png" Grid.Row="0"  Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="3" HeightRequest="500" VerticalOptions="StartAndExpand" />
+                    <Frame Margin="10" Grid.Row="1"  Grid.RowSpan="4" Grid.Column="3" Grid.ColumnSpan="3" CornerRadius="150" HeightRequest="300" WidthRequest="300" IsClippedToBounds="True">
+                        <Image x:Name="theImageBug" Margin="-20" Source="maritest.png" Grid.Row="4"  Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="3" HeightRequest="300" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill" />
                     </Frame>
                     <!--{Binding PhotoURL}-->
-                    <Image x:Name="theEditImage" Source="edit.png"  HeightRequest="150" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding UploadPhotoCommand}"/>
-                        </Image.GestureRecognizers>
-                    </Image>
+                    <ImageButton x:Name="theEditImage" Source="edit.png" CornerRadius="6"  Command="{Binding UploadPhotoCommand}"  Grid.Row="3" Grid.Column="5"   HeightRequest="60" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+
+                    </ImageButton>
                 </Grid>
                 <!-- First Name -->
             <Grid>
