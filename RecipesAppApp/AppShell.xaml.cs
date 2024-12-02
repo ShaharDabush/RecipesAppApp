@@ -1,4 +1,5 @@
 ﻿using RecipesAppApp.ViewModels;
+using RecipesAppApp.Views;
 
 namespace RecipesAppApp
 {
@@ -10,7 +11,6 @@ namespace RecipesAppApp
         //}
         public AppShell(ShellViewModel vm)
         {
-
             InitializeComponent();
             this.BindingContext = vm;
             RegisterRoutes();
@@ -18,6 +18,9 @@ namespace RecipesAppApp
 
         private void RegisterRoutes()
         {
+            Routing.RegisterRoute("SignUp", typeof(SignUpView));
+            Routing.RegisterRoute("Login", typeof(LoginView));
+            Routing.RegisterRoute("HomePage", typeof(HomePageView));
         }
     }
 }
