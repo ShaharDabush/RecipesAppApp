@@ -58,17 +58,17 @@ namespace RecipesAppApp
         {
             builder.Services.AddSingleton<LoginViewModel>();
             builder.Services.AddSingleton<SignUpViewModel>();
-            builder.Services.AddSingleton<CreateIngredientView>();
-            builder.Services.AddSingleton<CreateRecipeView>();
-            builder.Services.AddSingleton<EditProfileView>();
-            builder.Services.AddSingleton<HomePageView>();
-            builder.Services.AddSingleton<ProfileView>();
-            builder.Services.AddSingleton<RecipeDetailsViews>();
-            builder.Services.AddSingleton<RecipesAproveView>();
-            builder.Services.AddSingleton<RemoveIngredientsView>();
-            builder.Services.AddSingleton<SettingsView>();
-            builder.Services.AddSingleton<StorageView>();
-            builder.Services.AddSingleton<UsersListView>();
+            builder.Services.AddSingleton<CreateIngredientViewModel>();
+            builder.Services.AddSingleton<CreateRecipeViewModel>();
+            builder.Services.AddSingleton<EditProfileViewModel>();
+            builder.Services.AddSingleton<HomePageViewModel>();
+            builder.Services.AddSingleton<ProfileViewModel>();
+            builder.Services.AddSingleton<RecipeDetailsViewModel>();
+            builder.Services.AddSingleton<RecipesAproveViewModel>();
+            builder.Services.AddSingleton<RemoveIngredientsViewModel>();
+            builder.Services.AddSingleton<SettingViewModel>();
+            builder.Services.AddSingleton<StorageViewModel>();
+            builder.Services.AddSingleton<UsersListViewModel>();
             return builder;
         }
     }

@@ -66,25 +66,28 @@ namespace RecipesAppApp.ViewModels
         //constractor
         //initialize the properties, attributes and commands
         public LoginViewModel(RecipesAppWebAPIProxy service, SignUpView signUp)
-            {
+        {
                 //InServerCall = false;
                 this.signupView = signUp;
                 this.RecipesService = service;
                 this.LoginCommand = new Command(OnLogin);
                 this.SignUpCommand = new Command(GoToSignUp);
-            }
+                this.CancelCommand = new Command(OnCancel);
+        }
 
             //command on pressing the login button
             public ICommand LoginCommand { get; set; }
 
             //command on pressing the signup button sends you to to SignUpView
             public Command SignUpCommand { protected set; get; }
+            public Command CancelCommand { get; }
 
-            //method
-            //activated by the LoginCommand
-            //checks with the servise if the given email and password match a user in the DB
-            //and if so login to the user and go to profile page in the shell
-            private async void OnLogin()
+
+        //method
+        //activated by the LoginCommand
+        //checks with the servise if the given email and password match a user in the DB
+        //and if so login to the user and go to profile page in the shell
+        private async void OnLogin()
             {
             //Choose the way you want to blob the page while indicating a server call
             InServerCall = true;
@@ -122,6 +125,11 @@ namespace RecipesAppApp.ViewModels
         {
             await App.Current.MainPage.Navigation.PushAsync(signupView);
 
+        }
+        public void OnCancel()
+        {
+            //Navigate back to the login page
+            ((App)(Application.Current)).MainPage.Navigation.PopAsync();
         }
     }
     

@@ -17,6 +17,7 @@
         <Button 
         Text="Login"
         Command="{Binding LoginCommand}" IsEnabled="{Binding NotInServerCall}"/>
+        <Button Text="Cancel" Command="{Binding CancelCommand}" IsEnabled="{Binding NotInServerCall}"/>
         <Label Text="{Binding ErrorMsg}" TextColor="Red" HorizontalOptions="Center"></Label>
         <Label 
         Text="Don't have an account? Register"

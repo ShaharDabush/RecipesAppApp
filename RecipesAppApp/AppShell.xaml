@@ -1,5 +1,4 @@
-
-    <?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <Shell
     x:Class="RecipesAppApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -18,6 +17,24 @@
             Title="HomePage" 
             ContentTemplate="{DataTemplate view:HomePageView}"
             Route="HomePage" />
+        <ShellContent
+            Title="Storage" 
+            ContentTemplate="{DataTemplate view:StorageView}"
+            Route="Storage" />
+        <ShellContent
+            Title="CreateRecipe" 
+            ContentTemplate="{DataTemplate view:CreateRecipeView}"
+            Route="CreateRecipe" />
+        <ShellContent
+            Title="Profile" 
+            ContentTemplate="{DataTemplate view:ProfileView}"
+            Route="Profile" />
     </FlyoutItem>
+    <MenuItem
+        
+        Command="{Binding LogoutCommand}"
+        IconImageSource="logout_icon.png"
+        StyleClass=""
+        Text="Log out" />
 
 </Shell>

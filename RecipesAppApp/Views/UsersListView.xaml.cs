@@ -4,7 +4,7 @@ namespace RecipesAppApp.Views;
 
 public partial class UsersListView : ContentPage
 {
-	public UsersListView(UsersViewModel vm)
+	public UsersListView(UsersListViewModel vm)
 	{
         BindingContext = vm;
         InitializeComponent();
