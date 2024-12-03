@@ -11,12 +11,16 @@
         <Button 
             x:Name="Login"
             Text="Login"
-            Command="{Binding LoginCommand}"/>
+            Command="{Binding LoginCommand}"
+            IsEnabled="{Binding IsNotLogged}"
+            IsVisible="{Binding IsNotLogged}"/>
         <Label
             Text=""/>
         <Button 
             x:Name="SignUp"
             Text="SignUp"
-            Command="{Binding SignUpCommand}"/>
+            Command="{Binding SignUpCommand}"
+            IsEnabled="{Binding IsNotLogged}"
+            IsVisible="{Binding IsNotLogged}"/>
     </VerticalStackLayout>
 </ContentPage>

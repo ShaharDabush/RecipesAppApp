@@ -1,5 +1,6 @@
 ﻿using RecipesAppApp.Models;
 using RecipesAppApp.Views;
+using RecipesAppApp.ViewModels;
 
 namespace RecipesAppApp
 {
@@ -19,7 +20,7 @@ namespace RecipesAppApp
             InitializeComponent();
             HomePage = v;
 
-            MainPage = new NavigationPage(v);
+            MainPage = new NavigationPage(Application.Current.MainPage = new AppShell(new ShellViewModel()));
 
         }
     }

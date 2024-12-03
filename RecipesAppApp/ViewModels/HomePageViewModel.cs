@@ -9,6 +9,7 @@ using RecipesAppApp.Services;
 
 namespace RecipesAppApp.ViewModels
 {
+    [QueryProperty(nameof(IsNotLogged),"IsNotLogged")]
     public class HomePageViewModel : ViewModelBase
     {
         private RecipesAppWebAPIProxy RecipesService;
@@ -16,6 +17,17 @@ namespace RecipesAppApp.ViewModels
         private LoginView loginView;
         public ICommand LoginCommand { get; set; }
         public Command SignUpCommand { protected set; get; }
+
+        private bool isNotLogged;
+        public bool IsNotLogged
+        {
+            get { return isNotLogged; }
+            set
+            {
+                isNotLogged = value;
+                OnPropertyChanged("IsNotLogged");
+            }
+        }
         public HomePageViewModel(RecipesAppWebAPIProxy service, SignUpView signUp, LoginView login)
         {
             this.signupView = signUp;

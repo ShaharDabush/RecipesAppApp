@@ -4,7 +4,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:RecipesAppApp"
-    Shell.FlyoutBehavior="Disabled"
+    xmlns:views="clr-namespace:RecipesAppApp.Views"
+    Shell.TabBarIsVisible="False"
     Title="RecipesAppApp">
 
     <!--<ShellContent
@@ -12,29 +13,38 @@
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />-->
 
-    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems" Route="tabs">
+    <FlyoutItem  Route="tabs" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent
             Title="HomePage" 
-            ContentTemplate="{DataTemplate view:HomePageView}"
+            ContentTemplate="{DataTemplate views:HomePageView}"
             Route="HomePage" />
-        <ShellContent
+            <ShellContent
             Title="Storage" 
-            ContentTemplate="{DataTemplate view:StorageView}"
+            ContentTemplate="{DataTemplate views:StorageView}"
             Route="Storage" />
         <ShellContent
             Title="CreateRecipe" 
-            ContentTemplate="{DataTemplate view:CreateRecipeView}"
+            ContentTemplate="{DataTemplate views:CreateRecipeView}"
             Route="CreateRecipe" />
         <ShellContent
             Title="Profile" 
-            ContentTemplate="{DataTemplate view:ProfileView}"
+            ContentTemplate="{DataTemplate views:ProfileView}"
             Route="Profile" />
     </FlyoutItem>
-    <MenuItem
+    <FlyoutItem x:Name="AdminItems" FlyoutDisplayOptions="AsMultipleItems" Route="AdminTabs" Title="AdminItems" IsVisible="{Binding AdminPermission}" >
+    <ShellContent 
+            Title="RecipesAprove"
+            ContentTemplate="{DataTemplate views:RecipesAproveView}"
+            Route="RecipesAprove"/>
+        <ShellContent 
+            Title="UsersList"
+            ContentTemplate="{DataTemplate views:UsersListView}"
+            Route="UsersList"/>
+    </FlyoutItem>
+    <!--<MenuItem
         
         Command="{Binding LogoutCommand}"
-        IconImageSource="logout_icon.png"
+        IconImageSource=""
         StyleClass=""
-        Text="Log out" />
-
+        Text="Log out" />-->
 </Shell>

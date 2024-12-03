@@ -8,6 +8,7 @@ using System.Windows.Input;
 using RecipesAppApp.Services;
 using RecipesAppApp.Models;
 using RecipesAppApp.Views;
+using Microsoft.Extensions.Logging;
 
 namespace RecipesAppApp.ViewModels
 {
@@ -60,6 +61,17 @@ namespace RecipesAppApp.ViewModels
                 return !this.InServerCall;
             }
         }
+
+        private bool isNotLogged;
+        public bool IsNotLogged
+        {
+            get { return isNotLogged; }
+            set
+            {
+                isNotLogged = value;
+                OnPropertyChanged("IsNotLogged");
+            }
+        }
         #endregion
 
 
@@ -73,6 +85,7 @@ namespace RecipesAppApp.ViewModels
                 this.LoginCommand = new Command(OnLogin);
                 this.SignUpCommand = new Command(GoToSignUp);
                 this.CancelCommand = new Command(OnCancel);
+                this.IsNotLogged = true;
         }
 
             //command on pressing the login button
@@ -111,7 +124,8 @@ namespace RecipesAppApp.ViewModels
                     u = null;
                     Mail = "";
                     Pass = "";
-
+                   IsNotLogged = false;
+                   NavToEditPage();
 
                     Application.Current.MainPage = new AppShell(new ShellViewModel());
 
@@ -130,6 +144,12 @@ namespace RecipesAppApp.ViewModels
         {
             //Navigate back to the login page
             ((App)(Application.Current)).MainPage.Navigation.PopAsync();
+        }
+        private async Task NavToEditPage()
+        {
+            Dictionary<string, object> data = new Dictionary<string, object>();
+            data.Add("IsNotLogged", IsNotLogged);
+            await AppShell.Current.GoToAsync("HomePageViewModel", data);
         }
     }
     

@@ -4,22 +4,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using RecipesAppApp.ViewModels;
+using RecipesAppApp.Services;
 
 namespace RecipesAppApp.ViewModels
 {
-    public class ShellViewModel
+    public class ShellViewModel : ViewModelBase
     {
-        //this page is just for a log out command and not showing views if you dont have permission 
+        //this page is just for a log out command and not showing views if you dont have permission
 
+        private bool adminPermission;
+        private RecipesAppWebAPIProxy RecipesService;
+        public bool AdminPermission
+        {
+            get => adminPermission;
+            set
+            {
+                adminPermission = value;
+                OnPropertyChanged("AdminPermission");
+            }
+        }
         //constractor
         //initilizing the logout command
         public ShellViewModel()
         {
+             AdminPermission = false;
             this.LogoutCommand = new Command(OnLogout);
         }
 
         //on pressing logout in the shell bar on the left
         public ICommand LogoutCommand { get; set; }
+
 
 
         #region attributes and paramaters
