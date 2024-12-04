@@ -124,9 +124,7 @@ namespace RecipesAppApp.ViewModels
                     u = null;
                     Mail = "";
                     Pass = "";
-                   IsNotLogged = false;
-                   NavToEditPage();
-
+                    //(ShellViewModel)Shell.Current.vm
                     Application.Current.MainPage = new AppShell(new ShellViewModel());
 
                 }

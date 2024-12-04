@@ -8,12 +8,10 @@
             Text="Welcome to .NET MAUI!!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-        <Button 
+        <!--<Button 
             x:Name="Login"
             Text="Login"
-            Command="{Binding LoginCommand}"
-            IsEnabled="{Binding IsNotLogged}"
-            IsVisible="{Binding IsNotLogged}"/>
+            Command="{Binding LoginCommand}"/>
         <Label
             Text=""/>
         <Button 
@@ -21,6 +19,6 @@
             Text="SignUp"
             Command="{Binding SignUpCommand}"
             IsEnabled="{Binding IsNotLogged}"
-            IsVisible="{Binding IsNotLogged}"/>
+            IsVisible="{Binding IsNotLogged}"/>-->
     </VerticalStackLayout>
 </ContentPage>

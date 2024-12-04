@@ -41,6 +41,9 @@
             ContentTemplate="{DataTemplate views:UsersListView}"
             Route="UsersList"/>
     </FlyoutItem>
+    <MenuItem Text="Logout" Command="{Binding LogoutCommand}" />
+    <MenuItem Text="Login" Command="{Binding LogInCommand}" />
+    <MenuItem Text="SignUp" Command="{Binding SignUpCommand}" />
     <!--<MenuItem
         
         Command="{Binding LogoutCommand}"
