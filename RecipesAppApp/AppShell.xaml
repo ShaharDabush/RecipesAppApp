@@ -5,34 +5,22 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:RecipesAppApp"
     xmlns:views="clr-namespace:RecipesAppApp.Views"
-    Shell.TabBarIsVisible="False"
     Title="RecipesAppApp">
 
-    <!--<ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />-->
-
-    <FlyoutItem  Route="tabs" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent
-            Title="HomePage" 
-            ContentTemplate="{DataTemplate views:HomePageView}"
-            Route="HomePage" />
-            <ShellContent
-            Title="Storage" 
-            ContentTemplate="{DataTemplate views:StorageView}"
-            Route="Storage" />
-        <ShellContent
-            Title="CreateRecipe" 
-            ContentTemplate="{DataTemplate views:CreateRecipeView}"
-            Route="CreateRecipe" />
-        <ShellContent
-            Title="Profile" 
-            ContentTemplate="{DataTemplate views:ProfileView}"
-            Route="Profile" />
+    <FlyoutItem  Route="HomePage" FlyoutDisplayOptions="AsSingleItem" Title="HomePage">
+        <ShellContent ContentTemplate="{DataTemplate views:HomePageView}"/>
     </FlyoutItem>
-    <FlyoutItem x:Name="AdminItems" FlyoutDisplayOptions="AsMultipleItems" Route="AdminTabs" Title="AdminItems" IsVisible="{Binding AdminPermission}" >
-    <ShellContent 
+    <FlyoutItem  Route="Storage" FlyoutDisplayOptions="AsSingleItem" Title="Storage">
+        <ShellContent ContentTemplate="{DataTemplate views:StorageView}"/>
+    </FlyoutItem>
+    <FlyoutItem  Route="CreateRecipe" FlyoutDisplayOptions="AsSingleItem" Title="CreateRecipe">
+        <ShellContent ContentTemplate="{DataTemplate views:CreateRecipeView}"/>
+    </FlyoutItem>
+    <FlyoutItem  Route="Profile" FlyoutDisplayOptions="AsSingleItem" Title="Profile">
+        <ShellContent ContentTemplate="{DataTemplate views:ProfileView}"/>
+    </FlyoutItem>
+    <FlyoutItem  Route="Lists" FlyoutDisplayOptions="AsSingleItem" Title="Lists" IsVisible="{Binding AdminPermission}">
+        <ShellContent 
             Title="RecipesAprove"
             ContentTemplate="{DataTemplate views:RecipesAproveView}"
             Route="RecipesAprove"/>
@@ -41,13 +29,8 @@
             ContentTemplate="{DataTemplate views:UsersListView}"
             Route="UsersList"/>
     </FlyoutItem>
-    <MenuItem Text="Logout" Command="{Binding LogoutCommand}" />
-    <MenuItem Text="Login" Command="{Binding LogInCommand}" />
-    <MenuItem Text="SignUp" Command="{Binding SignUpCommand}" />
-    <!--<MenuItem
-        
-        Command="{Binding LogoutCommand}"
-        IconImageSource=""
-        StyleClass=""
-        Text="Log out" />-->
+    <MenuItem Text="Logout" Command="{Binding LogoutCommand}" IsEnabled="{Binding IsLogged}" IsVisible="{Binding AdminPermission}" />
+    <MenuItem Text="Login" Command="{Binding LogInCommand}" IsEnabled="{Binding IsNotLogged}"/>
+    <MenuItem Text="SignUp" Command="{Binding SignUpCommand}" IsEnabled="{Binding IsNotLogged}"/>
+
 </Shell>

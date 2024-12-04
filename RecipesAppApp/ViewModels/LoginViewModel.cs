@@ -72,6 +72,16 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged("IsNotLogged");
             }
         }
+        private bool isLogged;
+        public bool IsLogged
+        {
+            get { return isLogged; }
+            set
+            {
+                isLogged = value;
+                OnPropertyChanged("IsLogged");
+            }
+        }
         #endregion
 
 
@@ -86,6 +96,7 @@ namespace RecipesAppApp.ViewModels
                 this.SignUpCommand = new Command(GoToSignUp);
                 this.CancelCommand = new Command(OnCancel);
                 this.IsNotLogged = true;
+                this.IsLogged = false;
         }
 
             //command on pressing the login button
@@ -124,7 +135,9 @@ namespace RecipesAppApp.ViewModels
                     u = null;
                     Mail = "";
                     Pass = "";
-                    //(ShellViewModel)Shell.Current.vm
+                    ShellViewModel vm = (ShellViewModel) (((AppShell)Shell.Current).BindingContext);
+                     vm.AdminPermission = IsAdmin(u);
+                
                     Application.Current.MainPage = new AppShell(new ShellViewModel());
 
                 }
@@ -148,6 +161,14 @@ namespace RecipesAppApp.ViewModels
             Dictionary<string, object> data = new Dictionary<string, object>();
             data.Add("IsNotLogged", IsNotLogged);
             await AppShell.Current.GoToAsync("HomePageViewModel", data);
+        }
+        private bool IsAdmin(User u)
+        {
+            if(u.IsAdmin > 0)
+            {
+                return true;
+            }
+            return false;
         }
     }
     

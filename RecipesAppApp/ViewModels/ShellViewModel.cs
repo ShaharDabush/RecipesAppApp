@@ -18,7 +18,6 @@ namespace RecipesAppApp.ViewModels
         #region attributes and paramaters
         private bool isMaster;
         private bool isAdmin;
-        private SignUpView signupView;
 
         public bool IsAdmin
         {
@@ -54,13 +53,12 @@ namespace RecipesAppApp.ViewModels
         //constractor
         //initilizing the logout command
 
-        public ShellViewModel(SignUpView signUp)
+        public ShellViewModel()
         {
-             AdminPermission = false;
+            AdminPermission = false;
             this.LogoutCommand = new Command(OnLogout);
             this.LoginCommand = new Command(OnLogIn);
             this.SignUpCommand = new Command(OnSignUp);
-            this.signupView = signUp;
             this.currentUser = ((App)Application.Current).LoggedInUser;
             
         }
@@ -80,7 +78,7 @@ namespace RecipesAppApp.ViewModels
 
         private async void OnSignUp()
         {
-            await App.Current.MainPage.Navigation.PushAsync(signupView);
+            ((App)Application.Current).MainPage = ((App)Application.Current).SignUp;
 
         }
         

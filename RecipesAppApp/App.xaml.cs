@@ -14,6 +14,7 @@ namespace RecipesAppApp
         //this is the Login page we have to create one here to not cause a loop couse login => shell == > login if we create a login on logout and not now
         public HomePageView HomePage;
         public LoginView Login;
+        public SignUpView SignUp;
         public App(HomePageView v)
         {
             LoggedInUser = null;
