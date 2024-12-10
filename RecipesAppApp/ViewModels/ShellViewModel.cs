@@ -9,6 +9,7 @@ using RecipesAppApp.Services;
 using RecipesAppApp.Models;
 using RecipesAppApp.Views;
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace RecipesAppApp.ViewModels
 {
@@ -18,6 +19,21 @@ namespace RecipesAppApp.ViewModels
         #region attributes and paramaters
         private bool isMaster;
         private bool isAdmin;
+        private IServiceProvider serviceProvider;
+        private bool isNotLogged;
+        public bool IsNotLogged
+        {
+            get { return !IsLogged; }
+        }
+        private bool isLogged;
+        public bool IsLogged
+        {
+            get { return ((App)Application.Current).LoggedInUser != null; }
+            set
+            {
+
+            }
+        }
 
         public bool IsAdmin
         {
@@ -53,9 +69,10 @@ namespace RecipesAppApp.ViewModels
         //constractor
         //initilizing the logout command
 
-        public ShellViewModel()
+        public ShellViewModel(IServiceProvider serviceProvider)
         {
             AdminPermission = false;
+            this.serviceProvider = serviceProvider;
             this.LogoutCommand = new Command(OnLogout);
             this.LoginCommand = new Command(OnLogIn);
             this.SignUpCommand = new Command(OnSignUp);
@@ -69,7 +86,10 @@ namespace RecipesAppApp.ViewModels
         public async void OnLogout()
         {
             ((App)Application.Current).LoggedInUser = null;
-            ((App)Application.Current).MainPage = ((App)Application.Current).Login;
+            AppShell shell = serviceProvider.GetService<AppShell>();            
+            ((App)(Application.Current)).MainPage.Navigation.PushAsync(serviceProvider.GetService<LoginView>());
+            Application.Current.MainPage = shell;
+
         }
         public async void OnLogIn()
         {

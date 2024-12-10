@@ -5,6 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:RecipesAppApp"
     xmlns:views="clr-namespace:RecipesAppApp.Views"
+    xmlns:viewModels="clr-namespace:RecipesAppApp.ViewModels"
+    x:DataType="viewModels:ShellViewModel"
     Title="RecipesAppApp">
 
     <FlyoutItem  Route="HomePage" FlyoutDisplayOptions="AsSingleItem" Title="HomePage">
@@ -29,8 +31,15 @@
             ContentTemplate="{DataTemplate views:UsersListView}"
             Route="UsersList"/>
     </FlyoutItem>
-    <MenuItem Text="Logout" Command="{Binding LogoutCommand}" IsEnabled="{Binding IsLogged}" IsVisible="{Binding AdminPermission}" />
-    <MenuItem Text="Login" Command="{Binding LogInCommand}" IsEnabled="{Binding IsNotLogged}"/>
-    <MenuItem Text="SignUp" Command="{Binding SignUpCommand}" IsEnabled="{Binding IsNotLogged}"/>
+    <FlyoutItem  Route="Login" FlyoutDisplayOptions="AsSingleItem" Title="Login" IsVisible="{Binding IsNotLogged}" IsEnabled="{Binding IsNotLogged}">
+        <ShellContent Title="Login" ContentTemplate="{DataTemplate views:LoginView}" Route="Login"/>
+    </FlyoutItem>
+    <FlyoutItem  Route="SignUp" FlyoutDisplayOptions="AsSingleItem" Title="SignUp" IsVisible="{Binding IsNotLogged}" IsEnabled="{Binding IsNotLogged}">
+    <ShellContent Title="SignUp" ContentTemplate="{DataTemplate views:SignUpView}" Route="SignUp"/>
+    </FlyoutItem>
+
+    <MenuItem Text="Logout" Command="{Binding LogoutCommand}" IsEnabled="{Binding IsLogged}"/>
+    <!--<MenuItem Text="Login" Command="{Binding LogInCommand}" IsEnabled="{Binding IsNotLogged}"/>
+    <MenuItem Text="SignUp" Command="{Binding SignUpCommand}" IsEnabled="{Binding IsNotLogged}"/>-->
 
 </Shell>

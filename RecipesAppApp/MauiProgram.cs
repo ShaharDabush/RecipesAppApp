@@ -69,6 +69,7 @@ namespace RecipesAppApp
             builder.Services.AddSingleton<SettingViewModel>();
             builder.Services.AddSingleton<StorageViewModel>();
             builder.Services.AddSingleton<UsersListViewModel>();
+            builder.Services.AddSingleton<ShellViewModel>();
             return builder;
         }
     }

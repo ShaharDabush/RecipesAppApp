@@ -1,6 +1,7 @@
 ﻿using RecipesAppApp.Models;
 using RecipesAppApp.Views;
 using RecipesAppApp.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace RecipesAppApp
 {
@@ -15,13 +16,12 @@ namespace RecipesAppApp
         public HomePageView HomePage;
         public LoginView Login;
         public SignUpView SignUp;
-        public App(HomePageView v)
+        public App(IServiceProvider serviceProvider)
         {
             LoggedInUser = null;
             InitializeComponent();
-            HomePage = v;
 
-            MainPage = new NavigationPage(Application.Current.MainPage = new AppShell(new ShellViewModel()));
+            MainPage = new NavigationPage(serviceProvider.GetService<AppShell>());
 
         }
     }

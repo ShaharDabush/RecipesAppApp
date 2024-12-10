@@ -9,6 +9,7 @@ using RecipesAppApp.Services;
 using RecipesAppApp.Models;
 using RecipesAppApp.Views;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace RecipesAppApp.ViewModels
 {
@@ -16,7 +17,7 @@ namespace RecipesAppApp.ViewModels
     {
             #region attributes and properties
             private RecipesAppWebAPIProxy RecipesService;
-            private SignUpView signupView;
+            private IServiceProvider serviceProvider;
 
         private string pass;
             public string Pass
@@ -62,41 +63,20 @@ namespace RecipesAppApp.ViewModels
             }
         }
 
-        private bool isNotLogged;
-        public bool IsNotLogged
-        {
-            get { return isNotLogged; }
-            set
-            {
-                isNotLogged = value;
-                OnPropertyChanged("IsNotLogged");
-            }
-        }
-        private bool isLogged;
-        public bool IsLogged
-        {
-            get { return isLogged; }
-            set
-            {
-                isLogged = value;
-                OnPropertyChanged("IsLogged");
-            }
-        }
         #endregion
 
 
         //constractor
         //initialize the properties, attributes and commands
-        public LoginViewModel(RecipesAppWebAPIProxy service, SignUpView signUp)
+        public LoginViewModel(RecipesAppWebAPIProxy service, IServiceProvider serviceProvider)
+        
         {
-                //InServerCall = false;
-                this.signupView = signUp;
+            //InServerCall = false;
+                this.serviceProvider = serviceProvider;                
                 this.RecipesService = service;
                 this.LoginCommand = new Command(OnLogin);
                 this.SignUpCommand = new Command(GoToSignUp);
                 this.CancelCommand = new Command(OnCancel);
-                this.IsNotLogged = true;
-                this.IsLogged = false;
         }
 
             //command on pressing the login button
@@ -130,15 +110,15 @@ namespace RecipesAppApp.ViewModels
                 
                 }
                 else
-                {
-                    await Application.Current.MainPage.DisplayAlert("Login", $"Login Succeed!", "ok");
+                {                    
+                    //ShellViewModel vm = (ShellViewModel)(((AppShell)Shell.Current).BindingContext);
+                    //vm.AdminPermission = IsAdmin(u);
                     u = null;
-                    Mail = "";
+                Mail = "";
                     Pass = "";
-                    ShellViewModel vm = (ShellViewModel) (((AppShell)Shell.Current).BindingContext);
-                     vm.AdminPermission = IsAdmin(u);
-                
-                    Application.Current.MainPage = new AppShell(new ShellViewModel());
+                AppShell shell = serviceProvider.GetService<AppShell>();
+
+                Application.Current.MainPage = shell;
 
                 }
             }
@@ -148,7 +128,11 @@ namespace RecipesAppApp.ViewModels
         //send you to SignUpView
         private async void GoToSignUp()
         {
-            await App.Current.MainPage.Navigation.PushAsync(signupView);
+            //ErrorMsg = "";
+            //Email = "";
+            //Password = "";
+            // Navigate to the Register View page
+            ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<SignUpView>());
 
         }
         public void OnCancel()
@@ -156,12 +140,12 @@ namespace RecipesAppApp.ViewModels
             //Navigate back to the login page
             ((App)(Application.Current)).MainPage.Navigation.PopAsync();
         }
-        private async Task NavToEditPage()
-        {
-            Dictionary<string, object> data = new Dictionary<string, object>();
-            data.Add("IsNotLogged", IsNotLogged);
-            await AppShell.Current.GoToAsync("HomePageViewModel", data);
-        }
+        //private async Task NavToEditPage()
+        //{
+        //    Dictionary<string, object> data = new Dictionary<string, object>();
+        //    data.Add("IsNotLogged", IsNotLogged);
+        //    await AppShell.Current.GoToAsync("HomePageViewModel", data);
+        //}
         private bool IsAdmin(User u)
         {
             if(u.IsAdmin > 0)
