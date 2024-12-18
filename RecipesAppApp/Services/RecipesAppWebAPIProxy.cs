@@ -34,6 +34,14 @@ namespace RecipesAppApp.Services
         private static string ImageBaseAddress = "https://32zgfnxw-5281.euw.devtunnels.ms/";
         #endregion
 
+        public class Recipes
+        {
+            public List<Recipe> recipes { get; set; }
+        }
+        public class Levels
+        {
+            public List<Level> levels { get; set; }
+        }
         public RecipesAppWebAPIProxy()
         {
             //Set client handler to support cookies!!
@@ -164,7 +172,63 @@ namespace RecipesAppApp.Services
             }
         }
 
+        public async Task<List<Recipe>> GetAllRecipes()
+        {
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUrl}?action=getRecipes");
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string content = await response.Content.ReadAsStringAsync();
+                    Recipes r = JsonSerializer.Deserialize<Recipes>(content, options);
+                    if (r == null)
+                        return null;
+                    else return r.recipes;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
 
+        public async Task<List<Level>> GetAllLevels()
+        {
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUrl}?action=getLevels");
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string content = await response.Content.ReadAsStringAsync();
+                    Levels r = JsonSerializer.Deserialize<Levels>(content, options);
+                    if (r == null)
+                        return null;
+                    else return r.levels;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
 
     }
 }

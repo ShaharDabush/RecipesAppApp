@@ -41,7 +41,7 @@ namespace RecipesAppApp.ViewModels
             {
                 if ((App)Application.Current == null)
                     return true;
-                else if (((App)Application.Current).LoggedInUser.IsAdmin > 1)
+                else if (((App)Application.Current).LoggedInUser.IsAdmin > 0)
                     return true;
                 else
                     return false;

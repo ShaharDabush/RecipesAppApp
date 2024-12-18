@@ -21,7 +21,7 @@
     <FlyoutItem  Route="Profile" FlyoutDisplayOptions="AsSingleItem" Title="Profile">
         <ShellContent ContentTemplate="{DataTemplate views:ProfileView}"/>
     </FlyoutItem>
-    <FlyoutItem  Route="Lists" FlyoutDisplayOptions="AsSingleItem" Title="Lists" IsVisible="{Binding AdminPermission}">
+    <FlyoutItem  Route="Lists" FlyoutDisplayOptions="AsSingleItem" Title="Lists" IsVisible="{Binding IsAdmin}">
         <ShellContent 
             Title="RecipesAprove"
             ContentTemplate="{DataTemplate views:RecipesAproveView}"
