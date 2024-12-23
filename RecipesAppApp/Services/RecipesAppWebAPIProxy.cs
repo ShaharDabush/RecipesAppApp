@@ -176,7 +176,7 @@ namespace RecipesAppApp.Services
         {
             try
             {
-                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUrl}?action=getRecipes");
+                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUrl}getRecipes");
                 if (response.IsSuccessStatusCode)
                 {
                     JsonSerializerOptions options = new JsonSerializerOptions
