@@ -21,6 +21,7 @@ namespace RecipesAppApp.ViewModels
         private Object selectedRecipe;
         private SignUpView signupView;
         private LoginView loginView;
+
         public ICommand LoginCommand { get; set; }
         public Command SignUpCommand { protected set; get; }
 

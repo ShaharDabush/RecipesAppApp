@@ -21,7 +21,7 @@ namespace RecipesAppApp
             LoggedInUser = null;
             InitializeComponent();
 
-            MainPage = new NavigationPage(serviceProvider.GetService<AppShell>());
+            MainPage = serviceProvider.GetService<AppShell>();
 
         }
     }

@@ -31,14 +31,12 @@
             ContentTemplate="{DataTemplate views:UsersListView}"
             Route="UsersList"/>
     </FlyoutItem>
-    <FlyoutItem  Route="Login" FlyoutDisplayOptions="AsSingleItem" Title="Login" IsVisible="{Binding IsNotLogged}" IsEnabled="{Binding IsNotLogged}">
-        <ShellContent Title="Login" ContentTemplate="{DataTemplate views:LoginView}" Route="Login"/>
-    </FlyoutItem>
+    
     <FlyoutItem  Route="SignUp" FlyoutDisplayOptions="AsSingleItem" Title="SignUp" IsVisible="{Binding IsNotLogged}" IsEnabled="{Binding IsNotLogged}">
     <ShellContent Title="SignUp" ContentTemplate="{DataTemplate views:SignUpView}" Route="SignUp"/>
     </FlyoutItem>
 
-    <MenuItem Text="Logout" Command="{Binding LogoutCommand}" IsEnabled="{Binding IsLogged}"/>
+    <MenuItem Text="{Binding LogText}" Command="{Binding LogCommand}"/>
     <!--<MenuItem Text="Login" Command="{Binding LogInCommand}" IsEnabled="{Binding IsNotLogged}"/>
     <MenuItem Text="SignUp" Command="{Binding SignUpCommand}" IsEnabled="{Binding IsNotLogged}"/>-->
 

@@ -29,18 +29,15 @@ namespace RecipesAppApp.ViewModels
         public bool IsLogged
         {
             get { return ((App)Application.Current).LoggedInUser != null; }
-            set
-            {
-
-            }
+            
         }
 
         public bool IsAdmin
         {
             get
             {
-                if ((App)Application.Current == null)
-                    return true;
+                if (!IsLogged)
+                    return false;
                 else if (((App)Application.Current).LoggedInUser.IsAdmin > 0)
                     return true;
                 else
@@ -48,22 +45,13 @@ namespace RecipesAppApp.ViewModels
             }
         }
         //this command will be used for logout menu item
-        public ICommand LogoutCommand { get; set; }
-        public ICommand LoginCommand { get; set; }
+        public ICommand LogCommand { get; set; }
         public ICommand SignUpCommand { get; set; }
 
         private User? currentUser;
         private bool adminPermission;
         private RecipesAppWebAPIProxy RecipesService;
-        public bool AdminPermission
-        {
-            get => adminPermission;
-            set
-            {
-                adminPermission = value;
-                OnPropertyChanged("AdminPermission");
-            }
-        }
+        
         #endregion
 
         //constractor
@@ -71,35 +59,64 @@ namespace RecipesAppApp.ViewModels
 
         public ShellViewModel(IServiceProvider serviceProvider)
         {
-            AdminPermission = false;
             this.serviceProvider = serviceProvider;
-            this.LogoutCommand = new Command(OnLogout);
-            this.LoginCommand = new Command(OnLogIn);
+            this.LogCommand = new Command(OnLog);
             this.SignUpCommand = new Command(OnSignUp);
             this.currentUser = ((App)Application.Current).LoggedInUser;
+            LogText = "Login";
             
         }
 
         //on pressing logout in the shell bar on the left
         //on LogoutCommand
         //clear the current user and send them to the login screen exiting the shell
-        public async void OnLogout()
+        public async void OnLog()
         {
-            ((App)Application.Current).LoggedInUser = null;
-            AppShell shell = serviceProvider.GetService<AppShell>();            
-            ((App)(Application.Current)).MainPage.Navigation.PushAsync(serviceProvider.GetService<LoginView>());
-            Application.Current.MainPage = shell;
+            if (IsLogged)
+            {
+                ((App)Application.Current).LoggedInUser = null;
+                AppShell shell = serviceProvider.GetService<AppShell>();
+                Application.Current.MainPage = shell;
+                LogText = "Login";
+                Refresh();
+            }
+            else
+            {
+                OnLogIn();
+                Refresh();
+            }
+            
 
+        }
+
+        private string logText;
+        public string LogText
+        {
+            get => this.logText;
+            set
+            {
+                this.logText = value;
+                OnPropertyChanged("LogText");
+            }
         }
         public async void OnLogIn()
         {
-            ((App)Application.Current).MainPage = ((App)Application.Current).Login;
+            await Shell.Current.GoToAsync("Login");
+            Shell.Current.FlyoutIsPresented = false;
         }
 
         private async void OnSignUp()
         {
-            ((App)Application.Current).MainPage = ((App)Application.Current).SignUp;
+            await Shell.Current.GoToAsync("SignUp");
 
+        }
+
+        public void Refresh()
+        {
+            OnPropertyChanged("IsNotLogged");
+            OnPropertyChanged("IsLogged");
+            OnPropertyChanged("IsAdmin");
+            OnPropertyChanged("LogText");
         }
         
     }

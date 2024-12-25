@@ -113,12 +113,15 @@ namespace RecipesAppApp.ViewModels
                 {                    
                     //ShellViewModel vm = (ShellViewModel)(((AppShell)Shell.Current).BindingContext);
                     //vm.AdminPermission = IsAdmin(u);
-                    u = null;
+                    
                 Mail = "";
                     Pass = "";
-                AppShell shell = serviceProvider.GetService<AppShell>();
 
-                Application.Current.MainPage = shell;
+                Shell.Current.Navigation.PopAsync();
+                ShellViewModel vm = (ShellViewModel)(Shell.Current.BindingContext);
+                vm.LogText = "Logout";
+                vm.Refresh();
+                
 
                 }
             }
