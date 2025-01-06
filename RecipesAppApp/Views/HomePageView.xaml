@@ -5,7 +5,8 @@
              x:Class="RecipesAppApp.Views.HomePageView"
              Title="HomePageView">
     <VerticalStackLayout>
-        <CollectionView  ItemsSource="{Binding Recipes}" x:Name="theCollectionView" >
+        <Label Text="Text" />
+        <CollectionView  ItemsSource="{Binding YourRecipes}" x:Name="theCollectionView" IsVisible="{Binding IsLogged}" >
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Recipe">
                     <Grid Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
@@ -17,7 +18,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Grid.Row="0" WidthRequest="100" HeightRequest="150"
+                        <Image Grid.Column="0" Grid.Row="0" WidthRequest="100" HeightRequest="150" Aspect="Fill"
                            Source="{Binding RecipeImage}"
                             />
                         <Label Grid.Column="0" Grid.Row="1"
@@ -30,7 +31,8 @@
                 <LinearItemsLayout Orientation="Horizontal"></LinearItemsLayout>
             </CollectionView.ItemsLayout>
         </CollectionView>
-        <CollectionView  ItemsSource="{Binding Recipes}"  IsVisible="False">
+        <Label Text="Text" />
+        <CollectionView  ItemsSource="{Binding Recipes}"  IsVisible="true">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Recipe">
                     <Grid Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
@@ -42,9 +44,8 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Grid.Row="0" WidthRequest="100" HeightRequest="150"
-                           Source="{Binding RecipeImage}"
-                            />
+                        <Image Grid.Column="0" Grid.Row="0" WidthRequest="100" HeightRequest="150" Aspect="Fill"
+                           Source="{Binding RecipeImage}"/>
                         <Label Grid.Column="0" Grid.Row="1"
                            Text="{Binding RecipesName}"
                             FontAttributes="Bold"/>
@@ -55,7 +56,7 @@
                 <LinearItemsLayout Orientation="Horizontal"></LinearItemsLayout>
             </CollectionView.ItemsLayout>
         </CollectionView>
-
+        <Label Text="Text" />
         <CollectionView  ItemsSource="{Binding Recipes}"  >
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Recipe">
@@ -68,7 +69,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Grid.Row="0" WidthRequest="100" HeightRequest="150"
+                        <Image Grid.Column="0" Grid.Row="0" WidthRequest="100" HeightRequest="150" Aspect="Fill"
                            Source="{Binding RecipeImage}"
                             />
                         <Label Grid.Column="0" Grid.Row="1"

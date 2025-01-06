@@ -8,19 +8,25 @@ using RecipesAppApp.Views;
 using RecipesAppApp.Services;
 using System.Collections.ObjectModel;
 using RecipesAppApp.Models;
+using System.Runtime.CompilerServices;
 
 namespace RecipesAppApp.ViewModels
 {
     [QueryProperty(nameof(IsNotLogged),"IsNotLogged")]
     public class HomePageViewModel : ViewModelBase
     {
+        #region attributes and properties
         private RecipesAppWebAPIProxy RecipesService;
         private ObservableCollection<Recipe> recipes;
+        private ObservableCollection<Recipe> yourRecipes;
+        private ObservableCollection<Recipe> recipesWithoutGloten;
+        private ObservableCollection<Recipe> kosherRecipes;
         private string selectedNames;
         private ObservableCollection<Object> selectedRecipes;
         private Object selectedRecipe;
         private SignUpView signupView;
         private LoginView loginView;
+        private bool isLogged;
 
         public ICommand LoginCommand { get; set; }
         public Command SignUpCommand { protected set; get; }
@@ -83,6 +89,36 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged();
             }
         }
+        public ObservableCollection<Recipe> YourRecipes
+        {
+            get
+            {
+                return this.yourRecipes;
+            }
+            set
+            {
+                this.yourRecipes = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Recipe> RecipesWithoutGloten
+        {
+            get
+            {
+                return this.recipesWithoutGloten;
+            }
+            set
+            {
+                this.recipesWithoutGloten = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsLogged
+        {
+            get { return ((App)Application.Current).LoggedInUser != null; }
+        }
+        #endregion
         private async void ReadRecipes()
         {
             
@@ -90,6 +126,20 @@ namespace RecipesAppApp.ViewModels
             this.Recipes = new ObservableCollection<Recipe>(list);
         }
 
+        private async void MakeRecipesList()
+        {
+            if(IsLogged != null)
+            {
+                List<Recipe> yourlist = this.Recipes.Where<Recipe>(r => r.MadeBy == ((App)Application.Current).LoggedInUser.Id).ToList();
+                this.YourRecipes = new ObservableCollection<Recipe>(yourlist);
+            }
+            else
+            {
+                this.YourRecipes = new();
+            }
+            List<Recipe> NoGlotenList = this.Recipes.Where<Recipe>(r => r.IsGloten == "false").ToList();
+            this.recipesWithoutGloten = new ObservableCollection<Recipe>(NoGlotenList);
+        }
         public HomePageViewModel(RecipesAppWebAPIProxy service, SignUpView signUp, LoginView login)
         {
             this.signupView = signUp;

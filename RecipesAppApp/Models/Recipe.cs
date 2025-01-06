@@ -18,6 +18,12 @@
 
         public string IsGloten { get; set; } = null!;
 
+        public int HowManyMadeIt { get; set; }
+
+        public int ContainsMeat { get; set; }
+
+        public int ContainsDairy { get; set; }
+
         public string TimeOfDay { get; set; } = null!;
     }
 }
