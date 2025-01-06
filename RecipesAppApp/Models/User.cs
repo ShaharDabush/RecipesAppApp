@@ -13,7 +13,7 @@
         public string? UserImage { get; set; }
 
         public int? StorageId { get; set; }
-        public int? IsAdmin { get; set; }
+        public bool? IsAdmin { get; set; }
 
         public User() { }
     }

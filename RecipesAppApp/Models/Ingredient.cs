@@ -10,15 +10,13 @@
 
         public int KindId { get; set; }
 
-        public string MeatOrDariy { get; set; } = null!;
+        public bool IsKosher { get; set; } 
 
-        public string IsKosher { get; set; } = null!;
+        public bool IsGloten { get; set; } 
 
-        public string IsGloten { get; set; } = null!;
+        public bool Meat { get; set; }
 
-        public int Meat { get; set; }
-
-        public int Dairy { get; set; }
+        public bool Dairy { get; set; }
 
         public string Barkod { get; set; } = null!;
 

@@ -14,15 +14,15 @@
 
         public int Rating { get; set; }
 
-        public string IsKosher { get; set; } = null!;
+        public bool IsKosher { get; set; } 
 
-        public string IsGloten { get; set; } = null!;
+        public bool IsGloten { get; set; } 
 
         public int HowManyMadeIt { get; set; }
 
-        public int ContainsMeat { get; set; }
+        public bool ContainsMeat { get; set; }
 
-        public int ContainsDairy { get; set; }
+        public bool ContainsDairy { get; set; }
 
         public string TimeOfDay { get; set; } = null!;
     }
