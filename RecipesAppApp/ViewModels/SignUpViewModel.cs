@@ -478,7 +478,7 @@ namespace RecipesAppApp.ViewModels
                 newUser.UserName = Name;
                 newUser.Email = Email;
                 newUser.UserPassword= Password;
-                newUser.IsAdmin = 0;
+                newUser.IsAdmin = false;
                 RegisterInfo registerInfo = new RegisterInfo {UserInfo = newUser,StorageInfo = newStorage,StorageCodeInfo = StorageCode,IsNewStorage = IsNewStorage};
 
                 //Create a new User object with the data from the registration form

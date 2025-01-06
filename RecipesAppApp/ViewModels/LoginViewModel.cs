@@ -151,7 +151,7 @@ namespace RecipesAppApp.ViewModels
         //}
         private bool IsAdmin(User u)
         {
-            if(u.IsAdmin > 0)
+            if(u.IsAdmin.Value)
             {
                 return true;
             }
