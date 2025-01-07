@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using RecipesAppApp.Models;
 using System.Runtime.CompilerServices;
 
+
 namespace RecipesAppApp.ViewModels
 {
     [QueryProperty(nameof(IsNotLogged),"IsNotLogged")]
@@ -42,6 +43,10 @@ namespace RecipesAppApp.ViewModels
                 isNotLogged = value;
                 OnPropertyChanged("IsNotLogged");
             }
+        }
+        public bool IsLogged
+        {
+            get { return ((App)Application.Current).LoggedInUser != null; }
         }
         public Object SelectedRecipe
         {
@@ -153,22 +158,14 @@ namespace RecipesAppApp.ViewModels
             }
 
         }
-
-        public bool IsLogged
-        {
-            get { return ((App)Application.Current).LoggedInUser != null; }
-        }
         #endregion
-        private async void ReadRecipes()
-        {
-            
-            List<Recipe> list = await RecipesService.GetAllRecipes();
-            this.Recipes = new ObservableCollection<Recipe>(list);
-        }
+
 
         private async void MakeRecipesList()
         {
-            if(IsLogged != null)
+            List<Recipe> list = await RecipesService.GetAllRecipes();
+            this.Recipes = new ObservableCollection<Recipe>(list);
+            if (IsLogged != false)
             {
                 List<Recipe> yourlist = this.Recipes.Where<Recipe>(r => r.MadeBy == ((App)Application.Current).LoggedInUser.Id).ToList();
                 this.YourRecipes = new ObservableCollection<Recipe>(yourlist);
@@ -177,12 +174,15 @@ namespace RecipesAppApp.ViewModels
             {
                 this.YourRecipes = new();
             }
-            List<Recipe> NoGlotenList = this.Recipes.Where<Recipe>(r => r.IsGloten == false).ToList();
-            this.RecipesWithoutGloten = new ObservableCollection<Recipe>(NoGlotenList);
+            List<Recipe> NoGlotenList =  this.Recipes.Where<Recipe>(r => r.IsGloten == false).ToList();
+            this.RecipesWithoutGloten =  new ObservableCollection<Recipe>(NoGlotenList);
             List<Recipe> NoLactoseList = this.Recipes.Where<Recipe>(r => r.ContainsDairy == false).ToList();
             this.RecipesWithoutLactose = new ObservableCollection<Recipe>(NoLactoseList);
-            List<Recipe> pop = this.Recipes.Where<Recipe>(r => r.ContainsDairy == false).ToList();
-            this.RecipesWithoutLactose = new ObservableCollection<Recipe>(NoLactoseList);
+            List<Recipe> MostPopular = new(this.Recipes);
+            MostPopular = MostPopular.OrderByDescending(x => x.HowManyMadeIt).ToList();
+            this.MostPopularRecipes = new ObservableCollection<Recipe>(MostPopular);
+            List<Recipe> KosherList = this.Recipes.Where<Recipe>(r => r.IsKosher == true).ToList();
+            this.KosherRecipes = new ObservableCollection<Recipe>(KosherList);
         }
         public HomePageViewModel(RecipesAppWebAPIProxy service, SignUpView signUp, LoginView login)
         {
@@ -194,7 +194,9 @@ namespace RecipesAppApp.ViewModels
             SelectedRecipes = new ObservableCollection<Object>();
             this.LoginCommand = new Command(GoToLogin);
             this.SignUpCommand = new Command(GoToSignUp);
-            ReadRecipes();
+            MakeRecipesList();
+            
+            
         }
 
         private async void GoToSignUp()
@@ -217,5 +219,9 @@ namespace RecipesAppApp.ViewModels
                 SelectedNames = ((Recipe)SelectedRecipe).RecipesName;
         }
         
+        public void Refresh2()
+        {
+            OnPropertyChanged("IsLogged");
+        }
     }
 }

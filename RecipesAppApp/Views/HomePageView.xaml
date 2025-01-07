@@ -5,7 +5,7 @@
              x:Class="RecipesAppApp.Views.HomePageView"
              Title="HomePageView">
     <VerticalStackLayout>
-        <Label Text="Text" />
+        <Label Text="Text"  IsVisible="{Binding IsLogged}"/>
         <CollectionView  ItemsSource="{Binding YourRecipes}" x:Name="theCollectionView" IsVisible="{Binding IsLogged}" >
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Recipe">
@@ -31,8 +31,8 @@
                 <LinearItemsLayout Orientation="Horizontal"></LinearItemsLayout>
             </CollectionView.ItemsLayout>
         </CollectionView>
-        <Label Text="Text" />
-        <CollectionView  ItemsSource="{Binding Recipes}"  IsVisible="true">
+        <Label Text="Kosher Recipe" />
+        <CollectionView  ItemsSource="{Binding KosherRecipes}"  IsVisible="true">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Recipe">
                     <Grid Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
@@ -56,8 +56,8 @@
                 <LinearItemsLayout Orientation="Horizontal"></LinearItemsLayout>
             </CollectionView.ItemsLayout>
         </CollectionView>
-        <Label Text="Text" />
-        <CollectionView  ItemsSource="{Binding Recipes}"  >
+        <Label Text="Gloten free rcipes" />
+        <CollectionView  ItemsSource="{Binding RecipesWithoutGloten}"  IsVisible="true">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Recipe">
                     <Grid Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
@@ -70,8 +70,32 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Image Grid.Column="0" Grid.Row="0" WidthRequest="100" HeightRequest="150" Aspect="Fill"
-                           Source="{Binding RecipeImage}"
-                            />
+                     Source="{Binding RecipeImage}"/>
+                        <Label Grid.Column="0" Grid.Row="1"
+                     Text="{Binding RecipesName}"
+                      FontAttributes="Bold"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal"></LinearItemsLayout>
+            </CollectionView.ItemsLayout>
+        </CollectionView>
+        <Label Text="Lactose free recipe" />
+        <CollectionView  ItemsSource="{Binding RecipesWithoutLactose}"  IsVisible="true">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Recipe">
+                    <Grid Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Grid.Row="0" WidthRequest="100" HeightRequest="150" Aspect="Fill"
+                           Source="{Binding RecipeImage}"/>
                         <Label Grid.Column="0" Grid.Row="1"
                            Text="{Binding RecipesName}"
                             FontAttributes="Bold"/>

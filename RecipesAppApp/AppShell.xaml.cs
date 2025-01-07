@@ -12,6 +12,7 @@ namespace RecipesAppApp
         public AppShell(ShellViewModel vm)
         {
             this.BindingContext = vm;
+            
             InitializeComponent();
             RegisterRoutes();
         }

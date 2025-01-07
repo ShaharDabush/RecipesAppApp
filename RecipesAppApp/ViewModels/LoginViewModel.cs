@@ -114,17 +114,21 @@ namespace RecipesAppApp.ViewModels
                     //ShellViewModel vm = (ShellViewModel)(((AppShell)Shell.Current).BindingContext);
                     //vm.AdminPermission = IsAdmin(u);
                     
-                Mail = "";
+                    Mail = "";
                     Pass = "";
 
-                Shell.Current.Navigation.PopAsync();
+                 Shell.Current.Navigation.PopAsync();
+                //((App)Application.Current).MainPage = serviceProvider.GetService<AppShell>();
                 ShellViewModel vm = (ShellViewModel)(Shell.Current.BindingContext);
-                vm.LogText = "Logout";
-                vm.Refresh();
-                
+                    vm.LogText = "Logout";
+                    vm.Refresh();
+                    
+
+
+
 
                 }
-            }
+        }
 
         //method
         //activated by SignUpCommand
