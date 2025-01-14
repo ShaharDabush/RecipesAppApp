@@ -6,7 +6,8 @@
              Title="HomePageView">
     <VerticalStackLayout>
         <Label Text="Text"  IsVisible="{Binding IsLogged}"/>
-        <CollectionView  ItemsSource="{Binding YourRecipes}" x:Name="theCollectionView" IsVisible="{Binding IsLogged}" >
+        <CollectionView  ItemsSource="{Binding YourRecipes}" x:Name="theCollectionView" IsVisible="{Binding IsLogged}" SelectedItem="{Binding SelectedRecipe}"
+                 SelectionMode="Single" SelectionChangedCommand="{Binding SingleSelectCommand}" >
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Recipe">
                     <Grid Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
@@ -32,7 +33,8 @@
             </CollectionView.ItemsLayout>
         </CollectionView>
         <Label Text="Kosher Recipe" />
-        <CollectionView  ItemsSource="{Binding KosherRecipes}"  IsVisible="true">
+        <CollectionView  ItemsSource="{Binding KosherRecipes}"  IsVisible="true" SelectedItem="{Binding SelectedRecipe}"
+                 SelectionMode="Single" SelectionChangedCommand="{Binding SingleSelectCommand}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Recipe">
                     <Grid Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
@@ -57,10 +59,11 @@
             </CollectionView.ItemsLayout>
         </CollectionView>
         <Label Text="Gloten free rcipes" />
-        <CollectionView  ItemsSource="{Binding RecipesWithoutGloten}"  IsVisible="true">
+        <CollectionView  ItemsSource="{Binding RecipesWithoutGloten}"  IsVisible="true" SelectedItem="{Binding SelectedRecipe}"
+                 SelectionMode="Single" SelectionChangedCommand="{Binding SingleSelectCommand}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Recipe">
-                    <Grid Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                    <Grid Padding="45" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
@@ -70,10 +73,10 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Image Grid.Column="0" Grid.Row="0" WidthRequest="100" HeightRequest="150" Aspect="Fill"
-                     Source="{Binding RecipeImage}"/>
+                           Source="{Binding RecipeImage}"/>
                         <Label Grid.Column="0" Grid.Row="1"
-                     Text="{Binding RecipesName}"
-                      FontAttributes="Bold"/>
+                           Text="{Binding RecipesName}"
+                            FontAttributes="Bold"/>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -82,7 +85,8 @@
             </CollectionView.ItemsLayout>
         </CollectionView>
         <Label Text="Lactose free recipe" />
-        <CollectionView  ItemsSource="{Binding RecipesWithoutLactose}"  IsVisible="true">
+        <CollectionView  ItemsSource="{Binding RecipesWithoutLactose}"  IsVisible="true" SelectedItem="{Binding SelectedRecipe}"
+                 SelectionMode="Single" SelectionChangedCommand="{Binding SingleSelectCommand}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Recipe">
                     <Grid Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="Start">

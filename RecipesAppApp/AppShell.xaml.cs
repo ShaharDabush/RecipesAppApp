@@ -22,6 +22,8 @@ namespace RecipesAppApp
             Routing.RegisterRoute("SignUp", typeof(SignUpView));
             Routing.RegisterRoute("Login", typeof(LoginView));
             Routing.RegisterRoute("HomePage", typeof(HomePageView));
+            Routing.RegisterRoute("RecipeDetails", typeof(RecipeDetailsView));
+
         }
     }
 }

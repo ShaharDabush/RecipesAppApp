@@ -39,7 +39,7 @@ namespace RecipesAppApp
             builder.Services.AddTransient<EditProfileView>();
             builder.Services.AddTransient<HomePageView>();
             builder.Services.AddTransient<ProfileView>();
-            builder.Services.AddTransient<RecipeDetailsViews>();
+            builder.Services.AddTransient<RecipeDetailsView>();
             builder.Services.AddTransient<RecipesAproveView>();
             builder.Services.AddTransient<RemoveIngredientsView>();
             builder.Services.AddTransient<SettingsView>();

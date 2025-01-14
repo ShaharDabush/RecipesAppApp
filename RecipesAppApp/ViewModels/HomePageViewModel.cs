@@ -24,9 +24,7 @@ namespace RecipesAppApp.ViewModels
         private ObservableCollection<Recipe> recipesWithoutLactose;
         private ObservableCollection<Recipe> mostPopularRecipes;
         private ObservableCollection<Recipe> kosherRecipes;
-        private string selectedNames;
         private ObservableCollection<Object> selectedRecipes;
-        private Object selectedRecipe;
         private SignUpView signupView;
         private LoginView loginView;
         private bool isLogged;
@@ -48,18 +46,7 @@ namespace RecipesAppApp.ViewModels
         {
             get { return ((App)Application.Current).LoggedInUser != null; }
         }
-        public Object SelectedRecipe
-        {
-            get
-            {
-                return this.selectedRecipe;
-            }
-            set
-            {
-                this.selectedRecipe = value;
-                OnPropertyChanged();
-            }
-        }
+        
         public ObservableCollection<Object> SelectedRecipes
         {
             get
@@ -72,18 +59,7 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public string SelectedNames
-        {
-            get
-            {
-                return this.selectedNames;
-            }
-            set
-            {
-                this.selectedNames = value;
-                OnPropertyChanged();
-            }
-        }
+      
         public ObservableCollection<Recipe> Recipes
         {
             get
@@ -190,7 +166,6 @@ namespace RecipesAppApp.ViewModels
             this.RecipesService = service;
             this.loginView = login;
             recipes = new ObservableCollection<Recipe>();
-            SelectedNames = "none";
             SelectedRecipes = new ObservableCollection<Object>();
             this.LoginCommand = new Command(GoToLogin);
             this.SignUpCommand = new Command(GoToSignUp);
@@ -209,19 +184,42 @@ namespace RecipesAppApp.ViewModels
             await App.Current.MainPage.Navigation.PushAsync(loginView);
 
         }
-        async void OnSingleSelectRecipe()
-        {
-            if (SelectedRecipe == null || !(SelectedRecipe is Recipe))
-            {
-                SelectedNames = "none";
-            }
-            else
-                SelectedNames = ((Recipe)SelectedRecipe).RecipesName;
-        }
         
         public void Refresh2()
         {
             OnPropertyChanged("IsLogged");
         }
+        #region Single Selection
+        private Object selectedRecipe;
+        public Object SelectedRecipe
+        {
+            get
+            {
+                return this.selectedRecipes;
+            }
+            set
+            {
+                this.selectedRecipe = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand SingleSelectCommand => new Command(OnSingleSelectRecipe);
+
+        async void OnSingleSelectRecipe()
+        {
+            if (SelectedRecipe != null)
+            {
+                var navParam = new Dictionary<string, object>()
+                {
+                    { "selectedRecipe",SelectedRecipe }
+                };
+                await Shell.Current.GoToAsync($"RecipeDetails", navParam);
+                SelectedRecipe = null;
+            }
+        }
+
+
+        #endregion
     }
 }
