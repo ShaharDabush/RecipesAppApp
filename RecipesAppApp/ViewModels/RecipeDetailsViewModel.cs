@@ -15,10 +15,10 @@ namespace RecipesAppApp.ViewModels
         private Recipe recipe;
         public Recipe Recipe
         {
-            get { return Recipe; }
+            get { return recipe; }
             set
             {
-                this.Recipe = value;
+                this.recipe = value;
                 OnPropertyChanged();
             }
         }
