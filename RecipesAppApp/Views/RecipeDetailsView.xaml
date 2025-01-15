@@ -2,16 +2,18 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecipesAppApp.Views.RecipeDetailsView"
-             Title="RecipeDetailsView">
-    <VerticalStackLayout>
-        <Label 
-            Text="{Binding Recipe.RecipeName}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        <Label 
-            Text="{Binding Recipe.RecipeDescription}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        <Image Source="{Binding Recipe.RecipeImage}" HeightRequest="200"></Image>
-    </VerticalStackLayout>
+             Title="{Binding Recipe.RecipesName}">
+    <ScrollView>
+    <StackLayout Padding="10">
+            <Border Stroke="Transparent" Margin="10">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="30"/>
+                </Border.StrokeShape>
+                <Image Source="{Binding Recipe.RecipeImage}" HeightRequest="300" Aspect="AspectFill"></Image>
+            </Border>
+            <Label
+            Text="{Binding Recipe.RecipeDescription}"/>
+
+    </StackLayout>
+    </ScrollView>
 </ContentPage>

@@ -17,6 +17,7 @@ namespace RecipesAppApp.ViewModels
     public class HomePageViewModel : ViewModelBase
     {
         #region attributes and properties
+        private List<int> count;
         private RecipesAppWebAPIProxy RecipesService;
         private ObservableCollection<Recipe> recipes;
         private ObservableCollection<Recipe> yourRecipes;
@@ -56,6 +57,18 @@ namespace RecipesAppApp.ViewModels
             set
             {
                 this.recipes = value;
+                OnPropertyChanged();
+            }
+        }
+        public List<int> Count
+        {
+            get
+            {
+                return this.count;
+            }
+            set
+            {
+                this.count = value;
                 OnPropertyChanged();
             }
         }
@@ -142,7 +155,7 @@ namespace RecipesAppApp.ViewModels
             List<Recipe> NoLactoseList = this.Recipes.Where<Recipe>(r => r.ContainsDairy == false).ToList();
             this.RecipesWithoutLactose = new ObservableCollection<Recipe>(NoLactoseList);
             List<Recipe> MostPopular = new(this.Recipes);
-            MostPopular = MostPopular.OrderByDescending(x => x.HowManyMadeIt).ToList();
+            MostPopular = MostPopular.Take(10).OrderByDescending(x => x.HowManyMadeIt).ToList();
             this.MostPopularRecipes = new ObservableCollection<Recipe>(MostPopular);
             List<Recipe> KosherList = this.Recipes.Where<Recipe>(r => r.IsKosher == true).ToList();
             this.KosherRecipes = new ObservableCollection<Recipe>(KosherList);
@@ -155,6 +168,7 @@ namespace RecipesAppApp.ViewModels
             recipes = new ObservableCollection<Recipe>();
             this.LoginCommand = new Command(GoToLogin);
             this.SignUpCommand = new Command(GoToSignUp);
+            this.count = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             MakeRecipesList();
             
             
@@ -187,22 +201,19 @@ namespace RecipesAppApp.ViewModels
             {
                 this.selectedRecipe = value;
                 OnPropertyChanged();
+                if (selectedRecipe != null)
+                    OnSingleSelectRecipe();
             }
         }
 
-        public ICommand SingleSelectCommand => new Command(OnSingleSelectRecipe);
-
         async void OnSingleSelectRecipe()
         {
-            if (SelectedRecipe != null)
-            {
                 var navParam = new Dictionary<string, object>()
                 {
                     { "Recipe",SelectedRecipe }
                 };
                 await Shell.Current.GoToAsync("RecipeDetails", navParam);
                 SelectedRecipe = null;
-            }
         }
 
 
