@@ -59,6 +59,7 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\applepie.png" />
+	  <None Remove="Resources\Images\chickenshawarma.png" />
 	  <None Remove="Resources\Images\chocolatechipcookies.png" />
 	  <None Remove="Resources\Images\edit.png" />
 	  <None Remove="Resources\Images\maritest.png" />
