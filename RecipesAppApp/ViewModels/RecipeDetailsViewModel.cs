@@ -9,33 +9,33 @@ using RecipesAppApp.Models;
 
 namespace RecipesAppApp.ViewModels
 {
-    [QueryProperty(nameof(SelectedRecipe), "selectedRecipe")]
+    [QueryProperty(nameof(Recipe), "Recipe")]
     public class RecipeDetailsViewModel : ViewModelBase
     {
-        private Recipe selectedRecipe;
-        public Recipe SelectedRecipe
+        private Recipe recipe;
+        public Recipe Recipe
         {
-            get { return selectedRecipe; }
+            get { return Recipe; }
             set
             {
-                this.selectedRecipe = value;
+                this.Recipe = value;
                 OnPropertyChanged();
             }
         }
 
-        private String name;
-        public String Name
-        {
-            get { return name; }
-            set
-            {
-                this.name = value;
-                OnPropertyChanged();
-            }
-        }
+        //private String name;
+        //public String Name
+        //{
+        //    get { return name; }
+        //    set
+        //    {
+        //        this.name = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
         public RecipeDetailsViewModel()
         {
-            Name = SelectedRecipe.RecipesName;
+            //Name = SelectedRecipe.RecipesName;
         }
     }
 }

@@ -5,13 +5,13 @@
              Title="RecipeDetailsView">
     <VerticalStackLayout>
         <Label 
-            Text="{Binding Name}"
+            Text="{Binding Recipe.RecipeName}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
         <Label 
-            Text="{Binding SelectedRecipe.RecipeDescription}"
+            Text="{Binding Recipe.RecipeDescription}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-        <Image Source="{Binding SelectedRecipe.RecipeImage}" HeightRequest="200"></Image>
+        <Image Source="{Binding Recipe.RecipeImage}" HeightRequest="200"></Image>
     </VerticalStackLayout>
 </ContentPage>

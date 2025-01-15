@@ -24,7 +24,6 @@ namespace RecipesAppApp.ViewModels
         private ObservableCollection<Recipe> recipesWithoutLactose;
         private ObservableCollection<Recipe> mostPopularRecipes;
         private ObservableCollection<Recipe> kosherRecipes;
-        private ObservableCollection<Object> selectedRecipes;
         private SignUpView signupView;
         private LoginView loginView;
         private bool isLogged;
@@ -47,18 +46,6 @@ namespace RecipesAppApp.ViewModels
             get { return ((App)Application.Current).LoggedInUser != null; }
         }
         
-        public ObservableCollection<Object> SelectedRecipes
-        {
-            get
-            {
-                return this.selectedRecipes;
-            }
-            set
-            {
-                this.selectedRecipes = value;
-                OnPropertyChanged();
-            }
-        }
       
         public ObservableCollection<Recipe> Recipes
         {
@@ -166,7 +153,6 @@ namespace RecipesAppApp.ViewModels
             this.RecipesService = service;
             this.loginView = login;
             recipes = new ObservableCollection<Recipe>();
-            SelectedRecipes = new ObservableCollection<Object>();
             this.LoginCommand = new Command(GoToLogin);
             this.SignUpCommand = new Command(GoToSignUp);
             MakeRecipesList();
@@ -190,12 +176,12 @@ namespace RecipesAppApp.ViewModels
             OnPropertyChanged("IsLogged");
         }
         #region Single Selection
-        private Object selectedRecipe;
-        public Object SelectedRecipe
+        private Recipe selectedRecipe;
+        public Recipe SelectedRecipe
         {
             get
             {
-                return this.selectedRecipes;
+                return this.selectedRecipe;
             }
             set
             {
@@ -212,9 +198,9 @@ namespace RecipesAppApp.ViewModels
             {
                 var navParam = new Dictionary<string, object>()
                 {
-                    { "selectedRecipe",SelectedRecipe }
+                    { "Recipe",SelectedRecipe }
                 };
-                await Shell.Current.GoToAsync($"RecipeDetails", navParam);
+                await Shell.Current.GoToAsync("RecipeDetails", navParam);
                 SelectedRecipe = null;
             }
         }
