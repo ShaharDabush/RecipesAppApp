@@ -9,6 +9,7 @@ using RecipesAppApp.Services;
 using System.Collections.ObjectModel;
 using RecipesAppApp.Models;
 using System.Runtime.CompilerServices;
+using System.Xml.Linq;
 
 
 namespace RecipesAppApp.ViewModels
@@ -25,12 +26,19 @@ namespace RecipesAppApp.ViewModels
         private ObservableCollection<Recipe> recipesWithoutLactose;
         private ObservableCollection<Recipe> mostPopularRecipes;
         private ObservableCollection<Recipe> kosherRecipes;
+        private ObservableCollection<Recipe> searchedBarList;
         private SignUpView signupView;
         private LoginView loginView;
         private bool isLogged;
+        private bool inSearch;
+        private String searchedName;
 
         public ICommand LoginCommand { get; set; }
         public Command SignUpCommand { protected set; get; }
+        public ICommand SortCommand => new Command(Sort);
+
+        //on pressing the button to clear the sort
+        public ICommand ClearSortCommand => new Command(ClearSort);
 
         private bool isNotLogged;
         public bool IsNotLogged
@@ -134,9 +142,85 @@ namespace RecipesAppApp.ViewModels
             }
 
         }
+
+        public ObservableCollection<Recipe> SearchedBarList
+        {
+            get
+            {
+                return this.searchedBarList;
+            }
+            set
+            {
+                this.searchedBarList = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public String SearchedName
+        {
+            get
+            {
+                return this.searchedName;
+            }
+            set
+            {
+                this.searchedName = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool InSearch
+        {
+            get
+            {
+                return this.inSearch;
+            }
+            set
+            {
+                this.inSearch = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
-
+        private void Test(string text)
+        {
+            string s = text;
+            List<string> subs = new();
+            string tempsub = "";
+            char c;
+            for (int i = 0; i < s.Length; i++)
+            {
+                c = s[i];
+                if (c == 32)
+                {
+                    subs.Add(tempsub);
+                }
+                else
+                {
+                    tempsub += c.ToString();
+                }
+            }
+            Search(subs);
+        }
+        private void Search(List<string> s)
+        {
+            SearchedBarList.Clear();
+            foreach (Recipe r in Recipes)
+            {
+                for (int i = 0; i < r.RecipesName.Length; i++)
+                {
+                    foreach (string sub in s)
+                    {
+                        if (sub[i] != null)
+                        {
+                            if (r.RecipesName[i] != sub[i])
+                                return;
+                        }
+                    }
+                }
+                searchedBarList.Add(r);
+            }
+        }
         private async void MakeRecipesList()
         {
             List<Recipe> list = await RecipesService.GetAllRecipes();
@@ -156,9 +240,20 @@ namespace RecipesAppApp.ViewModels
             this.RecipesWithoutLactose = new ObservableCollection<Recipe>(NoLactoseList);
             List<Recipe> MostPopular = new(this.Recipes);
             MostPopular = MostPopular.Take(10).OrderByDescending(x => x.HowManyMadeIt).ToList();
-            this.MostPopularRecipes = new ObservableCollection<Recipe>(MostPopular);
+            List<Object> l = new List<object>();
+            for(int i = 0; i < MostPopular.Count;i++)
+            {
+                l.Add(new
+                {
+                    RecipeImage = MostPopular[i].RecipeImage,
+                    RecipesName = $"{i}. {MostPopular[i].RecipesName}"
+                });
+            }
+            this.MostPopularRecipes = new ObservableCollection<Object>(l);
             List<Recipe> KosherList = this.Recipes.Where<Recipe>(r => r.IsKosher == true).ToList();
             this.KosherRecipes = new ObservableCollection<Recipe>(KosherList);
+            this.SearchedBarList = new ObservableCollection<Recipe>();
+            this.InSearch = false;
         }
         public HomePageViewModel(RecipesAppWebAPIProxy service, SignUpView signUp, LoginView login)
         {
@@ -188,6 +283,19 @@ namespace RecipesAppApp.ViewModels
         public void Refresh2()
         {
             OnPropertyChanged("IsLogged");
+        }
+
+        //on SortCommand change the list and leave only the users that contain the given string
+        public void Sort()
+        {
+            List<Recipe> temp = Recipes.Where(r => r.RecipesName.Contains(SearchedName)).ToList();
+            this.SearchedBarList.Clear();
+            SearchedBarList = new ObservableCollection<Recipe>(temp);
+        }
+        public void ClearSort()
+        {
+            this.SearchedBarList.Clear();
+            SearchedBarList = recipes;
         }
         #region Single Selection
         private Recipe selectedRecipe;
