@@ -2,10 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:RecipesAppApp.Models"
+             xmlns:classes="clr-namespace:RecipesAppApp.Classes"
              x:Class="RecipesAppApp.Views.RecipeDetailsView"
              Title="{Binding Recipe.RecipesName}">
     <ScrollView>
-    <StackLayout Padding="10">
+        <StackLayout Padding="10">
             <Border Stroke="Transparent" Margin="10">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="30"/>
@@ -14,18 +15,23 @@
             </Border>
             <Label Text="{Binding Recipe.RecipeDescription}"/>
             <Label Text="Directions" Margin="0,20,0,0" FontSize="30" FontAttributes="Bold"/>
-            <ContentView ItemsSource="{Binding RecipesWithoutGloten}">
+            <CollectionView  ItemsSource="{Binding LevelList}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Recipe">
+                    <DataTemplate x:DataType="classes:LevelList">
                         <Grid
-                            ColumnDefinitions="*,0.15*"/>
-                        <Label Text="{}"
+                            ColumnDefinitions="*"
+                            >
+                            
+                            <Label Text="{Binding LevelText}"/>
+                            
 
                         </Grid>
                     </DataTemplate>
-                    <CollectionView.ItemTemplate>
-            </ContentView>
-
+                </CollectionView.ItemTemplate>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+            </CollectionView>
         </StackLayout>
     </ScrollView>
 </ContentPage>
