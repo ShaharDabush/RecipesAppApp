@@ -4,200 +4,22 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:RecipesAppApp.Models"
+    xmlns:classes="clr-namespace:RecipesAppApp.Classes"
     Title="HomePageView">
     <ScrollView x:Name="scrlview">
         <StackLayout>
-            <Entry Placeholder="Search by player name" Text="{Binding SearchedName}" />
-            <Button Command="{Binding SortCommand}" Text="Search" />
-            <Button Command="{Binding ClearSortCommand}" Text="Clear search" />
+            <Grid
+                ColumnDefinitions="*,0.15*">
+                <Entry Placeholder="Search by player name" Text="{Binding SearchedName}" HeightRequest="55"/>
+                <ImageButton Source="cancel.png" Grid.Column="1" Command="{Binding ClearSortCommand}" HeightRequest="55"/>
+            </Grid>
+            <Label FontAttributes="Bold" Text="Search results" IsVisible="{Binding InSearch}" />
             <CollectionView
+                Margin="10"
+                ItemsLayout="VerticalGrid, 3"
                 x:Name="searchCollectionView"
                 IsVisible="{Binding InSearch}"
-                ItemsSource="{Binding searchedBarList}"
-                SelectedItem="{Binding SelectedRecipe}"
-                SelectionMode="Single">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Recipe">
-                        <Grid
-                            Padding="20"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="Start">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Image
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Aspect="Fill"
-                                HeightRequest="150"
-                                Source="{Binding RecipeImage}"
-                                WidthRequest="100" />
-                            <Label
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Text="{Binding RecipesName}" />
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup>
-                                    <VisualState Name="Selected">
-                                        <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="White" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Horizontal" />
-                </CollectionView.ItemsLayout>
-            </CollectionView>
-            <Label
-                FontAttributes="Bold"
-                IsVisible="{Binding IsLogged}"
-                Text="Your recipes" />
-            <CollectionView
-                x:Name="theCollectionView"
-                IsVisible="{Binding IsLogged}"
-                ItemsSource="{Binding YourRecipes}"
-                SelectedItem="{Binding SelectedRecipe}"
-                SelectionMode="Single">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Recipe">
-                        <Grid
-                            Padding="20"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="Start">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Image
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Aspect="Fill"
-                                HeightRequest="150"
-                                Source="{Binding RecipeImage}"
-                                WidthRequest="100" />
-                            <Label
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Text="{Binding RecipesName}" />
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup>
-                                    <VisualState Name="Selected">
-                                        <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="White" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Horizontal" />
-                </CollectionView.ItemsLayout>
-            </CollectionView>
-            <Label FontAttributes="Bold" Text="Kosher recipes" />
-            <CollectionView
-                IsVisible="true"
-                ItemsSource="{Binding KosherRecipes}"
-                SelectedItem="{Binding SelectedRecipe}"
-                SelectionMode="Single">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Recipe">
-                        <Grid
-                            Padding="20"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="Start">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Image
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Aspect="Fill"
-                                HeightRequest="150"
-                                Source="{Binding RecipeImage}"
-                                WidthRequest="100" />
-                            <Label
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Text="{Binding RecipesName}" />
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup>
-                                    <VisualState Name="Selected">
-                                        <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="White" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Horizontal" />
-                </CollectionView.ItemsLayout>
-            </CollectionView>
-            <Label FontAttributes="Bold" Text="Gluten free recipes" />
-            <CollectionView
-                IsVisible="true"
-                ItemsSource="{Binding RecipesWithoutGloten}"
-                SelectedItem="{Binding SelectedRecipe}"
-                SelectionMode="Single">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Recipe">
-                        <Grid
-                            Padding="20"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="Start">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Image
-                                Grid.Row="0"
-                                Aspect="Fill"
-                                HeightRequest="150"
-                                Source="{Binding RecipeImage}"
-                                WidthRequest="100" />
-                            <Label Grid.Row="1" Text="{Binding RecipesName}" />
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup>
-                                    <VisualState Name="Selected">
-                                        <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="White" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Horizontal" />
-                </CollectionView.ItemsLayout>
-            </CollectionView>
-            <Label FontAttributes="Bold" Text="Ten most made recipes" />
-            <CollectionView
-                IsVisible="true"
-                ItemsSource="{Binding MostPopularRecipes}"
+                ItemsSource="{Binding SearchedBarList}"
                 SelectedItem="{Binding SelectedRecipe}"
                 SelectionMode="Single">
                 <CollectionView.ItemTemplate>
@@ -206,20 +28,52 @@
                             Padding="20"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="Center">
-                            <!--<CollectionView ItemsSource="{Binding BindingContext.Count, Source={x:Reference scrlview}}">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Label Text="{Binding .}" />
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-
-                            </CollectionView>-->
                             <Image
+                                Grid.Row="0"
+                                Grid.Column="0"
                                 Aspect="Fill"
                                 HeightRequest="150"
                                 Source="{Binding RecipeImage}"
                                 WidthRequest="100" />
-                            <Label Text="{Binding RecipesName}" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Text="{Binding RecipesName}" 
+                                WidthRequest="100"/>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="White" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Label
+                IsVisible="{Binding IsLoggedSearch}"
+                FontAttributes="Bold"
+                Text="Your recipes" />
+            <CollectionView
+IsVisible="{Binding IsLoggedSearch}"
+ItemsSource="{Binding YourRecipes}"
+SelectedItem="{Binding SelectedRecipe}"
+SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Recipe">
+                        <VerticalStackLayout
+            Padding="20"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="Center">
+                            <Image
+                Aspect="Fill"
+                HeightRequest="150"
+                Source="{Binding RecipeImage}"
+                WidthRequest="100" />
+                            <Label Text="{Binding RecipesName}" WidthRequest="100"/>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
                                     <VisualState Name="Selected">
@@ -236,37 +90,24 @@
                     <LinearItemsLayout Orientation="Horizontal" />
                 </CollectionView.ItemsLayout>
             </CollectionView>
-            <Label FontAttributes="Bold" Text="Lactose free rcipes" />
+            <Label FontAttributes="Bold" Text="Kosher recipes" IsVisible="{Binding NotInSearch}" />
             <CollectionView
-                IsVisible="true"
-                ItemsSource="{Binding KosherRecipes}"
-                SelectedItem="{Binding SelectedRecipe}"
-                SelectionMode="Single">
+     IsVisible="{Binding NotInSearch}"
+     ItemsSource="{Binding KosherRecipes}"
+     SelectedItem="{Binding SelectedRecipe}"
+     SelectionMode="Single">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Recipe">
-                        <Grid
-                            Padding="20"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="Start">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                        <VerticalStackLayout
+                 Padding="20"
+                 HorizontalOptions="FillAndExpand"
+                 VerticalOptions="Center">
                             <Image
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Aspect="Fill"
-                                HeightRequest="150"
-                                Source="{Binding RecipeImage}"
-                                WidthRequest="100" />
-                            <Label
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Text="{Binding RecipesName}" />
+                     Aspect="Fill"
+                     HeightRequest="150"
+                     Source="{Binding RecipeImage}"
+                     WidthRequest="100" />
+                            <Label Text="{Binding RecipesName}" WidthRequest="100"/>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
                                     <VisualState Name="Selected">
@@ -276,7 +117,122 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                        </Grid>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+            <Label FontAttributes="Bold" Text="Gluten free recipes" IsVisible="{Binding NotInSearch}" />
+            <CollectionView
+     IsVisible="{Binding NotInSearch}"
+     ItemsSource="{Binding RecipesWithoutGloten}"
+     SelectedItem="{Binding SelectedRecipe}"
+     SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Recipe">
+                        <VerticalStackLayout
+                 Padding="20"
+                 HorizontalOptions="FillAndExpand"
+                 VerticalOptions="Center">
+                            <Image
+                     Aspect="Fill"
+                     HeightRequest="150"
+                     Source="{Binding RecipeImage}"
+                     WidthRequest="100" />
+                            <Label Text="{Binding RecipesName}" WidthRequest="100"/>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="White" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+            <Label FontAttributes="Bold" Text="Ten most made recipes" IsVisible="{Binding NotInSearch}" />
+            <CollectionView
+                IsVisible="{Binding NotInSearch}"
+                ItemsSource="{Binding MostPopularRecipes}"
+                SelectedItem="{Binding SelectedTopTenRecipe}"
+                SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="classes:TopTenList">
+                        <VerticalStackLayout
+                            Padding="20"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center">
+                            <Grid
+                                ColumnDefinitions="0.5*,*"
+                                RowDefinitions="*,0.25*">
+                            <Image
+                                Grid.Column="1"
+                                Aspect="Fill"
+                                HeightRequest="150"
+                                Source="{Binding RecipeImage}"
+                                WidthRequest="100" />
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding RecipeName}" WidthRequest="100"/>
+                                <Label FontSize="40" VerticalOptions="Center" Grid.RowSpan="2">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding RecipePlace}"/>
+                                            <Span Text=". "/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="White" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+            <Label FontAttributes="Bold" Text="Lactose free rcipes" IsVisible="{Binding NotInSearch}" />
+            <CollectionView
+     IsVisible="{Binding NotInSearch}"
+     ItemsSource="{Binding RecipesWithoutLactose}"
+     SelectedItem="{Binding SelectedRecipe}"
+     SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Recipe">
+                        <VerticalStackLayout
+                 Padding="20"
+                 HorizontalOptions="FillAndExpand"
+                 VerticalOptions="Center">
+                            <Image
+                     Aspect="Fill"
+                     HeightRequest="150"
+                     Source="{Binding RecipeImage}"
+                     WidthRequest="100" />
+                            <Label Text="{Binding RecipesName}" WidthRequest="100"/>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="White" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
                 <CollectionView.ItemsLayout>

@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Java.Net;
 using RecipesAppApp.Models;
 
 namespace RecipesAppApp.Services
@@ -180,6 +181,71 @@ namespace RecipesAppApp.Services
                     if (r == null)
                         return null;
                     else return r;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+        public async Task<List<Level>> GetLevelsByRecipe(int RecipeId)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}getLevelsByRecipe";
+            try
+            {
+                string json = JsonSerializer.Serialize(RecipeId);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string Responsecontent = await response.Content.ReadAsStringAsync();
+                    List<Level> l = JsonSerializer.Deserialize<List<Level>>(Responsecontent, options);
+                    if (l == null)
+                        return null;
+                    else return l;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public async Task<List<Ingredient>> GetIngredientsByRecipe(int RecipeId)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}getIngredientsByRecipe";
+            try
+            {
+                string json = JsonSerializer.Serialize(RecipeId);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string Responsecontent = await response.Content.ReadAsStringAsync();
+                    List<Ingredient> i = JsonSerializer.Deserialize<List<Ingredient>>(Responsecontent, options);
+                    if (i == null)
+                        return null;
+                    else return i;
                 }
                 else
                 {
