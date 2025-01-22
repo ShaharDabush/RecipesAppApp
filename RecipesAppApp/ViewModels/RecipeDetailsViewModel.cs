@@ -28,15 +28,16 @@ namespace RecipesAppApp.ViewModels
             {
                 this.recipe = value;
                 OnPropertyChanged();
+                MakeLists();
             }
         }
         #endregion
 
         public async void MakeLists()
         {
-            List<Ingredient> IngredientList = await RecipesService.GetIngredientsByRecipe(recipe.Id);
+            List<Ingredient> IngredientList = await RecipesService.GetIngredientsByRecipe(Recipe.Id);
             this.Ingredients = new ObservableCollection<Ingredient>(IngredientList);
-            List<Level> Levellist = await RecipesService.GetLevelsByRecipe(recipe.Id);
+            List<Level> Levellist = await RecipesService.GetLevelsByRecipe(Recipe.Id);
             this.Levels = new ObservableCollection<Level>(Levellist);
             List<LevelList> l = new List<LevelList>();
             for (int i = 0; i < Levels.Count; i++)
@@ -49,22 +50,7 @@ namespace RecipesAppApp.ViewModels
         public RecipeDetailsViewModel(RecipesAppWebAPIProxy service)
         {
             this.RecipesService = service;
-            MakeLists();
-        }
-
-        //private String name;
-        //public String Name
-        //{
-        //    get { return name; }
-        //    set
-        //    {
-        //        this.name = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-        public RecipeDetailsViewModel()
-        {
-            //Name = SelectedRecipe.RecipesName;
+            //MakeLists();
         }
     }
 }

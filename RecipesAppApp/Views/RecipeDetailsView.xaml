@@ -21,10 +21,9 @@
                         <Grid
                             ColumnDefinitions="*"
                             >
-                            
+                            <Label Text="{Binding LevelPlace}"/>
                             <Label Text="{Binding LevelText}"/>
                             
-
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

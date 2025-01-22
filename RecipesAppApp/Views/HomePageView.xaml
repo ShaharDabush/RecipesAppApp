@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:RecipesAppApp.Models"
     xmlns:classes="clr-namespace:RecipesAppApp.Classes"
+
     Title="HomePageView">
     <ScrollView x:Name="scrlview">
         <StackLayout>
@@ -189,14 +190,14 @@ SelectionMode="Single">
                                     </Label.FormattedText>
                                 </Label>
                                 <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup>
-                                    <VisualState Name="Selected">
-                                        <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="White" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup>
+                                        <VisualState Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="White" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
                             </Grid>
                         </VerticalStackLayout>
                     </DataTemplate>

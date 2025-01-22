@@ -2,11 +2,32 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecipesAppApp.Views.ProfileView"
+             xmlns:models="clr-namespace:RecipesAppApp.Models"
              Title="ProfileView">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Grid
+            ColumnDefinitions="*,*"
+            RowDefinitions="150,*,*,*,10,*,*"
+            >
+            <Label Text="{Binding LoggedUser.UserName}" Grid.Column="1" Grid.Row="0" BackgroundColor="Red" Margin="5" FontSize="30"/>
+            <Image Source="{Binding LoggedUser.UserImage}" Grid.Column="0" Grid.Row="0" BackgroundColor="Red" Margin="5" />
+            <Label Text="{Binding RecipesAmount}" Grid.Column="1" Grid.Row="1" BackgroundColor="Red" Margin="5" Padding="5"/>
+            <Label Text="{Binding CommentsAmount}" Grid.Column="0" Grid.Row="1" BackgroundColor="Red" Margin="5"/>
+            <Label Text="{Binding CommentsAmount}" Grid.Column="1" Grid.Row="2" BackgroundColor="Red" Margin="5"/>
+            <Label Text="Your Storage family" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="3" BackgroundColor="Red" Margin="5" FontSize="20"/>
+            <CollectionView Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="4" ItemsSource="{Binding UsersWithSameStorage}" BackgroundColor="Red" Margin="5">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:User">
+                        <Grid ColumnDefinitions="*,0.2*">
+                            <Label Text="{Binding UserName}" Grid.Column="0" Margin="3"/>
+                            <Label Text="(Admin)" Grid.Column="3" Margin="2" IsVisible="{Binding IsAdmin}"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+
+        </Grid>
     </VerticalStackLayout>
 </ContentPage>

@@ -280,10 +280,15 @@ namespace RecipesAppApp.ViewModels
             }
             set
             {
-                this.selectedRecipe = value;
-                OnPropertyChanged();
-                if (selectedRecipe != null)
-                    OnSingleSelectRecipe();
+                if (this.selectedRecipe != value)
+                {
+                    this.selectedRecipe = value;
+                    
+                    if (selectedRecipe != null)
+                        OnSingleSelectRecipe();
+                    OnPropertyChanged();
+                }
+                
             }
         }
         private TopTenList selectedTopTenRecipe;
@@ -295,10 +300,15 @@ namespace RecipesAppApp.ViewModels
             }
             set
             {
-                this.selectedTopTenRecipe = value;
-                OnPropertyChanged();
-                if (selectedTopTenRecipe != null)
-                    OnSingleSelectTopTenRecipe();
+                if (this.selectedTopTenRecipe != value)
+                {
+                    this.selectedTopTenRecipe = value;
+                    
+                    if (selectedTopTenRecipe != null)
+                        OnSingleSelectTopTenRecipe();
+                    OnPropertyChanged();
+                }
+                
             }
         }
 
@@ -319,7 +329,7 @@ namespace RecipesAppApp.ViewModels
                     { "Recipe",newRecipe }
                 };
             await Shell.Current.GoToAsync("RecipeDetails", navParam);
-            SelectedRecipe = null;
+            SelectedTopTenRecipe = null;
         }
 
 
