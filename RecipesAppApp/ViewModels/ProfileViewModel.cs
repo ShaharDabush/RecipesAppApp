@@ -8,6 +8,8 @@ using RecipesAppApp.Models;
 using RecipesAppApp.Classes;
 using RecipesAppApp.Services;
 using System.Collections.ObjectModel;
+using Java.Lang;
+using System.Windows.Input;
 
 namespace RecipesAppApp.ViewModels
 {
@@ -20,6 +22,7 @@ namespace RecipesAppApp.ViewModels
         private int recipesAmount;
         private int commentsAmount;
         private int ratingsAmount;
+        public ICommand EditProfileCommand => new Command(GoToEditProfile);
 
         public User LoggedUser
         {
@@ -82,6 +85,11 @@ namespace RecipesAppApp.ViewModels
             List<User> users = await RecipesService.GetUsersbyStorage(LoggedUser.Id);
             this.UsersWithSameStorage = new ObservableCollection<User>(users);
 
+        }
+
+        public async void GoToEditProfile()
+        {
+            await Shell.Current.GoToAsync("EditProfile"); 
         }
     }
 }

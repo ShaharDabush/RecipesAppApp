@@ -3,19 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecipesAppApp.Views.ProfileView"
              xmlns:models="clr-namespace:RecipesAppApp.Models"
+             Background="LightBlue"
              Title="ProfileView">
     <VerticalStackLayout>
-        <Grid
+        <Grid BackgroundColor="LightBlue"
             ColumnDefinitions="*,*"
             RowDefinitions="150,*,*,*,10,*,*"
             >
-            <Label Text="{Binding LoggedUser.UserName}" Grid.Column="1" Grid.Row="0" BackgroundColor="Red" Margin="5" FontSize="30"/>
-            <Image Source="{Binding LoggedUser.UserImage}" Grid.Column="0" Grid.Row="0" BackgroundColor="Red" Margin="5" />
-            <Label Text="{Binding RecipesAmount}" Grid.Column="1" Grid.Row="1" BackgroundColor="Red" Margin="5" Padding="5"/>
-            <Label Text="{Binding CommentsAmount}" Grid.Column="0" Grid.Row="1" BackgroundColor="Red" Margin="5"/>
-            <Label Text="{Binding CommentsAmount}" Grid.Column="1" Grid.Row="2" BackgroundColor="Red" Margin="5"/>
-            <Label Text="Your Storage family" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="3" BackgroundColor="Red" Margin="5" FontSize="20"/>
-            <CollectionView Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="4" ItemsSource="{Binding UsersWithSameStorage}" BackgroundColor="Red" Margin="5">
+            <Label Text="{Binding LoggedUser.UserName}" Grid.Column="1" Grid.Row="0" BackgroundColor="White" Margin="5" FontSize="30"/>
+            <Image Source="{Binding LoggedUser.UserImage}" Grid.Column="0" Grid.Row="0" BackgroundColor="White" Margin="5" />
+            <Button Text="Edit" Command="{Binding EditProfileCommand}" VerticalOptions="End" HorizontalOptions="Start" Grid.Row="0"  Margin="10" Grid.Column="2" HeightRequest="30" WidthRequest="90" Padding="0" FontSize="15"/>
+            <Label Text="{Binding RecipesAmount}" Grid.Column="1" Grid.Row="1" BackgroundColor="White" Margin="5" Padding="5"/>
+            <Label Text="{Binding CommentsAmount}" Grid.Column="0" Grid.Row="1" BackgroundColor="White" Margin="5" Padding="5"/>
+            <Label Text="{Binding CommentsAmount}" Grid.Column="1" Grid.Row="2" BackgroundColor="White" Margin="5" Padding="5"/>
+            <Label Text="Your Storage family" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="3" BackgroundColor="white" Margin="5" FontSize="20"/>
+            <CollectionView Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="4" ItemsSource="{Binding UsersWithSameStorage}" BackgroundColor="White" Margin="5">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:User">
                         <Grid ColumnDefinitions="*,0.2*">

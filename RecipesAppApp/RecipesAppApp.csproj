@@ -64,6 +64,7 @@
 	  <None Remove="Resources\Images\chocolatechipcookies.png" />
 	  <None Remove="Resources\Images\edit.png" />
 	  <None Remove="Resources\Images\egg.png" />
+	  <None Remove="Resources\Images\macarons.png" />
 	  <None Remove="Resources\Images\maritest.png" />
 	  <None Remove="Resources\Images\omeletterecipe.png" />
 	  <None Remove="Resources\Images\steak.png" />

@@ -4,6 +4,7 @@
              xmlns:models="clr-namespace:RecipesAppApp.Models"
              xmlns:classes="clr-namespace:RecipesAppApp.Classes"
              x:Class="RecipesAppApp.Views.RecipeDetailsView"
+             BackgroundColor="Wheat"
              Title="{Binding Recipe.RecipesName}">
     <ScrollView>
         <StackLayout Padding="10">
@@ -14,15 +15,29 @@
                 <Image Source="{Binding Recipe.RecipeImage}" HeightRequest="300" Aspect="AspectFill"></Image>
             </Border>
             <Label Text="{Binding Recipe.RecipeDescription}"/>
-            <Label Text="Directions" Margin="0,20,0,0" FontSize="30" FontAttributes="Bold"/>
-            <CollectionView  ItemsSource="{Binding LevelList}">
+            <Label Text="Ingredients" Margin="0,20,0,0" FontSize="30" FontAttributes="Bold"/>
+            <CollectionView ItemsSource="{Binding Ingredients}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="classes:LevelList">
+                    <DataTemplate x:DataType="models:Ingredient">
+                        <VerticalStackLayout
+                 Padding="20"
+                 HorizontalOptions="FillAndExpand"
+                 VerticalOptions="Center">
+                            <Label
+                     Text="{Binding IngredientName}" 
+                     WidthRequest="100"/>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Label Text="Directions" Margin="0,20,0,0" FontSize="30" FontAttributes="Bold"/>
+            <CollectionView  ItemsSource="{Binding Levels}" SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Level">
                         <Grid
-                            ColumnDefinitions="*"
-                            >
-                            <Label Text="{Binding LevelPlace}"/>
-                            <Label Text="{Binding LevelText}"/>
+                            ColumnDefinitions="*" >
+                            <Label Text="{Binding LevelCount}"/>
+                            <Label Grid.Column="1" Text="{Binding TextLevel}"/>
                             
                         </Grid>
                     </DataTemplate>
