@@ -2,11 +2,42 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecipesAppApp.Views.EditProfileView"
+             xmlns:models="clr-namespace:RecipesAppApp.Models"
              Title="EditProfileView">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <!-- Personal Changes -->
+        <Label Text="Personal" Margin="4,20,0,0" FontSize="30" FontAttributes="Bold"/>
+        <Grid 
+            ColumnDefinitions="*,*"
+            RowDefinitions="*,*" >
+            <Label Text="Name" FontSize="20" Grid.Column="0" Margin="4,0,0,0"/>
+            <Label Text="{Binding NameError}" IsVisible="{Binding ShowNameError}" Grid.Column="1"  />
+            <Button Command="{Binding NameCommand}" Text="Update" Grid.Column="1" WidthRequest="80" Grid.Row="1" HorizontalOptions="End" />
+            <Entry Text="{Binding Name}" HorizontalOptions="Start"  WidthRequest="290" ClearButtonVisibility="WhileEditing" Grid.Column="0" Grid.Row="1"/>
+        </Grid>
+        <Grid 
+             ColumnDefinitions="*,*"
+             RowDefinitions="*,*" >
+            <Label Text="Mail" FontSize="20" Grid.Column="0" Grid.Row="0" Margin="4"/>
+            <Label Text="{Binding EmailError}" IsVisible="{Binding ShowEmailError}" Grid.Column="1" Grid.Row="0" />
+            <Button Command="{Binding MailCommand}" Text="Update" Grid.Column="1" WidthRequest="80" Grid.Row="1" HorizontalOptions="End" />
+            <Entry  Text="{Binding Email}" HorizontalOptions="Start"  WidthRequest="290" ClearButtonVisibility="WhileEditing" Grid.Column="0" Grid.Row="1"/>
+        </Grid>
+        <!-- Storage Changes -->
+        <Label Text="Storage" Margin="4,20,0,0" FontSize="30" FontAttributes="Bold" />
+        <Label Text="Storage member" FontSize="20" Grid.Column="0" Margin="4,0,0,0"/>
+        <Border Stroke="Black">
+            <CollectionView Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="4" ItemsSource="{Binding UsersWithSameStorage}" BackgroundColor="White" Margin="5">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:User">
+                        <Grid ColumnDefinitions="*,0.2*">
+                            <Label Text="{Binding UserName}" Grid.Column="0" Margin="3"/>
+                            <Label Text="(Admin)" Grid.Column="3" Margin="2" IsVisible="{Binding IsAdmin}"/>
+                            <ImageButton Source="crossonredcircle.png" Grid.Column="3" BindingContext="EditProfileViewModel" Command="{Binding DiscardMembersCommand}" CommandParameter="{Binding Id}" CornerRadius="500" WidthRequest="30" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Border>
     </VerticalStackLayout>
 </ContentPage>

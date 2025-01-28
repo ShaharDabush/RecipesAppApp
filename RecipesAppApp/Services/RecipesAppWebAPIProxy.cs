@@ -193,13 +193,13 @@ namespace RecipesAppApp.Services
                 return null;
             }
         }
-        public async Task<List<Level>> GetLevelsByRecipe(int RecipeId)
+        public async Task<List<Level>> GetLevelsByRecipe(int recipeId)
         {
             //Set URI to the specific function API
             string url = $"{this.baseUrl}getLevelsByRecipe";
             try
             {
-                string json = JsonSerializer.Serialize(RecipeId);
+                string json = JsonSerializer.Serialize(recipeId);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)
@@ -226,13 +226,13 @@ namespace RecipesAppApp.Services
             }
         }
 
-        public async Task<List<Ingredient>> GetIngredientsByRecipe(int RecipeId)
+        public async Task<List<Ingredient>> GetIngredientsByRecipe(int recipeId)
         {
             //Set URI to the specific function API
             string url = $"{this.baseUrl}getIngredientsByRecipe";
             try
             {
-                string json = JsonSerializer.Serialize(RecipeId);
+                string json = JsonSerializer.Serialize(recipeId);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)
@@ -259,13 +259,13 @@ namespace RecipesAppApp.Services
                 return null;
             }
         }
-        public async Task<int> GetRecipesAmountByUser(int UserId)
+        public async Task<int> GetRecipesAmountByUser(int userId)
         {
             //Set URI to the specific function API
             string url = $"{this.baseUrl}getRecipesAmountByuser";
             try
             {
-                string json = JsonSerializer.Serialize(UserId);
+                string json = JsonSerializer.Serialize(userId);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)
@@ -292,13 +292,13 @@ namespace RecipesAppApp.Services
                 return 0;
             }
         }
-        public async Task<int> GetCommentsAmountByUser(int UserId)
+        public async Task<int> GetCommentsAmountByUser(int userId)
         {
             //Set URI to the specific function API
             string url = $"{this.baseUrl}getCommentsAmountByuser";
             try
             {
-                string json = JsonSerializer.Serialize(UserId);
+                string json = JsonSerializer.Serialize(userId);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)
@@ -325,13 +325,13 @@ namespace RecipesAppApp.Services
                 return 0;
             }
         }
-        public async Task<int> GetRatingsAmountByUser(int UserId)
+        public async Task<int> GetRatingsAmountByUser(int userId)
         {
             //Set URI to the specific function API
             string url = $"{this.baseUrl}getRatingsAmountByuser";
             try
             {
-                string json = JsonSerializer.Serialize(UserId);
+                string json = JsonSerializer.Serialize(userId);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)
@@ -358,13 +358,13 @@ namespace RecipesAppApp.Services
                 return 0;
             }
         }
-        public async Task<List<User>> GetUsersbyStorage(int UserId)
+        public async Task<List<User>> GetUsersbyStorage(int userId)
         {
             //Set URI to the specific function API
             string url = $"{this.baseUrl}getUsersbyStorage";
             try
             {
-                string json = JsonSerializer.Serialize(UserId);
+                string json = JsonSerializer.Serialize(userId);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)
@@ -388,6 +388,91 @@ namespace RecipesAppApp.Services
             {
                 Console.WriteLine(e.Message);
                 return null;
+            }
+        }
+
+        public async Task<bool> ChangeName(User user)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}changeName";
+            try
+            {
+                string json = JsonSerializer.Serialize(user);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                     return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+        public async Task<bool> ChangeMail(User user)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}changeMail";
+            try
+            {
+                string json = JsonSerializer.Serialize(user);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+        public async Task<bool> RemoveMember(User user)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}removeStorageMember";
+            try
+            {
+                string json = JsonSerializer.Serialize(user);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
             }
         }
 
