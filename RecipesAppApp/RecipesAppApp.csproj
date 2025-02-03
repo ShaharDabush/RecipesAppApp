@@ -69,6 +69,7 @@
 	  <None Remove="Resources\Images\maritest.png" />
 	  <None Remove="Resources\Images\omeletterecipe.png" />
 	  <None Remove="Resources\Images\ramen.png" />
+	  <None Remove="Resources\Images\removeuser.png" />
 	  <None Remove="Resources\Images\steak.png" />
 	</ItemGroup>
 

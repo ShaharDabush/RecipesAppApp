@@ -18,6 +18,7 @@ namespace RecipesAppApp.ViewModels
         #region ValidationForm
         public ICommand NameCommand => new Command(ChangeName);
         public ICommand MailCommand => new Command(ChangeMail);
+        public ICommand StorageNameCommand => new Command(ChangeStorageName);
         #region Name
         private bool showNameError;
 
@@ -122,13 +123,35 @@ namespace RecipesAppApp.ViewModels
             }
         }
         #endregion
+        #region StorageName
+        private string storageName;
+        public string StorageName
+        {
+            get { return storageName; }
+            set
+            {
+                this.storageName = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
         #endregion
         private RecipesAppWebAPIProxy RecipesService;
         private User loggedUser;
+        private Storage loggedUserStorage;
         private ObservableCollection<User> usersWithSameStorage;
         public ICommand DiscardMembersCommand;
+        private bool isNotAdmin;
 
-
+        public bool IsNotAdmin
+        {
+            get { return isNotAdmin; }
+            set
+            {
+                this.isNotAdmin = value;
+                OnPropertyChanged();
+            }
+        }
 
         public User LoggedUser
         {
@@ -136,6 +159,15 @@ namespace RecipesAppApp.ViewModels
             set
             {
                 this.loggedUser = value;
+                OnPropertyChanged();
+            }
+        }
+        public Storage LoggedUserStorage
+        {
+            get { return loggedUserStorage; }
+            set
+            {
+                this.loggedUserStorage = value;
                 OnPropertyChanged();
             }
         }
@@ -159,9 +191,12 @@ namespace RecipesAppApp.ViewModels
             this.Email = LoggedUser.Email;
             DiscardMembersCommand = new Command<int>(RemoveMembers);
             GetusersList();
+            IsNotAdmin = !loggedUser.IsAdmin.Value;
+            StorageName = LoggedUserStorage.StorageName;
         }
         public async void GetusersList()
         {
+            LoggedUserStorage = await this.RecipesService.GetStoragesbyUser(LoggedUser);
             List<User> users = await RecipesService.GetUsersbyStorage(LoggedUser.Id);
             this.UsersWithSameStorage = new ObservableCollection<User>(users);
 
@@ -204,6 +239,24 @@ namespace RecipesAppApp.ViewModels
                 }
             }
         }
+        public async void ChangeStorageName()
+        {
+            bool isChanged;
+            if (StorageName != null)
+            {
+                LoggedUserStorage.StorageName = StorageName;
+                isChanged = await this.RecipesService.ChangeStorageName(LoggedUserStorage);
+                if (!isChanged)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Try again later", "ok");
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("UpdateUser", $"Update seccesful! please open the profile page again to see your new details!", "ok");
+                }
+            }
+        }
+        
         public async void RemoveMembers(int Id)
         {
             bool isChanged;

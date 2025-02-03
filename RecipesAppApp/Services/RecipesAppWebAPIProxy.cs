@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Java.Net;
+using RecipesAppApp.Classes;
 using RecipesAppApp.Models;
 
 namespace RecipesAppApp.Services
@@ -390,7 +391,38 @@ namespace RecipesAppApp.Services
                 return null;
             }
         }
-
+        public async Task<Storage> GetStoragesbyUser(User user)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}getStorageByuser";
+            try
+            {
+                string json = JsonSerializer.Serialize(user);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string Responsecontent = await response.Content.ReadAsStringAsync();
+                    Storage i = JsonSerializer.Deserialize<Storage>(Responsecontent, options);
+                    if (i == null)
+                        return null;
+                    else return i;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
         public async Task<bool> ChangeName(User user)
         {
             //Set URI to the specific function API
@@ -447,6 +479,34 @@ namespace RecipesAppApp.Services
                 return false;
             }
         }
+        public async Task<bool> ChangeStorageName(Storage newStorage)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}changeStorageName";
+            try
+            {
+                string json = JsonSerializer.Serialize(newStorage);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
         public async Task<bool> RemoveMember(User user)
         {
             //Set URI to the specific function API
@@ -475,35 +535,6 @@ namespace RecipesAppApp.Services
                 return false;
             }
         }
-
-        //public async Task<List<Level>> GetAllLevels()
-        //{
-        //    try
-        //    {
-        //        HttpResponseMessage response = await this.client.GetAsync($"{this.baseUrl}?action=getLevels");
-        //        if (response.IsSuccessStatusCode)
-        //        {
-        //            JsonSerializerOptions options = new JsonSerializerOptions
-        //            {
-        //                PropertyNameCaseInsensitive = true
-        //            };
-        //            string content = await response.Content.ReadAsStringAsync();
-        //            Levels r = JsonSerializer.Deserialize<Levels>(content, options);
-        //            if (r == null)
-        //                return null;
-        //            else return r.levels;
-        //        }
-        //        else
-        //        {
-        //            return null;
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.Message);
-        //        return null;
-        //    }
-        //}
 
     }
 }
