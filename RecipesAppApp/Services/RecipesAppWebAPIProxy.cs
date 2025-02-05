@@ -5,8 +5,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
-using Java.Net;
+
 using RecipesAppApp.Classes;
 using RecipesAppApp.Models;
 
@@ -165,6 +166,42 @@ namespace RecipesAppApp.Services
                 return null;
             }
         }
+        public async Task<string?> UploadMonsterImage(Recipe recipe)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}uploadRecipeImage?RecipeName={recipe.RecipesName}&MadeBy={recipe.MadeBy}";
+            try
+            {
+                string imagePath = recipe.RecipeImage;
+                //Create the form data
+                MultipartFormDataContent form = new MultipartFormDataContent();
+                var fileContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
+                form.Add(fileContent, "file", imagePath);
+                //Call the server API
+                HttpResponseMessage response = await client.PostAsync(url, form);
+                //Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string? result = resContent;
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
 
         public async Task<List<Recipe>> GetAllRecipes()
         {
@@ -182,6 +219,34 @@ namespace RecipesAppApp.Services
                     if (r == null)
                         return null;
                     else return r;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+        public async Task<List<User>> GetAllUsers()
+        {
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUrl}getUsers");
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string content = await response.Content.ReadAsStringAsync();
+                    List<User> u = JsonSerializer.Deserialize<List<User>>(content, options);
+                    if (u == null)
+                        return null;
+                    else return u;
                 }
                 else
                 {
@@ -391,13 +456,13 @@ namespace RecipesAppApp.Services
                 return null;
             }
         }
-        public async Task<Storage> GetStoragesbyUser(User user)
+        public async Task<Storage> GetStoragesbyUser(int StorageId)
         {
             //Set URI to the specific function API
-            string url = $"{this.baseUrl}getStorageByuser";
+            string url = $"{this.baseUrl}getStorageByUser";
             try
             {
-                string json = JsonSerializer.Serialize(user);
+                string json = JsonSerializer.Serialize(StorageId);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)

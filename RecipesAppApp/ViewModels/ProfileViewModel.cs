@@ -8,7 +8,7 @@ using RecipesAppApp.Models;
 using RecipesAppApp.Classes;
 using RecipesAppApp.Services;
 using System.Collections.ObjectModel;
-using Java.Lang;
+
 using System.Windows.Input;
 
 namespace RecipesAppApp.ViewModels

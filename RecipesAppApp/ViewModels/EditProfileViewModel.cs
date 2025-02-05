@@ -8,7 +8,7 @@ using RecipesAppApp.Classes;
 using RecipesAppApp.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Java.Lang;
+
 
 namespace RecipesAppApp.ViewModels
 {
@@ -138,7 +138,7 @@ namespace RecipesAppApp.ViewModels
         #endregion
         private RecipesAppWebAPIProxy RecipesService;
         private User loggedUser;
-        private Storage loggedUserStorage;
+        
         private ObservableCollection<User> usersWithSameStorage;
         public ICommand DiscardMembersCommand;
         private bool isNotAdmin;
@@ -162,6 +162,7 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged();
             }
         }
+        private Storage loggedUserStorage;
         public Storage LoggedUserStorage
         {
             get { return loggedUserStorage; }
@@ -187,6 +188,7 @@ namespace RecipesAppApp.ViewModels
         {
             this.RecipesService = service;
             LoggedUser = ((App)Application.Current).LoggedInUser;
+            LoggedUserStorage = ((App)Application.Current).UserStorage;
             this.Name = LoggedUser.UserName;
             this.Email = LoggedUser.Email;
             DiscardMembersCommand = new Command<int>(RemoveMembers);
@@ -196,7 +198,6 @@ namespace RecipesAppApp.ViewModels
         }
         public async void GetusersList()
         {
-            LoggedUserStorage = await this.RecipesService.GetStoragesbyUser(LoggedUser);
             List<User> users = await RecipesService.GetUsersbyStorage(LoggedUser.Id);
             this.UsersWithSameStorage = new ObservableCollection<User>(users);
 

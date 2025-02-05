@@ -92,42 +92,37 @@ namespace RecipesAppApp.ViewModels
         //checks with the servise if the given email and password match a user in the DB
         //and if so login to the user and go to profile page in the shell
         private async void OnLogin()
-            {
+        {
             //Choose the way you want to blob the page while indicating a server call
             InServerCall = true;
             //await Shell.Current.GoToAsync("connectingToServer");
             LoginInfo loginInfo = new(mail, pass);
-                User? u = await this.RecipesService.LoginAsync(loginInfo);
-                //await Shell.Current.Navigation.PopModalAsync();
-                InServerCall = false;
+            User? u = await this.RecipesService.LoginAsync(loginInfo);
+            //await Shell.Current.Navigation.PopModalAsync();
+            InServerCall = false;
 
-                //Set the application logged in user to be whatever user returned (null or real user)
-                ((App)Application.Current).LoggedInUser = u;
-                if (u == null)
-                {
-
+            //Set the application logged in user to be whatever user returned (null or real user)
+            ((App)Application.Current).LoggedInUser = u;
+            
+            if (u == null)
+            {
                 await Application.Current.MainPage.DisplayAlert("Login", "Login failed!", "ok");
-                
-                }
-                else
-                {                    
-                    //ShellViewModel vm = (ShellViewModel)(((AppShell)Shell.Current).BindingContext);
-                    //vm.AdminPermission = IsAdmin(u);
-                    
-                    Mail = "";
-                    Pass = "";
+            }
+            else
+            {
+                //ShellViewModel vm = (ShellViewModel)(((AppShell)Shell.Current).BindingContext);
+                //vm.AdminPermission = IsAdmin(u);
+                ((App)Application.Current).GetUserStorage();
+                Mail = "";
+                Pass = "";
 
-                 Shell.Current.Navigation.PopAsync();
+                Shell.Current.Navigation.PopAsync();
                 //((App)Application.Current).MainPage = serviceProvider.GetService<AppShell>();
                 ShellViewModel vm = (ShellViewModel)(Shell.Current.BindingContext);
-                    vm.LogText = "Logout";
-                    vm.Refresh();
-                    
+                vm.LogText = "Logout";
+                vm.Refresh();
 
-
-
-
-                }
+            }
         }
 
         //method
