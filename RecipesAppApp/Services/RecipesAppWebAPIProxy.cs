@@ -128,6 +128,7 @@ namespace RecipesAppApp.Services
             }
         }
 
+        #region
         //This method call the UploadProfileImage web API on the server and return the AppUser object with the given URL
         //of the profile image or null if the call fails
         //when registering a user it is better first to call the register command and right after that call this function
@@ -202,7 +203,79 @@ namespace RecipesAppApp.Services
                 return null;
             }
         }
-
+        public async Task<string?> UploadUserImage(User user)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}uploadUserImage?Id={user.Id}";
+            try
+            {
+                string imagePath = user.UserImage;
+                //Create the form data
+                MultipartFormDataContent form = new MultipartFormDataContent();
+                var fileContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
+                form.Add(fileContent, "file", imagePath);
+                //Call the server API
+                HttpResponseMessage response = await client.PostAsync(url, form);
+                //Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string? result = resContent;
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<string?> UploadIngredientImage(Ingredient ingredient)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}uploadUserImage?IngredientName={ingredient.IngredientName}";
+            try
+            {
+                string imagePath = ingredient.IngredientName;
+                //Create the form data
+                MultipartFormDataContent form = new MultipartFormDataContent();
+                var fileContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
+                form.Add(fileContent, "file", imagePath);
+                //Call the server API
+                HttpResponseMessage response = await client.PostAsync(url, form);
+                //Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string? result = resContent;
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        #endregion
         public async Task<List<Recipe>> GetAllRecipes()
         {
             try

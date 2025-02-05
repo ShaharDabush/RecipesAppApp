@@ -9,11 +9,11 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="Start" ColumnDefinitions="*,*" RowDefinitions="*,*">
-                        <Image Grid.Column="0" Grid.Row="0"
+                        <Image Grid.Column="0" Grid.Row="0" WidthRequest="130" HorizontalOptions="Start"
                            Source="{Binding UserImage}"
                             />
-                        <Label Grid.Column="0" Grid.Row="1"
-                           Text="{Binding Name}"
+                        <Label Grid.Column="1" Grid.Row="0"
+                           Text="{Binding UserName}"
                             FontAttributes="Bold"/>
                     </Grid>
                 </DataTemplate>
