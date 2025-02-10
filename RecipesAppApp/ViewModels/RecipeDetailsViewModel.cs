@@ -17,8 +17,8 @@ namespace RecipesAppApp.ViewModels
     {
         #region attributes and properties
         private RecipesAppWebAPIProxy RecipesService;
-        public ObservableCollection<Level> Levels { get; set; }
-        public ObservableCollection<Ingredient> Ingredients;
+        public ObservableCollection<Level> levels;
+        public ObservableCollection<Ingredient> ingredients;
         private Recipe recipe;
         public Recipe Recipe
         {
@@ -30,6 +30,24 @@ namespace RecipesAppApp.ViewModels
                 MakeLists();
             }
         }
+        public ObservableCollection<Level> Levels
+        {
+            get { return levels; }
+            set
+            {
+                this.levels = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Ingredient> Ingredients
+        {
+            get { return ingredients; }
+            set
+            {
+                this.ingredients = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         public async void MakeLists()
@@ -38,6 +56,8 @@ namespace RecipesAppApp.ViewModels
             this.Ingredients = new ObservableCollection<Ingredient>(IngredientList);
             List<Level> Levellist = await RecipesService.GetLevelsByRecipe(Recipe.Id);
             this.Levels = new ObservableCollection<Level>(Levellist);
+            OnPropertyChanged("Levels");
+            OnPropertyChanged("Ingredients");
         } 
         public RecipeDetailsViewModel(RecipesAppWebAPIProxy service)
         {

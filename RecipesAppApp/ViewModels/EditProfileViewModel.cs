@@ -191,7 +191,7 @@ namespace RecipesAppApp.ViewModels
             LoggedUserStorage = ((App)Application.Current).UserStorage;
             this.Name = LoggedUser.UserName;
             this.Email = LoggedUser.Email;
-            DiscardMembersCommand = new Command<int>(RemoveMembers);
+            DiscardMembersCommand = new Command<int>((int Id) => RemoveMembers(Id));
             GetusersList();
             IsNotAdmin = !loggedUser.IsAdmin.Value;
             StorageName = LoggedUserStorage.StorageName;

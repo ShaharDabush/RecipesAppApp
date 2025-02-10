@@ -128,7 +128,7 @@ namespace RecipesAppApp.Services
             }
         }
 
-        #region
+        #region Image
         //This method call the UploadProfileImage web API on the server and return the AppUser object with the given URL
         //of the profile image or null if the call fails
         //when registering a user it is better first to call the register command and right after that call this function
@@ -167,7 +167,7 @@ namespace RecipesAppApp.Services
                 return null;
             }
         }
-        public async Task<string?> UploadMonsterImage(Recipe recipe)
+        public async Task<string?> UploadRecipeImage(Recipe recipe)
         {
             //Set URI to the specific function API
             string url = $"{this.baseUrl}uploadRecipeImage?RecipeName={recipe.RecipesName}&MadeBy={recipe.MadeBy}";

@@ -25,6 +25,7 @@ namespace RecipesAppApp.ViewModels
             UploadPhotoCommand = new Command(OnUploadPhoto);
             PhotoURL = proxy.GetDefaultProfilePhotoUrl();
             LocalPhotoPath = "";
+            ImageResult = "";
             IsPassword = true;
             NameError = "Name is required";
             EmailError = "Email is required";
@@ -212,6 +213,17 @@ namespace RecipesAppApp.ViewModels
         }
         #endregion
         #region Photo
+
+        private string imageResult;
+        public string ImageResult
+        {
+            get => imageResult;
+            set
+            {
+                imageResult = value;
+                OnPropertyChanged("PhotoURL");
+            }
+        }
 
         private string photoURL;
 
@@ -479,6 +491,7 @@ namespace RecipesAppApp.ViewModels
                 newUser.Email = Email;
                 newUser.UserPassword= Password;
                 newUser.IsAdmin = false;
+                newUser.UserImage =PhotoURL;
                 RegisterInfo registerInfo = new RegisterInfo {UserInfo = newUser,StorageInfo = newStorage,StorageCodeInfo = StorageCode,IsNewStorage = IsNewStorage};
 
                 //Create a new User object with the data from the registration form
@@ -486,6 +499,7 @@ namespace RecipesAppApp.ViewModels
 
                 //Call the Register method on the proxy to register the new user
                 InServerCall = true;
+                ImageResult = await proxy.UploadUserImage(newUser);
                 registerInfo = await proxy.Register(registerInfo);
                 InServerCall = false;
 
