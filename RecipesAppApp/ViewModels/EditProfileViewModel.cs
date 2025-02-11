@@ -8,6 +8,7 @@ using RecipesAppApp.Classes;
 using RecipesAppApp.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Security.Cryptography.X509Certificates;
 
 
 namespace RecipesAppApp.ViewModels
@@ -140,7 +141,7 @@ namespace RecipesAppApp.ViewModels
         private User loggedUser;
         
         private ObservableCollection<User> usersWithSameStorage;
-        public ICommand DiscardMembersCommand;
+        public ICommand DiscardMembersCommand { get; set; }
         private bool isNotAdmin;
 
         public bool IsNotAdmin
@@ -281,6 +282,7 @@ namespace RecipesAppApp.ViewModels
                 {
                     await Shell.Current.DisplayAlert("Remove User", $"You Removed the user seccesfully!", "ok");
                 }
+                GetusersList();
             }
         }
     }

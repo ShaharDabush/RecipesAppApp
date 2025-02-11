@@ -43,7 +43,7 @@
                         <Grid ColumnDefinitions="*,0.2*">
                             <Label Text="{Binding UserName}" Grid.Column="0" Margin="3" />
                             <Label Text="(Admin)" Grid.Column="3" Margin="2" IsVisible="{Binding IsAdmin}"/>
-                            <ImageButton Source="removeuser.png" Grid.Column="3" Command="{Binding BindingContext.DiscardMembersCommand, Source={x:Reference VSL}} " CommandParameter="{Binding Id}" CornerRadius="500" WidthRequest="30" HeightRequest="30" IsVisible="{Binding IsNotAdmin}" />
+                            <ImageButton Source="removeuser.png" Grid.Column="3" Command="{Binding Path=BindingContext.DiscardMembersCommand, Source={x:Reference VSL}} " CommandParameter="{Binding Id}" CornerRadius="500" WidthRequest="30" HeightRequest="30" IsVisible="{Binding IsNotAdmin}" />
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

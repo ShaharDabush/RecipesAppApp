@@ -15,13 +15,25 @@
                 <Image Source="{Binding Recipe.RecipeImage}" HeightRequest="300" Aspect="AspectFill"></Image>
             </Border>
             <Label Text="{Binding Recipe.RecipeDescription}"/>
-            <Label Text="Ingredients" Margin="0,20,0,0" FontSize="30" FontAttributes="Bold"/>
-            <CollectionView ItemsSource="{Binding Ingredients}">
+            <Label Text="Ingredients" Margin="0,20,0,20" FontSize="30" FontAttributes="Bold"/>
+            <CollectionView ItemsSource="{Binding TrueList}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Ingredient">
-                        <Grid ColumnDefinitions="10,150" RowDefinitions="20,20" Margin="0,5,0,0">
-                            <RadioButton  Grid.Column="0"/>
-                            <Label Grid.Column="1" Text="{Binding IngredientName}"  WidthRequest="100"/>
+                    <DataTemplate x:DataType="classes:IngredientsWithNameAndAmount">
+                        <Grid ColumnDefinitions="20,150" RowDefinitions="20,20" Margin="5,0,0,0">
+                            <Border StrokeShape="Ellipse"  Margin="0,0,0,0">
+                                <CheckBox WidthRequest="1544" HeightRequest="150" Grid.Column="0" Margin="0,0,0,0" Color="Green" />
+                            </Border>
+                            <Label Grid.Column="1"   WidthRequest="100"  >
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding Amount}"/>
+                                        <Span Text=" "/>
+                                        <Span Text="{Binding MeasureUnits}"/>
+                                        <Span Text=" "/>
+                                        <Span Text="{Binding Name}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
