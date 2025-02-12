@@ -262,25 +262,12 @@ namespace RecipesAppApp.ViewModels
         public async void RemoveMembers(int Id)
         {
             bool isChanged;
-
-            User user = new User();
-            foreach(User u in UsersWithSameStorage)
+            if (Id != null)
             {
-                if (u.Id == Id)
-                {
-                    user = u;
-                }
-            }
-            if (user != null)
-            {
-                isChanged = await this.RecipesService.RemoveMember(user);
+                isChanged = await this.RecipesService.RemoveMember(Id);
                 if (!isChanged)
                 {
                     await Application.Current.MainPage.DisplayAlert("Error", "Try again later", "ok");
-                }
-                else
-                {
-                    await Shell.Current.DisplayAlert("Remove User", $"You Removed the user seccesfully!", "ok");
                 }
                 GetusersList();
             }

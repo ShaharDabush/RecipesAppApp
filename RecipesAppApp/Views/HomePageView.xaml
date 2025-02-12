@@ -9,11 +9,7 @@
     Title="HomePageView">
     <ScrollView x:Name="scrlview">
         <StackLayout>
-            <Grid
-                ColumnDefinitions="*,0.15*">
-                <Entry Placeholder="Search by player name" Text="{Binding SearchedName}" HeightRequest="55"/>
-                <ImageButton Source="cancel.png" Grid.Column="1" Command="{Binding ClearSortCommand}" HeightRequest="55"/>
-            </Grid>
+            <Entry Placeholder="Search by player name" Text="{Binding SearchedName}" HeightRequest="55" ClearButtonVisibility="WhileEditing" />
             <Label FontAttributes="Bold" Text="Search results" IsVisible="{Binding InSearch}" />
             <CollectionView
                 Margin="10"

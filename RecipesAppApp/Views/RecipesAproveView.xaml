@@ -3,10 +3,49 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecipesAppApp.Views.RecipesAproveView"
              Title="RecipesAproveView">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid RowDefinitions="55,*">
+        <Entry Grid.Row="0" Placeholder="Search by recipe name" Text="{Binding SearchedName}" HeightRequest="55"  ClearButtonVisibility="WhileEditing"/>
+        <RefreshView 
+          Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" Grid.Row="1">
+            <CollectionView  ItemsSource="{Binding AllRecipes}" ItemsLayout="VerticalList" x:Name="theCollectionView">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="Start" ColumnDefinitions="*,*" RowDefinitions="*,*,*,*">
+                            <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" WidthRequest="130" HorizontalOptions="Start" HeightRequest="130" Aspect="Fill"
+                        Source="{Binding RecipeImage}"
+                         />
+                            <Label Grid.Column="1" Grid.Row="0"
+                        Text="{Binding RecipesName}"
+                         FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="1">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text=" people"/>
+                                        <Span Text="Made by: "/>
+                                        <Span Text="{Binding UserName}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label Grid.Column="1" Grid.Row="2">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Rating: "/>
+                                        <Span Text="{Binding Rating}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label Grid.Column="1" Grid.Row="3">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Made it "/>
+                                        <Span Text="{Binding HowManyMadeIt}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
 </ContentPage>

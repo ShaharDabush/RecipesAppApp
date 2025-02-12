@@ -679,13 +679,13 @@ namespace RecipesAppApp.Services
                 return false;
             }
         }
-        public async Task<bool> RemoveMember(User user)
+        public async Task<bool> RemoveMember(int userId)
         {
             //Set URI to the specific function API
             string url = $"{this.baseUrl}removeStorageMember";
             try
             {
-                string json = JsonSerializer.Serialize(user);
+                string json = JsonSerializer.Serialize(userId);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)
