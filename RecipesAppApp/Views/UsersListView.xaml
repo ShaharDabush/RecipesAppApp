@@ -8,13 +8,21 @@
         <CollectionView  ItemsSource="{Binding UserList}" ItemsLayout="VerticalList" x:Name="theCollectionView" >
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="Start" ColumnDefinitions="*,*" RowDefinitions="*,*">
-                        <Image Grid.Column="0" Grid.Row="0" WidthRequest="130" HorizontalOptions="Start"
+                    <Grid Padding="20" HorizontalOptions="FillAndExpand" ColumnDefinitions="*,2*" RowDefinitions="*,*" VerticalOptions="Start">
+                        <Image Grid.Column="0" Grid.RowSpan="2" Grid.Row="0" WidthRequest="100" HorizontalOptions="Start"
                            Source="{Binding UserImage}"
                             />
                         <Label Grid.Column="1" Grid.Row="0"
                            Text="{Binding UserName}"
                             FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="1">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Contact information: "/>
+                                    <Span Text="{Binding Email}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

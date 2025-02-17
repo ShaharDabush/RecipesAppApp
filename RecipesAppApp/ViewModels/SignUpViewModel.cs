@@ -491,7 +491,7 @@ namespace RecipesAppApp.ViewModels
                 newUser.Email = Email;
                 newUser.UserPassword= Password;
                 newUser.IsAdmin = false;
-                newUser.UserImage =PhotoURL;
+                newUser.UserImage = PhotoURL;
                 RegisterInfo registerInfo = new RegisterInfo {UserInfo = newUser,StorageInfo = newStorage,StorageCodeInfo = StorageCode,IsNewStorage = IsNewStorage};
 
                 //Create a new User object with the data from the registration form
@@ -499,12 +499,11 @@ namespace RecipesAppApp.ViewModels
 
                 //Call the Register method on the proxy to register the new user
                 InServerCall = true;
-                ImageResult = await proxy.UploadUserImage(newUser);
                 registerInfo = await proxy.Register(registerInfo);
                 InServerCall = false;
 
                 //If the registration was successful, navigate to the login page
-                if (newUser != null)
+                if (registerInfo.UserInfo != null)
                 {
                     //UPload profile imae if needed
                     if (!string.IsNullOrEmpty(LocalPhotoPath))
@@ -512,8 +511,8 @@ namespace RecipesAppApp.ViewModels
                         
                         LoginInfo li = new(newUser.Email, newUser.UserPassword);
                         await proxy.LoginAsync(li);
-                        User? updatedUser = await proxy.UploadProfileImage(LocalPhotoPath);
-                        if (updatedUser == null)
+                        string updatedUser = await proxy.UploadUserImage(registerInfo.UserInfo);
+                        if (updatedUser != null)
                         {
                             InServerCall = false;
                             await Application.Current.MainPage.DisplayAlert("Registration", "User Data Was Saved BUT Profile image upload failed", "ok");

@@ -217,7 +217,7 @@ namespace RecipesAppApp.Services
                 //Call the server API
                 HttpResponseMessage response = await client.PostAsync(url, form);
                 //Check status
-                if (response.IsSuccessStatusCode)
+                    if (response.IsSuccessStatusCode)
                 {
                     //Extract the content as string
                     string resContent = await response.Content.ReadAsStringAsync();
@@ -242,7 +242,7 @@ namespace RecipesAppApp.Services
         public async Task<string?> UploadIngredientImage(Ingredient ingredient)
         {
             //Set URI to the specific function API
-            string url = $"{this.baseUrl}uploadUserImage?IngredientName={ingredient.IngredientName}";
+            string url = $"{this.baseUrl}uploadUserImage?IngredientName={ingredient.Id}";
             try
             {
                 string imagePath = ingredient.IngredientName;
