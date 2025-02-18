@@ -13,7 +13,9 @@
         public string? UserImage { get; set; }
 
         public int? StorageId { get; set; }
+
         public bool? IsAdmin { get; set; }
+
         public bool? IsNotAdmin { get => !IsAdmin; }
 
         public User() { }

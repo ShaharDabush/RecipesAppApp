@@ -22,15 +22,15 @@ namespace RecipesAppApp.ViewModels
         private ObservableCollection<Recipe> recipeList;
         private ObservableCollection<User> userList;
         private ObservableCollection<RecipeWithUserName> allRecipes;
-        private ObservableCollection<RecipeWithUserName> searchedBarList;
+        private ObservableCollection<RecipeWithUserName> recipesForList;
         private string searchedName;
 
-        public ObservableCollection<RecipeWithUserName> SearchedBarList
+        public ObservableCollection<RecipeWithUserName> RecipesForList
         {
-            get { return searchedBarList; }
+            get { return recipesForList; }
             set
             {
-                this.searchedBarList = value;
+                this.recipesForList = value;
                 OnPropertyChanged();
             }
         }

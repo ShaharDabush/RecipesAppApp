@@ -512,7 +512,7 @@ namespace RecipesAppApp.ViewModels
                         LoginInfo li = new(newUser.Email, newUser.UserPassword);
                         await proxy.LoginAsync(li);
                         string updatedUser = await proxy.UploadUserImage(registerInfo.UserInfo);
-                        if (updatedUser != null)
+                        if (updatedUser == null)
                         {
                             InServerCall = false;
                             await Application.Current.MainPage.DisplayAlert("Registration", "User Data Was Saved BUT Profile image upload failed", "ok");
