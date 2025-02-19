@@ -170,7 +170,7 @@ namespace RecipesAppApp.Services
         public async Task<string?> UploadRecipeImage(Recipe recipe)
         {
             //Set URI to the specific function API
-            string url = $"{this.baseUrl}uploadRecipeImage?RecipeName={recipe.RecipesName}&MadeBy={recipe.MadeBy}";
+            string url = $"{this.baseUrl}uploadRecipeImage?userId={recipe.MadeBy}&recipeName={recipe.RecipesName}";
             try
             {
                 string imagePath = recipe.RecipeImage;

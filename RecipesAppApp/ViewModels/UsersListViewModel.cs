@@ -48,9 +48,19 @@ namespace RecipesAppApp.ViewModels
             {
                 this.searchedName = value;
                 OnPropertyChanged();
+                Sort();
             }
         }
         public ObservableCollection<FullUserForList> UserList
+        {
+            get { return userList; }
+            set
+            {
+                this.userList = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<FullUserForList> AllUsers
         {
             get { return userList; }
             set
@@ -95,7 +105,7 @@ namespace RecipesAppApp.ViewModels
         {
             if (!string.IsNullOrEmpty(SearchedName))
             {
-                List<FullUserForList> temp = AllUsers.Where(r => r.RecipesName.ToLower().Contains(SearchedName.ToLower())).ToList();
+                List<FullUserForList> temp = AllUsers.Where(u => u.UserName.ToLower().Contains(SearchedName.ToLower())).ToList();
                 this.AllUsers.Clear();
                 foreach (FullUserForList r in temp)
                 {

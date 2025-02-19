@@ -11,7 +11,7 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="Start" ColumnDefinitions="*,*" RowDefinitions="*,*,*,*">
-                            <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" WidthRequest="130" HorizontalOptions="Start" HeightRequest="130" Aspect="Fill"
+                            <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" HorizontalOptions="Start" WidthRequest="130"  HeightRequest="130" Aspect="Fill"
                         Source="{Binding RecipeImage}"
                          />
                             <Label Grid.Column="1" Grid.Row="0"
@@ -20,7 +20,6 @@
                             <Label Grid.Column="1" Grid.Row="1">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text=" people"/>
                                         <Span Text="Made by: "/>
                                         <Span Text="{Binding UserName}"/>
                                     </FormattedString>
@@ -39,6 +38,7 @@
                                     <FormattedString>
                                         <Span Text="Made it "/>
                                         <Span Text="{Binding HowManyMadeIt}"/>
+                                        <Span Text=" people"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>

@@ -4,9 +4,11 @@
              x:Class="RecipesAppApp.Views.CreateIngredientView"
              Title="CreateIngredientView">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Border Stroke="Transparent" Margin="10">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="30"/>
+            </Border.StrokeShape>
+            <Image Source="{Binding Recipe.PhotoURL}" HeightRequest="300" Aspect="AspectFill"></Image>
+        </Border>
     </VerticalStackLayout>
 </ContentPage>

@@ -15,7 +15,7 @@
     <FlyoutItem  Route="Storage" FlyoutDisplayOptions="AsSingleItem" Title="Storage">
         <ShellContent ContentTemplate="{DataTemplate views:StorageView}"/>
     </FlyoutItem>
-    <FlyoutItem  Route="CreateRecipe" FlyoutDisplayOptions="AsSingleItem" Title="CreateRecipe">
+    <FlyoutItem  Route="CreateRecipe" FlyoutDisplayOptions="AsSingleItem" Title="Create new Recipe">
         <ShellContent ContentTemplate="{DataTemplate views:CreateRecipeView}"/>
     </FlyoutItem>
     <FlyoutItem  Route="Profile" FlyoutDisplayOptions="AsSingleItem" Title="Profile">

@@ -271,6 +271,7 @@ namespace RecipesAppApp.ViewModels
             //IsLogged = true;
         }
         #region Single Selection
+        
         private Recipe selectedRecipe;
         public Recipe SelectedRecipe
         {

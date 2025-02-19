@@ -6,6 +6,7 @@
     xmlns:models="clr-namespace:RecipesAppApp.Models"
     xmlns:classes="clr-namespace:RecipesAppApp.Classes"
 
+
     Title="HomePageView">
     <ScrollView x:Name="scrlview">
         <StackLayout>
