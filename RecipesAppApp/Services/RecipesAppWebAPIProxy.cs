@@ -332,6 +332,34 @@ namespace RecipesAppApp.Services
                 return null;
             }
         }
+        public async Task<List<Ingredient>> GetAllIngredients()
+        {
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUrl}getAllIngredients");
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string content = await response.Content.ReadAsStringAsync();
+                    List<Ingredient> r = JsonSerializer.Deserialize<List<Ingredient>>(content, options);
+                    if (r == null)
+                        return null;
+                    else return r;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
         public async Task<List<Level>> GetLevelsByRecipe(int recipeId)
         {
             //Set URI to the specific function API

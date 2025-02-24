@@ -2,6 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecipesAppApp.Views.CreateRecipeView"
+                 xmlns:models="clr-namespace:RecipesAppApp.Models"
+    xmlns:classes="clr-namespace:RecipesAppApp.Classes"
              Title="Create New Recipe">
     <ScrollView>
         <VerticalStackLayout>
@@ -26,13 +28,24 @@
                 <BoxView BackgroundColor="White"  Grid.Row="0" Margin="0,90,0,0" HeightRequest="10" WidthRequest="349" />
             </Grid>
             </Border>
-        <Label Text="Ingredient" FontSize="25" Margin="20,20,0,0"/>
-            <Border StrokeShape="RoundRectangle 10,10,10,10" HeightRequest="30" WidthRequest="250" >
+        <Label Text="Ingredients" FontSize="25" Margin="20,20,0,0"/>
+            <Border StrokeShape="RoundRectangle 10,10,10,10" HeightRequest="30" WidthRequest="180" HorizontalOptions="Start" Margin="20,10,0,0" >
             <Grid RowDefinitions="*">
-                <Entry Text="{Binding RecipeName}" Grid.Row="0" FontSize="20" HorizontalOptions="Center"  HorizontalTextAlignment="Center" WidthRequest="200"/>
+                    <Entry Text="{Binding SearchedName}" Grid.Row="0" Margin="0,0,0,-10" VerticalOptions="End" FontSize="15" HeightRequest="50" HorizontalOptions="Start" WidthRequest="180"/>
                 <BoxView BackgroundColor="White" HeightRequest="10" Grid.Row="0" Margin="0,30,0,0"/>
             </Grid>
             </Border>
+            <CollectionView ItemsSource="{Binding SearchedIngredient}" IsVisible="{Binding InSearch}" SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Ingredient">
+                        <Border Stroke="AliceBlue">
+                        <Grid ColumnDefinitions="20,150" RowDefinitions="20,20" Margin="5,5,0,0">
+                            <Label Grid.Column="1"   WidthRequest="100"  Text="{Binding IngredientName}" />
+                        </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

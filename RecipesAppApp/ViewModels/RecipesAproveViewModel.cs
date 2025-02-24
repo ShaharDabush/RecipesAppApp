@@ -21,7 +21,7 @@ namespace RecipesAppApp.ViewModels
         public ICommand RefreshCommand => new Command(Refresh);
         private ObservableCollection<Recipe> recipeList;
         private ObservableCollection<User> userList;
-        private ObservableCollection<RecipeWithUserName> allRecipes;
+        private ObservableCollection<RecipeWithUserName> searchedRecipes;
         private ObservableCollection<RecipeWithUserName> recipesForList;
         private string searchedName;
 
@@ -44,12 +44,12 @@ namespace RecipesAppApp.ViewModels
                 Sort();
             }
         }
-        public ObservableCollection<RecipeWithUserName> AllRecipes
+        public ObservableCollection<RecipeWithUserName> SearchedRecipes
         {
-            get { return allRecipes; }
+            get { return searchedRecipes; }
             set
             {
-                this.allRecipes = value;
+                this.searchedRecipes = value;
                 OnPropertyChanged();
             }
         }
@@ -97,7 +97,7 @@ namespace RecipesAppApp.ViewModels
             this.RecipeList = new ObservableCollection<Recipe>(r);
             List<User> u = await RecipesService.GetAllUsers();
             this.UserList = new ObservableCollection<User>(u);
-            List<RecipeWithUserName> RecipesForList = new List<RecipeWithUserName>();
+            RecipesForList = new ObservableCollection<RecipeWithUserName>();
             for(int i = 0; i < RecipeList.Count; i++)
             {
                 for(int j = 0; j < UserList.Count; j++)
@@ -110,26 +110,32 @@ namespace RecipesAppApp.ViewModels
                     }
                 }
             }
-            this.AllRecipes = new ObservableCollection<RecipeWithUserName>(RecipesForList);
+            this.SearchedRecipes = new ObservableCollection<RecipeWithUserName>(RecipesForList);
 
         }
         //
         public void Sort()
         {
+            if (string.IsNullOrEmpty(SearchedName))
+            {
+                ClearSort();
+            }
+           else 
+           {
+               List<RecipeWithUserName> temp = RecipesForList.Where(r => r.RecipesName.ToLower().Contains(SearchedName.ToLower())).ToList();
+               this.SearchedRecipes.Clear();
+               foreach (RecipeWithUserName r in temp)
+               {
+                   this.SearchedRecipes.Add(r);
+               }
+               //this.IsLogged = false;
+           }
+        }
+        public void ClearSort()
+        {
             if (!string.IsNullOrEmpty(SearchedName))
-            {
-                List<RecipeWithUserName> temp = AllRecipes.Where(r => r.RecipesName.ToLower().Contains(SearchedName.ToLower())).ToList();
-                this.AllRecipes.Clear();
-                foreach (RecipeWithUserName r in temp)
-                {
-                    this.AllRecipes.Add(r);
-                }
-                //this.IsLogged = false;
-            }
-            else
-            {
-                GetRecipes();
-            }
+                this.SearchedName = null;
+            this.SearchedRecipes = RecipesForList;
         }
 
         private async void Refresh()

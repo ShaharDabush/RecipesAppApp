@@ -62,10 +62,10 @@ namespace RecipesAppApp.ViewModels
         }
         public ObservableCollection<FullUserForList> AllUsers
         {
-            get { return userList; }
+            get { return allUsers; }
             set
             {
-                this.userList = value;
+                this.allUsers = value;
                 OnPropertyChanged();
             }
         }
@@ -92,20 +92,25 @@ namespace RecipesAppApp.ViewModels
         public async void GetUsers()
         {
             List<User> u = await RecipesService.GetAllUsers();
-            List<FullUserForList> users = new List<FullUserForList>();
+            UserList = new ObservableCollection<FullUserForList>();
             foreach (User user in u) 
             {
                 this.RecipesAmount = await RecipesService.GetRecipesAmountByUser(user.Id);
-                users.Add(new FullUserForList(user,RecipesAmount));
+                UserList.Add(new FullUserForList(user,RecipesAmount));
             }
-            this.UserList = new ObservableCollection<FullUserForList>(users);
+            this.AllUsers = new ObservableCollection<FullUserForList>(UserList);
         }
+
 
         public void Sort()
         {
-            if (!string.IsNullOrEmpty(SearchedName))
+            if (string.IsNullOrEmpty(SearchedName))
             {
-                List<FullUserForList> temp = AllUsers.Where(u => u.UserName.ToLower().Contains(SearchedName.ToLower())).ToList();
+                ClearSort();
+            }
+            else 
+            {
+                List<FullUserForList> temp = UserList.Where(u => u.UserName.ToLower().Contains(SearchedName.ToLower())).ToList();
                 this.AllUsers.Clear();
                 foreach (FullUserForList r in temp)
                 {
@@ -113,10 +118,13 @@ namespace RecipesAppApp.ViewModels
                 }
                 //this.IsLogged = false;
             }
-            else
-            {
-                GetUsers();
-            }
+        }
+
+        public void ClearSort()
+        {
+            if (!string.IsNullOrEmpty(SearchedName))
+                this.SearchedName = null;
+            this.AllUsers = UserList;
         }
 
         private async void Refresh()

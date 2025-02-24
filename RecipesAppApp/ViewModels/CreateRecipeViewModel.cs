@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RecipesAppApp.Models;
 using RecipesAppApp.Services;
 
 namespace RecipesAppApp.ViewModels
@@ -10,15 +12,60 @@ namespace RecipesAppApp.ViewModels
     public class CreateRecipeViewModel : ViewModelBase
     {
         #region attributes and properties
+        private ObservableCollection<Ingredient> allIngredients;
+        private ObservableCollection<Ingredient> searchedIngredient;
         private string recipeName;
         private string desciption;
+        private string searchedName;
+        private bool inSearch;
+
+        public bool InSearch
+        {
+            get
+            {
+                return this.inSearch;
+            }
+            set
+            {
+                this.inSearch = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Ingredient> AllIngredients
+        {
+            get => allIngredients;
+            set
+            {
+                allIngredients = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Ingredient> SearchedIngredient
+        {
+            get => searchedIngredient;
+            set
+            {
+                searchedIngredient = value;
+                OnPropertyChanged();
+            }
+        }
         public string Desciption
         {
             get => desciption;
             set
             {
                 desciption = value;
-                OnPropertyChanged("PhotoURL");
+                OnPropertyChanged();
+            }
+        }
+        public string SearchedName
+        {
+            get => searchedName;
+            set
+            {
+                searchedName = value;
+                OnPropertyChanged();
+                Sort();
             }
         }
         public string RecipeName
@@ -27,7 +74,7 @@ namespace RecipesAppApp.ViewModels
             set
             {
                 recipeName = value;
-                OnPropertyChanged("PhotoURL");
+                OnPropertyChanged();
             }
         }
 
@@ -113,7 +160,83 @@ namespace RecipesAppApp.ViewModels
             UploadPhotoCommand = new Command(OnUploadPhoto);
             RecipeName = "New Recipe";
             Desciption = "";
+            InSearch = false;
+            GetRecipes();
         }
 
+        public async void GetRecipes()
+        {
+            List<Ingredient> i = await proxy.GetAllIngredients();
+            AllIngredients = new ObservableCollection<Ingredient>(i);
+            SearchedIngredient = new ObservableCollection<Ingredient>(i);
+        }
+
+        public void Sort()
+        {
+            if (string.IsNullOrEmpty(SearchedName))
+            {
+                ClearSort();
+            }
+            else
+            {
+                List<Ingredient> temp = AllIngredients.Where(i => i.IngredientName.ToLower().Contains(SearchedName.ToLower())).ToList();
+                this.SearchedIngredient.Clear();
+                foreach (Ingredient r in temp)
+                {
+                    this.SearchedIngredient.Add(r);
+                }
+                InSearch = true;
+                //this.IsLogged = false;
+            }
+        }
+
+        public void ClearSort()
+        {
+            if (!string.IsNullOrEmpty(SearchedName))
+                this.SearchedName = null;
+            this.SearchedIngredient = AllIngredients;
+            InSearch = false;
+        }
+        #region Single Selection
+
+        private Recipe selectedIngredient;
+        public Recipe SelectedIngredient
+        {
+            get
+            {
+                return this.selectedIngredient;
+            }
+            set
+            {
+                if (this.selectedIngredient != value)
+                {
+                    this.selectedIngredient = value;
+
+                    if (selectedIngredient != null)
+                        OnSingleSelectIngredient();
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+
+        async void OnSingleSelectIngredient()
+        {
+            var navParam = new Dictionary<string, object>()
+                {
+                    { "Ingredient",SelectedIngredient }
+                };
+            await Shell.Current.GoToAsync("RecipeDetails", navParam);
+            SelectedIngredient = null;
+        }
+      
+
+
+        #endregion
     }
 }
+
+
+
+    
+
