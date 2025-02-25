@@ -35,7 +35,7 @@
                 <BoxView BackgroundColor="White" HeightRequest="10" Grid.Row="0" Margin="0,30,0,0"/>
             </Grid>
             </Border>
-            <CollectionView ItemsSource="{Binding SearchedIngredient}" IsVisible="{Binding InSearch}" SelectionMode="Single">
+            <CollectionView ItemsSource="{Binding SearchedIngredient}" IsVisible="{Binding InSearch}" SelectionMode="Single"  SelectedItem="{Binding SelectedIngredient}" >
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Ingredient">
                         <Border Stroke="AliceBlue">
@@ -45,6 +45,15 @@
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup>
+                            <VisualState Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="White" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
             </CollectionView>
         </VerticalStackLayout>
     </ScrollView>

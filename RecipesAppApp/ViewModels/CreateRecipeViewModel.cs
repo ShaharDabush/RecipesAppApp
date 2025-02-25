@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using RecipesAppApp.Models;
 using RecipesAppApp.Services;
+using static Android.Graphics.Paint;
 
 namespace RecipesAppApp.ViewModels
 {
-    public class CreateRecipeViewModel : ViewModelBase
+    public partial class CreateRecipeViewModel : ViewModelBase
     {
         #region attributes and properties
         private ObservableCollection<Ingredient> allIngredients;
         private ObservableCollection<Ingredient> searchedIngredient;
+        public event Action<List<string>> OpenPopup;
         private string recipeName;
         private string desciption;
         private string searchedName;
@@ -161,10 +165,25 @@ namespace RecipesAppApp.ViewModels
             RecipeName = "New Recipe";
             Desciption = "";
             InSearch = false;
-            GetRecipes();
+            ListOfMeasureUnits = new List<string>();
+            ListOfMeasureUnits.Add("tsp");
+            ListOfMeasureUnits.Add("tbsp");
+            ListOfMeasureUnits.Add("fl");
+            ListOfMeasureUnits.Add("oz");
+            ListOfMeasureUnits.Add("cup");
+            ListOfMeasureUnits.Add("pt");
+            ListOfMeasureUnits.Add("qt");
+            ListOfMeasureUnits.Add("gal");
+            ListOfMeasureUnits.Add("oz");
+            ListOfMeasureUnits.Add("lb");
+            ListOfMeasureUnits.Add("g");
+            ListOfMeasureUnits.Add("kg");
+            ListOfMeasureUnits.Add("°C");
+            ListOfMeasureUnits.Add("°F");
+            GetIngredients();
         }
 
-        public async void GetRecipes()
+        public async void GetIngredients()
         {
             List<Ingredient> i = await proxy.GetAllIngredients();
             AllIngredients = new ObservableCollection<Ingredient>(i);
@@ -199,8 +218,8 @@ namespace RecipesAppApp.ViewModels
         }
         #region Single Selection
 
-        private Recipe selectedIngredient;
-        public Recipe SelectedIngredient
+        private Ingredient selectedIngredient;
+        public Ingredient SelectedIngredient
         {
             get
             {
@@ -220,16 +239,17 @@ namespace RecipesAppApp.ViewModels
             }
         }
 
-        async void OnSingleSelectIngredient()
+        public void OnSingleSelectIngredient()
         {
-            var navParam = new Dictionary<string, object>()
-                {
-                    { "Ingredient",SelectedIngredient }
-                };
-            await Shell.Current.GoToAsync("RecipeDetails", navParam);
-            SelectedIngredient = null;
+            if (OpenPopup != null)
+            {
+                List<string> l = new List<string>();
+                OpenPopup(l);
+                this.IngredientName = SelectedIngredient.IngredientName;
+            }
+            
         }
-      
+     
 
 
         #endregion

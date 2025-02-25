@@ -24,11 +24,6 @@ namespace RecipesAppApp
                 });
             builder
                 .UseMauiApp<App>()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                }) 
                 .RegisterDataServices()
                 .RegisterPages()
                 .RegisterViewModels();
@@ -54,6 +49,7 @@ namespace RecipesAppApp
             builder.Services.AddTransient<RecipesAproveView>();
             builder.Services.AddTransient<RemoveIngredientsView>();
             builder.Services.AddTransient<SettingsView>();
+            builder.Services.AddTransient<AddPopup>();
             builder.Services.AddTransient<StorageView>();
             builder.Services.AddTransient<UsersListView>();
 
@@ -67,20 +63,20 @@ namespace RecipesAppApp
         }
         public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)
         {
-            builder.Services.AddSingleton<LoginViewModel>();
-            builder.Services.AddSingleton<SignUpViewModel>();
-            builder.Services.AddSingleton<CreateIngredientViewModel>();
-            builder.Services.AddSingleton<CreateRecipeViewModel>();
-            builder.Services.AddSingleton<EditProfileViewModel>();
-            builder.Services.AddSingleton<HomePageViewModel>();
-            builder.Services.AddSingleton<ProfileViewModel>();
-            builder.Services.AddSingleton<RecipeDetailsViewModel>();
-            builder.Services.AddSingleton<RecipesAproveViewModel>();
-            builder.Services.AddSingleton<RemoveIngredientsViewModel>();
-            builder.Services.AddSingleton<SettingViewModel>();
-            builder.Services.AddSingleton<StorageViewModel>();
-            builder.Services.AddSingleton<UsersListViewModel>();
-            builder.Services.AddSingleton<ShellViewModel>();
+            builder.Services.AddTransient<LoginViewModel>();
+            builder.Services.AddTransient<SignUpViewModel>();
+            builder.Services.AddTransient<CreateIngredientViewModel>();
+            builder.Services.AddTransient<CreateRecipeViewModel>();
+            builder.Services.AddTransient<EditProfileViewModel>();
+            builder.Services.AddTransient<HomePageViewModel>();
+            builder.Services.AddTransient<ProfileViewModel>();
+            builder.Services.AddTransient<RecipeDetailsViewModel>();
+            builder.Services.AddTransient<RecipesAproveViewModel>();
+            builder.Services.AddTransient<RemoveIngredientsViewModel>();
+            builder.Services.AddTransient<SettingViewModel>();
+            builder.Services.AddTransient<StorageViewModel>();
+            builder.Services.AddTransient<UsersListViewModel>();
+            builder.Services.AddTransient<ShellViewModel>();
             return builder;
         }
     }
