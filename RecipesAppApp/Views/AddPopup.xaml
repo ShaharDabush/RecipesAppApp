@@ -3,28 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              HorizontalOptions="Center"
-             Size="270,180"
+             Size="270,200"
              VerticalOptions="Center"
              x:Class="RecipesAppApp.Views.AddPopup">
     <VerticalStackLayout>
         <Label Text="{Binding IngredientName}" HorizontalOptions="Start" Margin="20" FontSize="25" />
-            <Grid RowDefinitions="*,*" ColumnDefinitions="*,*" >
+            <Grid RowDefinitions="*,*" ColumnDefinitions="*,*">
             <Label Grid.Row="0" Grid.Column="1" Text="measurement units" FontSize="15"  />
             <Label Grid.Row="1" Grid.Column="1" Text="Amount" FontSize="15"  />
             <Border  Grid.Row="0" Grid.Column="0" Stroke="Black" WidthRequest="80" HeightRequest="30" Margin="20,0,0,0" HorizontalOptions="Start" StrokeShape="RoundRectangle 10,10,10,10" >
                    <Grid ColumnDefinitions="*,2*">
                       <Image Grid.Column="0" Source="pickericon.png" HeightRequest="30" Margin="0,0,0,-3"/>
-                      <Picker Grid.Column="1" ItemsSource="{Binding ListOfMeasureUnits}" WidthRequest="80" HorizontalOptions="Start" Margin="0,0,0,-6"/>
+                    <Picker Grid.Column="1" ItemsSource="{Binding ListOfMeasureUnits}" SelectedItem="{Binding measureUnit}" WidthRequest="80" HorizontalOptions="Start" Margin="0,0,0,-6"/>
                       <BoxView Grid.Column="1" Color="LightGray" WidthRequest="55" HeightRequest="5" HorizontalOptions="End" VerticalOptions="End"/>
                    </Grid>
                </Border>
                <Border Grid.Row="1" Grid.Column="0" Stroke="Black" WidthRequest="80" HeightRequest="30" Margin="20,0,0,0" HorizontalOptions="Start" StrokeShape="RoundRectangle 10,10,10,10" >
-                   <Grid ColumnDefinitions="*,2*">
-                     <Image Grid.Column="0" Source="pickericon.png" HeightRequest="30" Margin="0,0,0,-3"/>
-                     <Picker Grid.Column="1" ItemsSource="{Binding ListOfMeasureUnits}" WidthRequest="80" HorizontalOptions="Start" Margin="0,0,0,-6"/>
-                     <BoxView Grid.Column="1" Color="LightGray" WidthRequest="55" HeightRequest="5" HorizontalOptions="End" VerticalOptions="End"/>
-                   </Grid>
+                   <Grid RowDefinitions="*,*">
+                    <Entry Text="{Binding Amount}"  Grid.Row="0" WidthRequest="80" HorizontalOptions="Start"  Margin="0,0,0,-22"/>
+                    <Label Text="{Binding AmountError}" IsVisible="{Binding ShowAmountError}" Grid.Column="1" />
+                </Grid>
                </Border>
             </Grid>
+        <Button Text="Save" Command="{Binding SaveIngredientCommand}" HorizontalOptions="Center" WidthRequest="170" HeightRequest="30" FontSize="7" Margin="20,7,0,0" />
     </VerticalStackLayout>
 </toolkit:Popup>

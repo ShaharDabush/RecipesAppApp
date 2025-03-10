@@ -158,11 +158,13 @@ namespace RecipesAppApp.ViewModels
         {
             this.proxy = proxy;
             UploadPhotoCommand = new Command(OnUploadPhoto);
+            SaveIngredientCommand = new Command<int>((Ingredient i) => SaveIngredient(i));
             PhotoURL = proxy.GetDefaultProfilePhotoUrl();
             LocalPhotoPath = "";
             ImageResult = "";
             UploadPhotoCommand = new Command(OnUploadPhoto);
             RecipeName = "New Recipe";
+            AmountError = "You must use only numbers!";
             Desciption = "";
             InSearch = false;
             ListOfMeasureUnits = new List<string>();
@@ -213,6 +215,7 @@ namespace RecipesAppApp.ViewModels
         {
             if (!string.IsNullOrEmpty(SearchedName))
                 this.SearchedName = null;
+            GetIngredients();
             this.SearchedIngredient = AllIngredients;
             InSearch = false;
         }

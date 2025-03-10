@@ -35,12 +35,12 @@
                 <BoxView BackgroundColor="White" HeightRequest="10" Grid.Row="0" Margin="0,30,0,0"/>
             </Grid>
             </Border>
-            <CollectionView ItemsSource="{Binding SearchedIngredient}" IsVisible="{Binding InSearch}" SelectionMode="Single"  SelectedItem="{Binding SelectedIngredient}" >
+            <CollectionView ItemsSource="{Binding SearchedIngredient}" HeightRequest="35" WidthRequest="180" IsVisible="{Binding InSearch}" SelectionMode="Single"  SelectedItem="{Binding SelectedIngredient}" HorizontalOptions="Start" Margin="30,0,0,0">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Ingredient">
                         <Border Stroke="AliceBlue">
                         <Grid ColumnDefinitions="20,150" RowDefinitions="20,20" Margin="5,5,0,0">
-                            <Label Grid.Column="1"   WidthRequest="100"  Text="{Binding IngredientName}" />
+                            <Label Grid.Column="1"   WidthRequest="50"  Text="{Binding IngredientName}" />
                         </Grid>
                         </Border>
                     </DataTemplate>

@@ -135,6 +135,7 @@ namespace RecipesAppApp.ViewModels
         {
             if (!string.IsNullOrEmpty(SearchedName))
                 this.SearchedName = null;
+            GetRecipes();
             this.SearchedRecipes = RecipesForList;
         }
 
