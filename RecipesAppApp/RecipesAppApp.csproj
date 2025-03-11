@@ -58,6 +58,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\adddirection.png" />
 	  <None Remove="Resources\Images\alfajores.png" />
 	  <None Remove="Resources\Images\applepie.png" />
 	  <None Remove="Resources\Images\butter.png" />

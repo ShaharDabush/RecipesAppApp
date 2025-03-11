@@ -6,6 +6,8 @@ using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using RecipesAppApp.Classes;
 using RecipesAppApp.Models;
 using RecipesAppApp.Services;
 using static Android.Graphics.Paint;
@@ -17,6 +19,8 @@ namespace RecipesAppApp.ViewModels
         #region attributes and properties
         private ObservableCollection<Ingredient> allIngredients;
         private ObservableCollection<Ingredient> searchedIngredient;
+        private ObservableCollection<Level> directions;
+        List<Level> ListOfDirections = new List<Level>();
         public event Action<List<string>> OpenPopup;
         private string recipeName;
         private string desciption;
@@ -41,6 +45,15 @@ namespace RecipesAppApp.ViewModels
             set
             {
                 allIngredients = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Level> Directions
+        {
+            get => directions;
+            set
+            {
+                directions = value;
                 OnPropertyChanged();
             }
         }
@@ -150,6 +163,8 @@ namespace RecipesAppApp.ViewModels
             LocalPhotoPath = "";
         }
 
+        public ICommand DiscardIngredientCommand { get; set; }
+        public ICommand AddDirectionCommand { get; set; }
         #endregion
         private RecipesAppWebAPIProxy proxy;
 
@@ -158,13 +173,16 @@ namespace RecipesAppApp.ViewModels
         {
             this.proxy = proxy;
             UploadPhotoCommand = new Command(OnUploadPhoto);
-            SaveIngredientCommand = new Command<int>((Ingredient i) => SaveIngredient(i));
+            SaveIngredientCommand = new Command(SaveIngredient);
+            AddDirectionCommand = new Command(AddDirection);
+            DiscardIngredientCommand = new Command<int>((int IngredientId) => DiscardIngredient(IngredientId));
             PhotoURL = proxy.GetDefaultProfilePhotoUrl();
             LocalPhotoPath = "";
             ImageResult = "";
             UploadPhotoCommand = new Command(OnUploadPhoto);
             RecipeName = "New Recipe";
             AmountError = "You must use only numbers!";
+            MeasureUnitError = "You must choose a measure unit";
             Desciption = "";
             InSearch = false;
             ListOfMeasureUnits = new List<string>();
@@ -182,6 +200,7 @@ namespace RecipesAppApp.ViewModels
             ListOfMeasureUnits.Add("kg");
             ListOfMeasureUnits.Add("°C");
             ListOfMeasureUnits.Add("°F");
+            ListOfMeasureUnits.Add("units");
             GetIngredients();
         }
 
@@ -219,6 +238,36 @@ namespace RecipesAppApp.ViewModels
             this.SearchedIngredient = AllIngredients;
             InSearch = false;
         }
+        //public void DiscardIngredient(int IngredientId)
+        //{
+        //    for (int i = 0; i < ListOfAddedIngredients.Count; i++)
+        //    {
+        //        if (IngredientId == ListOfAddedIngredients[i].IngredientId)
+        //        {
+        //            ListOfAddedIngredients.Remove(ListOfAddedIngredients[i]);
+        //        }
+        //    }
+        //    OnPropertyChanged("ListOfAddedIngredients");
+        //}
+        public void DiscardIngredient(int IngredientId)
+        {
+            for (int i = 0; i < ListOfNewIngredients.Count; i++)
+            {
+                if (IngredientId == ListOfNewIngredients[i].IngredientId)
+                {
+                    ListOfNewIngredients.Remove(ListOfNewIngredients[i]);
+                }
+            }
+            ListOfAddedIngredient = new ObservableCollection<IngredientsWithNameAndAmount>(ListOfNewIngredients);
+        }
+
+        public void AddDirection()
+        {
+            Level newLevel = new Level(ListOfDirections.Count+1,"", ListOfDirections.Count + 1,999);
+            ListOfDirections.Add(newLevel);
+            Directions = new ObservableCollection<Level>(ListOfDirections);
+        }
+
         #region Single Selection
 
         private Ingredient selectedIngredient;
@@ -249,6 +298,8 @@ namespace RecipesAppApp.ViewModels
                 List<string> l = new List<string>();
                 OpenPopup(l);
                 this.IngredientName = SelectedIngredient.IngredientName;
+                this.IngredientId = SelectedIngredient.Id;
+                selectedIngredient = null;
             }
             
         }

@@ -10,6 +10,10 @@ public partial class AddPopup : Popup
         this.BindingContext = vm;
         InitializeComponent();
     }
+    public void ClosePopup(List<string> l) => Close();
 
-
+    private void Button_Clicked(object sender, EventArgs e)
+    {
+        this.Close();
+    }
 }

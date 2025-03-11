@@ -2,6 +2,7 @@
 using RecipesAppApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -16,8 +17,8 @@ namespace RecipesAppApp.ViewModels
         #region attributes and properties
 
         #region Amount
-        public string amount;
-        public string Amount
+        public int amount;
+        public int Amount
         {
             get
             {
@@ -25,11 +26,9 @@ namespace RecipesAppApp.ViewModels
             }
             set
             {
-                if (!ValidateAmount())
-                {
                     this.amount = value;
                     OnPropertyChanged();
-                }
+
             }
         }
         private bool showAmountError;
@@ -54,9 +53,64 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged("amountError");
             }
         }
+        //private bool ValidateAmount()
+        //{
+        //    int d = 0;
+        //    if (!int.TryParse(this.Amount, out d))
+        //    {
+        //        this.ShowAmountError = false;
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        this.ShowAmountError = true;
+        //        return true;
+        //    }
+
+        //}
+        #endregion
+        #region MeasureUnits
+        private string measureUnit;
+        public string MeasureUnit
+        {
+            get => measureUnit;
+            set
+            {
+                measureUnit = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool showMeasureUnitError;
+
+        public bool ShowMeasureUnitError
+        {
+            get => showMeasureUnitError;
+            set
+            {
+                showMeasureUnitError = value;
+                OnPropertyChanged("showMeasureUnitError");
+            }
+        }
+        private string measureUnitError;
+
+        public string MeasureUnitError
+        {
+            get => measureUnitError;
+            set
+            {
+                measureUnitError = value;
+                OnPropertyChanged("measureUnitError");
+            }
+        }
+        private bool ValidateMeasurementUnits()
+        {
+            return this.showMeasureUnitError = string.IsNullOrEmpty(MeasureUnit);
+        }
         #endregion
         private string ingredientName;
-        private string measureUnit;
+        List<IngredientsWithNameAndAmount> ListOfNewIngredients = new List<IngredientsWithNameAndAmount>();
+        private ObservableCollection<IngredientsWithNameAndAmount> listOfAddedIngredient;
+        private int ingredientId;
         private List<string> listOfMeasureUnits;
         public List<string> ListOfMeasureUnits
         {
@@ -65,17 +119,15 @@ namespace RecipesAppApp.ViewModels
             {
                 listOfMeasureUnits = value;
                 OnPropertyChanged();
-                Sort();
             }
         }
-        public string MeasureUnit
+        public ObservableCollection<IngredientsWithNameAndAmount> ListOfAddedIngredient
         {
-            get => measureUnit;
+            get => listOfAddedIngredient;
             set
             {
-                measureUnit = value;
+                listOfAddedIngredient = value;
                 OnPropertyChanged();
-                Sort();
             }
         }
         public string IngredientName
@@ -85,30 +137,33 @@ namespace RecipesAppApp.ViewModels
             {
                 ingredientName = value;
                 OnPropertyChanged();
-                Sort();
             }
         }
-        private bool ValidateAmount()
+        public int IngredientId
         {
-            int d = 0;
-            if(!int.TryParse(this.Amount, out d))
+            get => ingredientId;
+            set
             {
-                this.ShowAmountError = false;
-                return false;
+                ingredientId = value;
+                OnPropertyChanged();
             }
-            else
-            {
-                this.ShowAmountError = true;
-                return true;
-            }
-           
         }
-        public ICommand SaveIngredientCommand { get; set; }
+        public Command SaveIngredientCommand { get; set; }
+
         #endregion
 
-        public void SaveIngredient(Ingredient i)
+        public void SaveIngredient()
         {
-            IngredientsWithNameAndAmount NewIngredient = new IngredientsWithNameAndAmount(i.Id, 999, Amount, MeasureUnit);
+            
+            if (!ValidateMeasurementUnits())
+            {
+             IngredientsWithNameAndAmount NewIngredient = new IngredientsWithNameAndAmount(IngredientId ,999,Amount,MeasureUnit, IngredientName);
+                ListOfNewIngredients.Add(NewIngredient);
+                ListOfAddedIngredient = new ObservableCollection<IngredientsWithNameAndAmount>(ListOfNewIngredients);
+                MeasureUnit = "";
+                Amount = 0;
+            }
         }
+
     }
 }

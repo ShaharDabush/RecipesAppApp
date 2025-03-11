@@ -9,5 +9,13 @@
         public int LevelCount { get; set; }
 
         public int RecipeId { get; set; }
+
+        public Level (int id , string textLevel, int levelCount, int recipeId)
+        {
+            Id = id;
+            TextLevel = textLevel;
+            LevelCount = levelCount;
+            RecipeId = recipeId;
+        }
     }
 }
