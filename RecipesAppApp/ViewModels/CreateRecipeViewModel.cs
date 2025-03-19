@@ -24,9 +24,35 @@ namespace RecipesAppApp.ViewModels
         public event Action<List<string>> OpenPopup;
         private string recipeName;
         private string desciption;
+        private bool containMeat;
+        private bool containDairy;
         private string searchedName;
         private bool inSearch;
 
+        public bool ContainMeat
+        {
+            get
+            {
+                return this.containMeat;
+            }
+            set
+            {
+                this.containMeat = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool ContainDairy
+        {
+            get
+            {
+                return this.containDairy;
+            }
+            set
+            {
+                this.containDairy = value;
+                OnPropertyChanged();
+            }
+        }
         public bool InSearch
         {
             get
@@ -165,6 +191,8 @@ namespace RecipesAppApp.ViewModels
 
         public ICommand DiscardIngredientCommand { get; set; }
         public ICommand AddDirectionCommand { get; set; }
+        public ICommand DiscardLevelCommand { get; set; }
+        public ICommand SaveRecipeCommand { get; set; }
         #endregion
         private RecipesAppWebAPIProxy proxy;
 
@@ -175,6 +203,8 @@ namespace RecipesAppApp.ViewModels
             UploadPhotoCommand = new Command(OnUploadPhoto);
             SaveIngredientCommand = new Command(SaveIngredient);
             AddDirectionCommand = new Command(AddDirection);
+            SaveRecipeCommand = new Command(SaveRecipe);
+            DiscardLevelCommand = new Command<int>((int levelCount) => RemoveLevel(levelCount));
             DiscardIngredientCommand = new Command<int>((int IngredientId) => DiscardIngredient(IngredientId));
             PhotoURL = proxy.GetDefaultProfilePhotoUrl();
             LocalPhotoPath = "";
@@ -189,7 +219,6 @@ namespace RecipesAppApp.ViewModels
             ListOfMeasureUnits.Add("tsp");
             ListOfMeasureUnits.Add("tbsp");
             ListOfMeasureUnits.Add("fl");
-            ListOfMeasureUnits.Add("oz");
             ListOfMeasureUnits.Add("cup");
             ListOfMeasureUnits.Add("pt");
             ListOfMeasureUnits.Add("qt");
@@ -266,6 +295,33 @@ namespace RecipesAppApp.ViewModels
             Level newLevel = new Level(ListOfDirections.Count+1,"", ListOfDirections.Count + 1,999);
             ListOfDirections.Add(newLevel);
             Directions = new ObservableCollection<Level>(ListOfDirections);
+        }
+        public void RemoveLevel(int levelCount)
+        {
+            for (int i = 0; i < ListOfDirections.Count; i++)
+            {
+                if (levelCount == ListOfDirections[i].LevelCount)
+                {
+                    ListOfDirections.Remove(ListOfDirections[i]);
+                }
+            }
+            Directions = new ObservableCollection<Level>(ListOfDirections);
+        }
+
+        public void SaveRecipe()
+        {
+            SaveRecipeInfo saveRecipeInfo = new SaveRecipeInfo();
+            Recipe newRecipe = new Recipe();
+            newRecipe.RecipeImage = photoURL;
+            newRecipe.RecipesName = recipeName;
+            newRecipe.RecipeDescription = Desciption;
+            newRecipe.MadeBy = ((App)Application.Current).LoggedInUser.Id;
+            newRecipe.Rating = 0;
+            newRecipe.ContainsDairy = ContainDairy;
+            newRecipe.ContainsMeat = ContainMeat;
+            newRecipe.HowManyMadeIt = 0;
+
+            
         }
 
         #region Single Selection

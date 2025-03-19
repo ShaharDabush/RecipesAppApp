@@ -2,43 +2,57 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecipesAppApp.Views.CreateRecipeView"
-                 xmlns:models="clr-namespace:RecipesAppApp.Models"
-    xmlns:classes="clr-namespace:RecipesAppApp.Classes"
-             Title="Create New Recipe">
+             xmlns:models="clr-namespace:RecipesAppApp.Models"
+             xmlns:classes="clr-namespace:RecipesAppApp.Classes"
+             Title="Create New Recipe"
+             BackgroundColor="Wheat"
+             Shell.BackgroundColor="Wheat">
     <ScrollView  x:Name="scrlview">
         <VerticalStackLayout x:Name="VSL">
         <Grid
-            RowDefinitions="*"
-            >
+            RowDefinitions="*">
             <Entry Text="{Binding RecipeName}" Grid.Row="0" FontSize="20" HorizontalOptions="Center"  HorizontalTextAlignment="Center" WidthRequest="200"/>
-            <BoxView BackgroundColor="White" HeightRequest="10" Grid.Row="0" Margin="0,30,0,0"/>
+                <BoxView BackgroundColor="#cd853f" HorizontalOptions="Center" WidthRequest="200" HeightRequest="3" Grid.Row="0" Margin="0,33,0,0"/>
         </Grid>
     <Grid HorizontalOptions="Fill"
         RowDefinitions="*"
         ColumnDefinitions="*">
-        <Border Margin="20" StrokeShape="RoundRectangle 30,30,30,30">
+                <Border Margin="20" StrokeShape="RoundRectangle 30,30,30,30" Stroke="#cd853f">
                 <Image Source="{Binding PhotoURL}" HeightRequest="300"  Aspect="AspectFill" Grid.Row="0" Grid.ColumnSpan="7" Grid.RowSpan="3" Grid.Column="0"></Image>
         </Border>
         <ImageButton x:Name="theEditImage" Source="edit.png" Grid.Row="0" Grid.Column="0"   CornerRadius="6"  Command="{Binding UploadPhotoCommand}" HeightRequest="60" HorizontalOptions="End" VerticalOptions="EndAndExpand" WidthRequest="50"> </ImageButton>
     </Grid>
         <Label Text="Desciption" FontSize="25" Margin="20,0,0,0"/>
-        <Border Stroke="Black" StrokeShape="RoundRectangle 10,10,10,10" WidthRequest="350" HeightRequest="100" >
+            <Border Stroke="#cd853f" StrokeShape="RoundRectangle 10,10,10,10" WidthRequest="350" HeightRequest="100" >
             <Grid RowDefinitions="*">
                 <Editor HeightRequest="100" Text="{Binding Desciption}" Grid.Row="0" />
-                <BoxView BackgroundColor="White"  Grid.Row="0" Margin="0,90,0,0" HeightRequest="10" WidthRequest="349" />
+                <BoxView BackgroundColor="Wheat"  Grid.Row="0" Margin="0,90,0,0" HeightRequest="10" WidthRequest="349" />
             </Grid>
             </Border>
-        <Label Text="Ingredients" FontSize="25" Margin="20,20,0,0"/>
-            <Border StrokeShape="RoundRectangle 10,10,10,10" HeightRequest="30" WidthRequest="180" HorizontalOptions="Start" Margin="20,10,0,0" >
+            <Label Text="Contains" FontSize="25" Margin="20,20,0,0"/>
+            <Grid ColumnDefinitions="*,*" Margin="-90,0,0,0">
+                <CheckBox Color="#a0522d" IsChecked="{Binding ContainMeat}"/>
+                <Label Text="Meat" Grid.Column="1" Margin="-90,12,0,0"/>
+            </Grid>
+            <Grid ColumnDefinitions="*,*" Margin="-90,0,0,0">
+                <CheckBox Color="#a0522d" IsChecked="{Binding ContainDairy}"/>
+                <Label Text="Dairy" Grid.Column="1"  Margin="-90,12,0,0"/>
+            </Grid>
+            <Grid ColumnDefinitions="*,*"  Margin="-90,0,0,0">
+                <CheckBox Color="#a0522d"/>
+                <Label Text="Kosher" Grid.Column="1" Margin="-90,12,0,0" />
+            </Grid>
+            <Label Text="Ingredients" FontSize="25" Margin="20,20,0,0"/>
+            <Border Stroke="#deb887" StrokeShape="RoundRectangle 10,10,10,10" HeightRequest="30" WidthRequest="180" HorizontalOptions="Start" Margin="20,10,0,0" >
             <Grid RowDefinitions="*">
                     <Entry Text="{Binding SearchedName}" Grid.Row="0" Margin="0,0,0,-10" VerticalOptions="End" FontSize="15" HeightRequest="50" HorizontalOptions="Start" WidthRequest="180"/>
-                <BoxView BackgroundColor="White" HeightRequest="10" Grid.Row="0" Margin="0,30,0,0"/>
+                <BoxView BackgroundColor="Wheat" HeightRequest="10" Grid.Row="1" Margin="0,30,0,0"/>
             </Grid>
             </Border>
-            <CollectionView ItemsSource="{Binding SearchedIngredient}" HeightRequest="35" WidthRequest="180" IsVisible="{Binding InSearch}" SelectionMode="Single"  SelectedItem="{Binding SelectedIngredient}" HorizontalOptions="Start" Margin="30,0,0,0">
+            <CollectionView ItemsSource="{Binding SearchedIngredient}" MinimumHeightRequest="35" MaximumHeightRequest="400" WidthRequest="180" IsVisible="{Binding InSearch}" SelectionMode="Single"  SelectedItem="{Binding SelectedIngredient}" HorizontalOptions="Start" Margin="30,0,0,0">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Ingredient">
-                        <Border Stroke="AliceBlue">
+                        <Border Stroke="#deb887" MaximumHeightRequest="30" VerticalOptions="Start">
                         <Grid ColumnDefinitions="20,150" RowDefinitions="20,20" Margin="5,5,0,0">
                             <Label Grid.Column="1"   WidthRequest="50"  Text="{Binding IngredientName}" />
                         </Grid>
@@ -78,20 +92,23 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
             <Label Text="Directions" FontSize="25" Margin="20,0,0,0"/>
-            <CollectionView ItemsSource="{Binding Directions}" HorizontalOptions="Start" Margin="30,20,0,0">
+            <CollectionView ItemsSource="{Binding Directions}" HorizontalOptions="Start" Margin="10,20,0,0" x:Name="CV">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Level">
+                    <DataTemplate
+                        x:DataType="models:Level">
                         <Grid
-                            ColumnDefinitions="30,*" RowDefinitions="30,*" Margin="5,10,0,0">
-                            <Border StrokeShape="Ellipse" Stroke="Black" StrokeThickness="1">
+                            ColumnDefinitions="10,30,*" RowDefinitions="30,*" Margin="0,10,0,0">
+                            <ImageButton Source="removeuser.png" Command="{Binding Path=BindingContext.DiscardLevelCommand, Source={x:Reference CV}} " HorizontalOptions="Start" HeightRequest="20" WidthRequest="20" CommandParameter="{Binding LevelCount}" />
+                            <Border StrokeShape="Ellipse" Stroke="Black" StrokeThickness="1"  Grid.Column="1" Margin="12,0,-10,0">
                                 <Label Text="{Binding LevelCount}" FontAttributes="Bold" Grid.Column="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
                             </Border>
-                            <Entry Grid.Column="1" Text="{Binding TextLevel}" Grid.RowSpan="2" Margin="5,0,0,0"/>
+                            <Editor Grid.Column="2" Text="{Binding TextLevel}" Grid.RowSpan="2" Margin="20,0,0,0"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
             <ImageButton Source="adddirection.png" Command="{Binding AddDirectionCommand}" HorizontalOptions="Start" HeightRequest="50" Margin="-65,10,0,0"/>
+            <Button BackgroundColor="ForestGreen" Text="Save Recipe" Command="{Binding SaveRecipeCommand}"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

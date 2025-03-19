@@ -5,6 +5,7 @@
              xmlns:classes="clr-namespace:RecipesAppApp.Classes"
              x:Class="RecipesAppApp.Views.RecipeDetailsView"
              BackgroundColor="Wheat"
+             Shell.BackgroundColor="Wheat"
              Title="{Binding Recipe.RecipesName}">
     <ScrollView>
         <VerticalStackLayout Padding="10">
