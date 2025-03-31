@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecipesAppApp.Views.SignUpView"
+             Background="Wheat"
              Title="SignUpView">
     <ScrollView>
     <Grid>
@@ -31,7 +32,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Frame Margin="10" Grid.Row="1"  Grid.RowSpan="4" Grid.Column="3" Grid.ColumnSpan="3" CornerRadius="150" HeightRequest="300" WidthRequest="300" IsClippedToBounds="True">
+                    <Frame Margin="10" Grid.Row="1"  BackgroundColor="Wheat" Grid.RowSpan="4" Grid.Column="3" Grid.ColumnSpan="3" CornerRadius="150" HeightRequest="300" WidthRequest="300" IsClippedToBounds="True">
                         <Image x:Name="theImageBug" Margin="-20" Source="{Binding PhotoURL}" Grid.Row="4"  Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="3" HeightRequest="300" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill" />
                     </Frame>
                     <!--{Binding PhotoURL}-->

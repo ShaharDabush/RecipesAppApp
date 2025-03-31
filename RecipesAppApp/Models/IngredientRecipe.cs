@@ -16,5 +16,12 @@ namespace RecipesAppApp.Models
 
         public string MeasureUnits { get; set; } = null!;
         public IngredientRecipe() { }
+        public IngredientRecipe(int ingredientId, int recipeId, int amount, string measureUnits)
+        {
+            IngredientId = ingredientId;
+            RecipeId = recipeId;
+            Amount = amount;
+            MeasureUnits = measureUnits;
+        }
     }
 }

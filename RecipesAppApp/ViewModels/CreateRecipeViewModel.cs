@@ -24,11 +24,27 @@ namespace RecipesAppApp.ViewModels
         public event Action<List<string>> OpenPopup;
         private string recipeName;
         private string desciption;
+        private string timeOfDay;
         private bool containMeat;
         private bool containDairy;
+        private bool isKosher;
+        private bool isGloten;
         private string searchedName;
         private bool inSearch;
 
+        public string TimeOfDay
+        {
+            get
+            {
+                return this.timeOfDay;
+            }
+            set
+            {
+                this.timeOfDay = value;
+                OnPropertyChanged();
+            }
+
+        }
         public bool ContainMeat
         {
             get
@@ -50,6 +66,30 @@ namespace RecipesAppApp.ViewModels
             set
             {
                 this.containDairy = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool IsKosher
+        {
+            get
+            {
+                return this.isKosher;
+            }
+            set
+            {
+                this.isKosher = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool IsGloten
+        {
+            get
+            {
+                return this.isGloten;
+            }
+            set
+            {
+                this.isGloten = value;
                 OnPropertyChanged();
             }
         }
@@ -164,7 +204,7 @@ namespace RecipesAppApp.ViewModels
         {
             try
             {
-                var result = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
+                var result = await MediaPicker.Default.PickPhotoAsync(new MediaPickerOptions
                 {
                     Title = "Please select a photo",
                 });
@@ -230,6 +270,7 @@ namespace RecipesAppApp.ViewModels
             ListOfMeasureUnits.Add("°C");
             ListOfMeasureUnits.Add("°F");
             ListOfMeasureUnits.Add("units");
+            ListOfMeasureUnits.Add("L");
             GetIngredients();
         }
 
@@ -303,12 +344,16 @@ namespace RecipesAppApp.ViewModels
                 if (levelCount == ListOfDirections[i].LevelCount)
                 {
                     ListOfDirections.Remove(ListOfDirections[i]);
+                    for (int j = i + 1; j < ListOfDirections.Count; j++)
+                    {
+                        ListOfDirections[j].LevelCount--;
+                    }
                 }
             }
             Directions = new ObservableCollection<Level>(ListOfDirections);
         }
 
-        public void SaveRecipe()
+        public async void SaveRecipe()
         {
             SaveRecipeInfo saveRecipeInfo = new SaveRecipeInfo();
             Recipe newRecipe = new Recipe();
@@ -317,11 +362,24 @@ namespace RecipesAppApp.ViewModels
             newRecipe.RecipeDescription = Desciption;
             newRecipe.MadeBy = ((App)Application.Current).LoggedInUser.Id;
             newRecipe.Rating = 0;
+            newRecipe.IsKosher = IsKosher;
+            newRecipe.IsGloten = IsGloten;
             newRecipe.ContainsDairy = ContainDairy;
             newRecipe.ContainsMeat = ContainMeat;
             newRecipe.HowManyMadeIt = 0;
+            newRecipe.TimeOfDay = "TimeOfDay";
+            List<Level> levels = new List<Level>();
+            levels = ListOfDirections;
+            List<IngredientRecipe> ingredientRecipes = new List<IngredientRecipe>();
+            foreach (IngredientsWithNameAndAmount i in ListOfNewIngredients)
+            {
+                ingredientRecipes.Add(new IngredientRecipe(i.RecipeId, i.IngredientId, i.Amount, i.MeasureUnits));
+            }
+            saveRecipeInfo.LevelsInfo = levels;
+            saveRecipeInfo.IngredientsInfo = ingredientRecipes;
+            saveRecipeInfo.RecipeInfo = newRecipe;
+            saveRecipeInfo = await proxy.SaveRecipe(saveRecipeInfo);
 
-            
         }
 
         #region Single Selection

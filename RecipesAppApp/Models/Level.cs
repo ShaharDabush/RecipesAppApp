@@ -17,5 +17,12 @@
             LevelCount = levelCount;
             RecipeId = recipeId;
         }
+        public Level(Level l)
+        {
+            Id = l.Id;
+            TextLevel = l.TextLevel;
+            LevelCount = l.LevelCount;
+            RecipeId = l.RecipeId;
+        }
     }
 }
