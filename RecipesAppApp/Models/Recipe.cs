@@ -25,5 +25,22 @@
         public bool ContainsDairy { get; set; }
 
         public string TimeOfDay { get; set; } = null!;
+
+        public Recipe(Recipe r)
+        {
+            Id = r.Id;
+            RecipesName = r.RecipesName;
+            RecipeDescription = r.RecipeDescription;
+            RecipeImage = r.RecipeImage;
+            MadeBy = r.MadeBy;
+            Rating = r.Rating;
+            IsKosher = r.IsKosher;
+            IsGloten = r.IsGloten;
+            HowManyMadeIt = r.HowManyMadeIt;
+            ContainsMeat = r.ContainsMeat;
+            ContainsDairy = r.ContainsDairy;
+            TimeOfDay = r.TimeOfDay;
+        }
+        public Recipe() { }
     }
 }

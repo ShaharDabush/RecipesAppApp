@@ -24,5 +24,7 @@
             LevelCount = l.LevelCount;
             RecipeId = l.RecipeId;
         }
+
+        public Level() { }
     }
 }

@@ -204,7 +204,7 @@ namespace RecipesAppApp.ViewModels
         {
             try
             {
-                var result = await MediaPicker.Default.PickPhotoAsync(new MediaPickerOptions
+                var result = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
                 {
                     Title = "Please select a photo",
                 });
@@ -373,12 +373,26 @@ namespace RecipesAppApp.ViewModels
             List<IngredientRecipe> ingredientRecipes = new List<IngredientRecipe>();
             foreach (IngredientsWithNameAndAmount i in ListOfNewIngredients)
             {
-                ingredientRecipes.Add(new IngredientRecipe(i.RecipeId, i.IngredientId, i.Amount, i.MeasureUnits));
+                ingredientRecipes.Add(new IngredientRecipe(i.IngredientId, i.RecipeId, i.Amount, i.MeasureUnits));
             }
             saveRecipeInfo.LevelsInfo = levels;
             saveRecipeInfo.IngredientsInfo = ingredientRecipes;
             saveRecipeInfo.RecipeInfo = newRecipe;
             saveRecipeInfo = await proxy.SaveRecipe(saveRecipeInfo);
+            if (saveRecipeInfo != null)
+            {
+                //UPload profile imae if needed
+                if (!string.IsNullOrEmpty(LocalPhotoPath))
+                {
+
+                    Recipe r = new(saveRecipeInfo.RecipeInfo);
+                    string updatedRecipe = await proxy.UploadRecipeImage(r);
+                    if (updatedRecipe == null)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Registration", "Recipe Data Was Saved BUT recipe image upload failed", "ok");
+                    }
+                }
+            }
 
         }
 

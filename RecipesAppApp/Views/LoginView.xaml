@@ -2,32 +2,37 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecipesAppApp.Views.LoginView"
-             Title="LoginView">
+             BackgroundColor="Wheat"
+             Shell.BackgroundColor="Wheat"
+             Title="Login">
     <VerticalStackLayout Padding="20" Spacing="15">
         <Entry 
+        PlaceholderColor="#a0522d"
         Placeholder="Email"
         Keyboard="Email"
         Text="{Binding Mail}" IsEnabled="{Binding NotInServerCall}"/>
 
         <Entry 
+        PlaceholderColor="#a0522d"
         Placeholder="Password"
         IsPassword="True"
         Text="{Binding Pass}" IsEnabled="{Binding NotInServerCall}"/>
 
         <Button 
         Text="Login"
+         BackgroundColor="#a0522d"
         Command="{Binding LoginCommand}" IsEnabled="{Binding NotInServerCall}"/>
-        <Button Text="Cancel" Command="{Binding CancelCommand}" IsEnabled="{Binding NotInServerCall}"/>
+        <Button  Text="Cancel" BackgroundColor="#a0522d" Command="{Binding CancelCommand}" IsEnabled="{Binding NotInServerCall}"/>
         <Label Text="{Binding ErrorMsg}" TextColor="Red" HorizontalOptions="Center"></Label>
         <Label 
         Text="Don't have an account? Register"
-        TextColor="Blue"
+        TextColor="#a0522d"
         HorizontalOptions="Center"
         VerticalOptions="End" IsEnabled="{Binding NotInServerCall}">
             <Label.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding SignUpCommand}"/>
             </Label.GestureRecognizers>
         </Label>
-        <ActivityIndicator IsRunning="{Binding InServerCall}" Color="Red"></ActivityIndicator>
+        <ActivityIndicator IsRunning="{Binding InServerCall}" Color="#cd853f"></ActivityIndicator>
     </VerticalStackLayout>
 </ContentPage>

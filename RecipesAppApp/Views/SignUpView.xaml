@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecipesAppApp.Views.SignUpView"
              Background="Wheat"
-             Title="SignUpView">
+             Shell.BackgroundColor="Wheat"
+             Title="SignUp">
     <ScrollView>
     <Grid>
 
@@ -49,7 +50,7 @@
                 <Label Text="Nickname" Grid.Column="0"/>
                 <Label Text="{Binding NameError}" IsVisible="{Binding ShowNameError}" Grid.Column="1"  />
             </Grid>
-            <Entry Placeholder="Type First Name" Text="{Binding Name}" />
+            <Entry PlaceholderColor="#a0522d" Placeholder="Type First Name" Text="{Binding Name}" />
 
 
             <!-- Email -->
@@ -61,7 +62,7 @@
                 <Label Text="Email" Grid.Column="0"  />
                 <Label Text="{Binding EmailError}" IsVisible="{Binding ShowEmailError}" Grid.Column="1"  />
             </Grid>
-            <Entry Placeholder="Type Email" Text="{Binding Email}"  />
+                <Entry PlaceholderColor="#a0522d" Placeholder="Type Email" Text="{Binding Email}"  />
 
             <!-- Password -->
             <Grid>
@@ -77,7 +78,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
-                <Entry Grid.Column="0" Placeholder="Type Password" Text="{Binding Password}" IsPassword="{Binding IsPassword}"  />
+                    <Entry Grid.Column="0" PlaceholderColor="#a0522d" Placeholder="Type Password" Text="{Binding Password}" IsPassword="{Binding IsPassword}"  />
                 <ImageButton Grid.Column="1" HeightRequest="25" Source="passwordeye.jpg" Command="{Binding ShowPasswordCommand}" />
             </Grid>
 
@@ -106,7 +107,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Label Text="{Binding StorageNameError}" IsVisible="{Binding ShowStorageNameError}" Grid.Column="0" Grid.Row="0" />
-                <Entry Grid.Row="2"  Grid.Column="0" Placeholder="Type the name of your storage" Text="{Binding StorageName}" IsVisible="{Binding IsNewStorage}" />
+                    <Entry Grid.Row="2"  Grid.Column="0" PlaceholderColor="#a0522d" Placeholder="Type the name of your storage" Text="{Binding StorageName}" IsVisible="{Binding IsNewStorage}" />
             </Grid>
             <!-- Storage Code-->
                 <Grid>
@@ -119,7 +120,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                 <Label Text="{Binding StorageCodeError}" IsVisible="{Binding ShowStorageCodeError}" Grid.Column="0"  Grid.Row="0"/>
-                <Entry Grid.Column="0" Grid.Row="2" Placeholder="Type your storage code" Text="{Binding StorageCode}"  IsVisible="{Binding IsCodeStorage}" />
+                    <Entry Grid.Column="0" Grid.Row="2" PlaceholderColor="#a0522d" Placeholder="Type your storage code" Text="{Binding StorageCode}"  IsVisible="{Binding IsCodeStorage}" />
                 <!--<ImageButton Grid.Column="1" HeightRequest="25" Source="passwordeye.jpg" Command="{Binding ShowPasswordCommand}" />-->
             </Grid>
 
@@ -129,13 +130,13 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Text="Register" Command="{Binding RegisterCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="1" />
-                <Button Text="Cancel" Command="{Binding CancelCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="0" />
+                    <Button Text="Register" Margin="5" BackgroundColor="#a0522d" WidthRequest="150" Command="{Binding RegisterCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="1" />
+                    <Button Text="Cancel" Margin="5" BackgroundColor="#a0522d" WidthRequest="150" Command="{Binding CancelCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="0" />
             </Grid>
         </VerticalStackLayout>
         <!-- Centered ActivityIndicator -->
         <ActivityIndicator IsRunning="{Binding InServerCall}" 
-                   Color="Red" 
+                   Color="#cd853f" 
                    VerticalOptions="Center" 
                    HorizontalOptions="Center" />
     </Grid>
