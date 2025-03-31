@@ -32,11 +32,11 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Frame Margin="10" Grid.Row="1"  BackgroundColor="Wheat" Grid.RowSpan="4" Grid.Column="3" Grid.ColumnSpan="3" CornerRadius="150" HeightRequest="300" WidthRequest="300" IsClippedToBounds="True">
+                    <Frame Margin="10" Grid.Row="1" BorderColor="#cd853f" BackgroundColor="Wheat" Grid.RowSpan="4" Grid.Column="3" Grid.ColumnSpan="3" CornerRadius="150" HeightRequest="300" WidthRequest="300" IsClippedToBounds="True">
                         <Image x:Name="theImageBug" Margin="-20" Source="{Binding PhotoURL}" Grid.Row="4"  Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="3" HeightRequest="300" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill" />
                     </Frame>
                     <!--{Binding PhotoURL}-->
-                    <ImageButton x:Name="theEditImage" Source="edit.png" CornerRadius="6"  Command="{Binding UploadPhotoCommand}"  Grid.Row="3" Grid.Column="5"   HeightRequest="60" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                    <ImageButton x:Name="theEditImage" Source="edit.png" CornerRadius="6"  Command="{Binding UploadPhotoCommand}"  Grid.Row="3" Grid.Column="7"   HeightRequest="60" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
 
                     </ImageButton>
                 </Grid>
