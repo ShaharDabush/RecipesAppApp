@@ -2,11 +2,20 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecipesAppApp.Views.SettingsView"
-             Title="SettingsView">
+             BackgroundColor="Wheat"
+             Shell.BackgroundColor="Wheat"
+             Title="Settings">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Label Text="Kosher" FontSize="25" Margin="40,0,0,0"/>
+        <Grid ColumnDefinitions="*,*" >
+            <Label Text="Only Kosher recipes" Grid.Column="1" Margin="-120,13,0,0" />
+            <CheckBox IsChecked="{Binding IsKohser}" Color="#a0522d" HorizontalOptions="Start" Margin="40,0,0,10" Grid.Column="0" />
+        </Grid>
+        <Label Text="Are You..." FontSize="25" Margin="40,0,0,10"/>
+        <RadioButton Content="None" Margin="40,0,0,0"/>
+        <RadioButton Content="Vegetarian" Margin="40,0,0,0" />
+        <RadioButton  Content="Vegan" Margin="40,0,0,0"/>
+        <Label Text="Allergy" FontSize="25" Margin="40,10,0,0"/>
+        
     </VerticalStackLayout>
 </ContentPage>
