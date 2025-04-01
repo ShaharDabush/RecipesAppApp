@@ -492,6 +492,8 @@ namespace RecipesAppApp.ViewModels
                 newUser.UserPassword= Password;
                 newUser.IsAdmin = false;
                 newUser.UserImage = PhotoURL;
+                newUser.IsKohser = false;
+                newUser.Vegetarianism = "None";
                 RegisterInfo registerInfo = new RegisterInfo {UserInfo = newUser,StorageInfo = newStorage,StorageCodeInfo = StorageCode,IsNewStorage = IsNewStorage};
 
                 //Create a new User object with the data from the registration form

@@ -2,20 +2,35 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecipesAppApp.Views.SettingsView"
+             xmlns:models="clr-namespace:RecipesAppApp.Models"
              BackgroundColor="Wheat"
              Shell.BackgroundColor="Wheat"
              Title="Settings">
-    <VerticalStackLayout>
-        <Label Text="Kosher" FontSize="25" Margin="40,0,0,0"/>
-        <Grid ColumnDefinitions="*,*" >
-            <Label Text="Only Kosher recipes" Grid.Column="1" Margin="-120,13,0,0" />
-            <CheckBox IsChecked="{Binding IsKohser}" Color="#a0522d" HorizontalOptions="Start" Margin="40,0,0,10" Grid.Column="0" />
-        </Grid>
-        <Label Text="Are You..." FontSize="25" Margin="40,0,0,10"/>
-        <RadioButton Content="None" Margin="40,0,0,0"/>
-        <RadioButton Content="Vegetarian" Margin="40,0,0,0" />
-        <RadioButton  Content="Vegan" Margin="40,0,0,0"/>
-        <Label Text="Allergy" FontSize="25" Margin="40,10,0,0"/>
-        
-    </VerticalStackLayout>
+    <ScrollView x:Name="scrlview">
+        <VerticalStackLayout>
+            <Label Text="Kosher" FontSize="25" Margin="40,0,0,0"/>
+            <Grid ColumnDefinitions="*,*" >
+                <Label Text="Only Kosher recipes" Grid.Column="1" Margin="-120,13,0,0" />
+                <CheckBox IsChecked="{Binding IsKohser}" Color="#a0522d" HorizontalOptions="Start" Margin="40,0,0,10" Grid.Column="0" />
+            </Grid>
+            <Label Text="Are You..." FontSize="25" Margin="40,0,0,10"/>
+            <RadioButton Content="None" Margin="40,0,0,0"/>
+            <RadioButton Content="Vegetarian" Margin="40,0,0,0" />
+            <RadioButton  Content="Vegan" Margin="40,0,0,0"/>
+            <Label Text="Allergy" FontSize="25" Margin="40,10,0,30"/>
+            <CollectionView ItemsSource="{Binding Allergies}" MinimumHeightRequest="35" MaximumHeightRequest="420" WidthRequest="180" HorizontalOptions="Start" Margin="30,0,0,0">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Allergy">
+                        <Border Stroke="#deb887" MaximumHeightRequest="30" VerticalOptions="Start">
+                            <Grid ColumnDefinitions="20,150"  Margin="5,5,0,0">
+                                <CheckBox Color="#a0522d" />
+                                <Label Grid.Column="1" TextColor="#a0522d" WidthRequest="50" Text="{Binding AllergyName}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button Text="Save" BackgroundColor="#a0522d" WidthRequest="150" Margin="40,0,0,0" HorizontalOptions="Start" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
