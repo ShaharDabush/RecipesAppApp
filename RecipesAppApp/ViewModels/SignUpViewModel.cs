@@ -255,7 +255,7 @@ namespace RecipesAppApp.ViewModels
         {
             try
             {
-                var result = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
+                var result = await MediaPicker.Default.PickPhotoAsync(new MediaPickerOptions
                 {
                     Title = "Please select a photo",
                 });

@@ -204,7 +204,7 @@ namespace RecipesAppApp.ViewModels
         {
             try
             {
-                var result = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
+                var result = await MediaPicker.Default.PickPhotoAsync(new MediaPickerOptions
                 {
                     Title = "Please select a photo",
                 });
@@ -346,11 +346,12 @@ namespace RecipesAppApp.ViewModels
                     ListOfDirections.Remove(ListOfDirections[i]);
                     for (int j = i + 1; j < ListOfDirections.Count; j++)
                     {
-                        ListOfDirections[j].LevelCount--;
+                        ListOfDirections[j].LevelCount--;                  
                     }
                 }
             }
             Directions = new ObservableCollection<Level>(ListOfDirections);
+            OnPropertyChanged("Directions");
         }
 
         public async void SaveRecipe()

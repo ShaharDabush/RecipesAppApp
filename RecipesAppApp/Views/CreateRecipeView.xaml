@@ -4,9 +4,11 @@
              x:Class="RecipesAppApp.Views.CreateRecipeView"
              xmlns:models="clr-namespace:RecipesAppApp.Models"
              xmlns:classes="clr-namespace:RecipesAppApp.Classes"
+             xmlns:viewmodels="clr-namespace:RecipesAppApp.ViewModels"             
              Title="Create New Recipe"
              BackgroundColor="Wheat"
-             Shell.BackgroundColor="Wheat">
+             Shell.BackgroundColor="Wheat"
+             x:DataType="viewmodels:CreateRecipeViewModel">
     <ScrollView  x:Name="scrlview">
         <VerticalStackLayout x:Name="VSL">
         <Grid
