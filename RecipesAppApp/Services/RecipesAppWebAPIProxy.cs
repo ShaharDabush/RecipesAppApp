@@ -829,5 +829,62 @@ namespace RecipesAppApp.Services
                 return null;
             }
         }
+        public async Task<bool> UpdateUser(User user)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}updateUser";
+            try
+            {
+                string json = JsonSerializer.Serialize(user);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        public async Task<bool> SaveAllergy(List<Allergy> allergies, int userId)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}saveAllergy?userId={userId}";
+            try
+            {
+                string json = JsonSerializer.Serialize(allergies);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
     }
 }

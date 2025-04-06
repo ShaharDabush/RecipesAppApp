@@ -138,6 +138,35 @@ namespace RecipesAppApp.ViewModels
 
         public async void SaveAllergy()
         {
+            LoggedUser.IsKohser = IsKosher;
+            if (None == true)
+            {
+                LoggedUser.Vegetarianism = "None";
+            }
+            else if (Vegetarian == true)
+            {
+                LoggedUser.Vegetarianism = "Vegetarian";
+            }
+            else if (Vegan == true)
+            {
+                LoggedUser.Vegetarianism = "Vegan";
+            }
+            List<Allergy> SaveAllergy = new List<Allergy>();
+            foreach(Allergy a in Allergies)
+            {
+                Allergy al = new Allergy(a.Id,a.AllergyName);
+                SaveAllergy.Add(al);
+            }
+            bool update = await RecipesService.UpdateUser(LoggedUser);
+            bool saveAllergy = await RecipesService.SaveAllergy(SaveAllergy, LoggedUser.Id);
+            if(update != true || saveAllergy != true)
+            {
+                await Application.Current.MainPage.DisplayAlert("Allergies", "Update failed!", "ok");
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Allergies", "Update succeeded!", "ok");
+            }
 
         }
 
@@ -146,7 +175,7 @@ namespace RecipesAppApp.ViewModels
             None = false;
             Vegetarian = false;
             Vegan = false;
-            if(Vegetarianism == "None")
+            if (Vegetarianism == "None")
             {
                 None = true;
             }
@@ -154,11 +183,10 @@ namespace RecipesAppApp.ViewModels
             {
                 Vegetarian = true;
             }
-            else if(Vegetarianism == "Vegan")
+            else if (Vegetarianism == "Vegan")
             {
                 Vegan = true;
             }
-            
             List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
             foreach(Allergy a in Allergies)
             {
