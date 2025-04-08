@@ -23,7 +23,7 @@ namespace RecipesAppApp.ViewModels
         private bool vegetarian;
         private bool vegan;
         private ObservableCollection<Allergy> allergies;
-        private bool isKosher;
+        private bool? isKosher;
         private string vegetarianism;
         private User loggedUser;
         private List<Allergy> usersAllergy = new List<Allergy>();
@@ -75,7 +75,7 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public bool IsKosher
+        public bool? IsKosher
         {
             get { return isKosher; }
             set
@@ -125,7 +125,8 @@ namespace RecipesAppApp.ViewModels
         {
             RecipesService = service;
             loggedUser = ((App)Application.Current).LoggedInUser;
-            Vegetarianism = "None" /*((App)Application.Current).LoggedInUser.Vegetarianism*/;
+            Vegetarianism =  ((App)Application.Current).LoggedInUser.Vegetarianism;
+            IsKosher = ((App)Application.Current).LoggedInUser.IsKohser;
             SaveCommand = new Command(SaveAllergy);
             GetAllergies();
             SetSetting();
@@ -152,10 +153,13 @@ namespace RecipesAppApp.ViewModels
                 LoggedUser.Vegetarianism = "Vegan";
             }
             List<Allergy> SaveAllergy = new List<Allergy>();
-            foreach(Allergy a in Allergies)
+            foreach(UserAllergyWithIsChecked a in HasAllergy)
             {
-                Allergy al = new Allergy(a.Id,a.AllergyName);
+                if(a.IsChecked == true)
+                {
+                Allergy al = new Allergy(a.AllergyId,a.AllergyName);
                 SaveAllergy.Add(al);
+                }
             }
             bool update = await RecipesService.UpdateUser(LoggedUser);
             bool saveAllergy = await RecipesService.SaveAllergy(SaveAllergy, LoggedUser.Id);

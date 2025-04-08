@@ -333,7 +333,9 @@ namespace RecipesAppApp.ViewModels
 
         public void AddDirection()
         {
-            Level newLevel = new Level(ListOfDirections.Count+1,"", ListOfDirections.Count + 1,999);
+            Level newLevel = new Level();
+            newLevel.TextLevel = "";
+            newLevel.LevelCount = ListOfDirections.Count + 1;
             ListOfDirections.Add(newLevel);
             Directions = new ObservableCollection<Level>(ListOfDirections);
         }
@@ -344,7 +346,7 @@ namespace RecipesAppApp.ViewModels
                 if (levelCount == ListOfDirections[i].LevelCount)
                 {
                     ListOfDirections.Remove(ListOfDirections[i]);
-                    for (int j = i + 1; j < ListOfDirections.Count; j++)
+                    for (int j = i ; j < ListOfDirections.Count; j++)
                     {
                         ListOfDirections[j].LevelCount--;                  
                     }

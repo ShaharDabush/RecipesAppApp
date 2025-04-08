@@ -225,6 +225,14 @@ namespace RecipesAppApp.ViewModels
             MakeRecipesList();
         }
 
+        public void CheckAllergy()
+        {
+            if ()
+            {
+
+            }
+        }
+
         private async void GoToSignUp()
         {
             await App.Current.MainPage.Navigation.PushAsync(signupView);
