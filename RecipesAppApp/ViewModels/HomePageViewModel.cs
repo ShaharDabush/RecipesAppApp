@@ -254,6 +254,7 @@ namespace RecipesAppApp.ViewModels
             {
                 this.allergiesList = value;
                 OnPropertyChanged();
+                CheckAllergy();
             }
         }
         public String SearchedName
@@ -419,7 +420,20 @@ namespace RecipesAppApp.ViewModels
         }
         public void CheckAllergy()
         {
-
+             foreach(UserAllergyWithIsChecked a in AllergiesList)
+            {
+                if(a.IsChecked == true)
+                {
+                    if(a.AllergyName == "Gluten")
+                    {
+                        IsGlutenVisible = false;
+                    }
+                    else if(a.AllergyName == "Lactose")
+                    {
+                        IsLactoseVisible = false;
+                    }
+                }
+            }
         }
 
         public async void AddYourAllergies()
