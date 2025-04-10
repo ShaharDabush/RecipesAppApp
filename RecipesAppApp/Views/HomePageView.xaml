@@ -10,7 +10,15 @@
     Title="HomePageView">
     <ScrollView x:Name="scrlview">
         <StackLayout>
-            <Entry PlaceholderColor="#a0522d" Placeholder="Search by player name" Text="{Binding SearchedName}" HeightRequest="55" ClearButtonVisibility="WhileEditing" />
+            <Grid ColumnDefinitions="5*,*,2*">
+                <Entry Grid.Column="0" PlaceholderColor="#a0522d" Placeholder="Search by player name" Text="{Binding SearchedName}" HorizontalOptions="Start" WidthRequest="270" HeightRequest="55" ClearButtonVisibility="WhileEditing" />
+                <ImageButton Grid.Column="1" Source="pickericon.png" Command="{Binding AllergiesCommand}"/>
+                <Label Grid.Column="2" Text="Allergies">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AllergiesCommand}"/>
+                </Label.GestureRecognizers>
+                </Label>
+            </Grid>
             <Label FontAttributes="Bold" Text="Search results" IsVisible="{Binding InSearch}" />
             <CollectionView
                 Margin="10"

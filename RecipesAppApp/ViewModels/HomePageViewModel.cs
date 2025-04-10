@@ -20,6 +20,7 @@ namespace RecipesAppApp.ViewModels
     {
         #region attributes and properties
         private RecipesAppWebAPIProxy RecipesService;
+        private User loggedUser;
         private ObservableCollection<Recipe> recipes;
         private ObservableCollection<Recipe> yourRecipes;
         private ObservableCollection<Recipe> recipesWithoutGloten;
@@ -27,10 +28,92 @@ namespace RecipesAppApp.ViewModels
         private ObservableCollection<TopTenList> mostPopularRecipes;
         private ObservableCollection<Recipe> kosherRecipes;
         private ObservableCollection<Recipe> searchedBarList;
+        private ObservableCollection<UserAllergyWithIsChecked> allergiesList = new ObservableCollection<UserAllergyWithIsChecked> ();
         private SignUpView signupView;
         private LoginView loginView;
-        private bool isLoggedSearch;
+        #region IsVisible properties
+        private bool isGlutenVisible;
+        private bool isLactoseVisible;
+        private bool isKosherVisible;
+        private bool isVegetarianVisible;
+        private bool isVeganVisible;
         private bool inSearch;
+        private bool notInSearch;
+        public bool NotInSearch
+        {
+            get { return notInSearch; }
+            set
+            {
+                notInSearch = value;
+                OnPropertyChanged("NotInSearch");
+            }
+        }
+
+        public bool IsGlutenVisible
+        {
+            get { return isGlutenVisible; }
+            set
+            {
+                isGlutenVisible = value;
+                OnPropertyChanged("IsGlutenVisible");
+            }
+        }
+
+        public bool IsLactoseVisible
+        {
+            get { return isLactoseVisible; }
+            set
+            {
+                isLactoseVisible = value;
+                OnPropertyChanged("IsLactoseVisible");
+            }
+        }
+        public bool IsKosherVisible
+        {
+            get { return isKosherVisible; }
+            set
+            {
+                isKosherVisible = value;
+                OnPropertyChanged("IsKosherVisible");
+            }
+        }
+        public bool IsVegetarianVisible
+        {
+            get { return isVegetarianVisible; }
+            set
+            {
+                isVegetarianVisible = value;
+                OnPropertyChanged("IsVegetarianVisible");
+            }
+        }
+        public bool IsVeganVisible
+        {
+            get { return isVeganVisible; }
+            set
+            {
+                isVeganVisible = value;
+                OnPropertyChanged("IsVeganVisible");
+            }
+        }
+        public bool InSearch
+        {
+            get
+            {
+                return this.inSearch;
+            }
+            set
+            {
+                this.inSearch = value;
+                OnPropertyChanged();
+                if(InSearch == false)
+                {
+                    //SetAllergies();
+                }
+            }
+        }
+        #endregion
+        private bool isLoggedSearch;
+
         private String searchedName;
 
         public ICommand LoginCommand { get; set; }
@@ -50,22 +133,10 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged("IsNotLogged");
             }
         }
-        private bool notInSearch;
-        public bool NotInSearch
-        {
-            get { return notInSearch; }
-            set
-            {
-                notInSearch = value;
-                OnPropertyChanged("NotInSearch");
-            }
-        }
         public bool IsLoggedSearch
         {
             get { return ((App)Application.Current).LoggedInUser != null && !InSearch; }
-        }
-        
-      
+        }  
         public ObservableCollection<Recipe> Recipes
         {
             get
@@ -140,7 +211,6 @@ namespace RecipesAppApp.ViewModels
             }
 
         }
-
         public ObservableCollection<Recipe> SearchedBarList
         {
             get
@@ -153,7 +223,18 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged();
             }
         }
-
+        public ObservableCollection<UserAllergyWithIsChecked> AllergiesList
+        {
+            get
+            {
+                return this.allergiesList;
+            }
+            set
+            {
+                this.allergiesList = value;
+                OnPropertyChanged();
+            }
+        }
         public String SearchedName
         {
             get
@@ -167,18 +248,20 @@ namespace RecipesAppApp.ViewModels
                 Sort();
             }
         }
-        public bool InSearch
+        public User LoggedUser
         {
             get
             {
-                return this.inSearch;
+                return loggedUser;
             }
             set
             {
-                this.inSearch = value;
+                loggedUser = value;
                 OnPropertyChanged();
+                
             }
         }
+
         #endregion
         private async void MakeRecipesList()
         {
@@ -211,6 +294,12 @@ namespace RecipesAppApp.ViewModels
             this.SearchedBarList = new ObservableCollection<Recipe>();
             this.InSearch = false;
             this.NotInSearch = true;
+            List<Allergy> allAllergies = await RecipesService.GetAllAllergeis();
+            foreach (Allergy a in allAllergies)
+            {
+                UserAllergyWithIsChecked u1 = new UserAllergyWithIsChecked(a.Id, a.AllergyName, false);
+                AllergiesList.Add(u1);
+            }
         }
         public HomePageViewModel(RecipesAppWebAPIProxy service, SignUpView signUp, LoginView login)
         {
@@ -219,6 +308,7 @@ namespace RecipesAppApp.ViewModels
             this.loginView = login;
             this.InSearch = false;
             this.NotInSearch = true;
+            //LoggedUser = ((App)Application.Current).LoggedInUser;
             recipes = new ObservableCollection<Recipe>();
             this.LoginCommand = new Command(GoToLogin);
             this.SignUpCommand = new Command(GoToSignUp);
@@ -227,10 +317,7 @@ namespace RecipesAppApp.ViewModels
 
         public void CheckAllergy()
         {
-            if ()
-            {
 
-            }
         }
 
         private async void GoToSignUp()
@@ -278,6 +365,28 @@ namespace RecipesAppApp.ViewModels
             NotInSearch = true;
             //IsLogged = true;
         }
+
+        //public async void SetAllergies()
+        //{
+        //    List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
+        //    foreach (Allergy a in Allergies)
+        //    {
+        //        bool b = false;
+        //        foreach (Allergy au in UsersAllergy)
+        //        {
+        //            if (a.Id == au.Id)
+        //            {
+        //                UserAllergyWithIsChecked u1 = new UserAllergyWithIsChecked(a.Id, a.AllergyName, true);
+        //                HasAllergy.Add(u1);
+        //                b = true;
+        //            }
+        //        }
+        //        UserAllergyWithIsChecked u2 = new UserAllergyWithIsChecked(a.Id, a.AllergyName, false);
+        //        if (!b)
+        //            HasAllergy.Add(u2);
+        //    }
+        //}
+
         #region Single Selection
         
         private Recipe selectedRecipe;
@@ -293,7 +402,7 @@ namespace RecipesAppApp.ViewModels
                 {
                     this.selectedRecipe = value;
                     
-                    if (selectedRecipe != null)
+                    if (SelectedRecipe != null)
                         OnSingleSelectRecipe();
                     OnPropertyChanged();
                 }
