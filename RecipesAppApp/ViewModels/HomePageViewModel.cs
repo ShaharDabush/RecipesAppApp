@@ -11,6 +11,7 @@ using RecipesAppApp.Models;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using RecipesAppApp.Classes;
+using Windows.ApplicationModel.VoiceCommands;
 
 
 namespace RecipesAppApp.ViewModels
@@ -39,6 +40,16 @@ namespace RecipesAppApp.ViewModels
         private bool isVeganVisible;
         private bool inSearch;
         private bool notInSearch;
+        private bool isAllergiesVisble;
+        public bool IsAllergiesVisble
+        {
+            get { return isAllergiesVisble; }
+            set
+            {
+                isAllergiesVisble = value;
+                OnPropertyChanged("IsAllergiesVisble");
+            }
+        }
         public bool NotInSearch
         {
             get { return notInSearch; }
@@ -117,6 +128,7 @@ namespace RecipesAppApp.ViewModels
         private String searchedName;
 
         public ICommand LoginCommand { get; set; }
+        public ICommand ShowAllergiesCommand => new Command(ShowAllergies);
         public Command SignUpCommand { protected set; get; }
         public ICommand SortCommand => new Command(Sort);
 
@@ -308,6 +320,7 @@ namespace RecipesAppApp.ViewModels
             this.loginView = login;
             this.InSearch = false;
             this.NotInSearch = true;
+            this.IsAllergiesVisble = false;
             //LoggedUser = ((App)Application.Current).LoggedInUser;
             recipes = new ObservableCollection<Recipe>();
             this.LoginCommand = new Command(GoToLogin);
@@ -366,6 +379,18 @@ namespace RecipesAppApp.ViewModels
             //IsLogged = true;
         }
 
+        public void ShowAllergies()
+        {
+            if (IsAllergiesVisble == false)
+            {
+                IsAllergiesVisble = true;
+            }
+            else 
+            {
+                IsAllergiesVisble = false;
+            }
+        }
+
         //public async void SetAllergies()
         //{
         //    List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
@@ -388,7 +413,7 @@ namespace RecipesAppApp.ViewModels
         //}
 
         #region Single Selection
-        
+
         private Recipe selectedRecipe;
         public Recipe SelectedRecipe
         {

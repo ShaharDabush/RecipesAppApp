@@ -12,12 +12,28 @@
         <StackLayout>
             <Grid ColumnDefinitions="5*,*,2*">
                 <Entry Grid.Column="0" PlaceholderColor="#a0522d" Placeholder="Search by player name" Text="{Binding SearchedName}" HorizontalOptions="Start" WidthRequest="270" HeightRequest="55" ClearButtonVisibility="WhileEditing" />
-                <ImageButton Grid.Column="1" Source="pickericon.png" Command="{Binding AllergiesCommand}"/>
+                <ImageButton Grid.Column="1" Source="pickericon.png" Command="{Binding ShowAllergiesCommand}"/>
                 <Label Grid.Column="2" Text="Allergies">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding AllergiesCommand}"/>
+                        <TapGestureRecognizer Command="{Binding ShowAllergiesCommand}"/>
                 </Label.GestureRecognizers>
                 </Label>
+                <Grid Grid.Column="1" Grid.ColumnSpan="2" ColumnDefinitions="20,150"  Margin="5,5,0,0" IsVisible="{Binding IsAllergiesVisble}">
+                    <CheckBox Color="#a0522d" IsChecked="{Binding IsYourAllergiesChecked}" />
+                    <Label Grid.Column="1" TextColor="#a0522d" WidthRequest="70" Text="Your allergies"/>
+                </Grid>
+                <CollectionView ItemsSource="{Binding AllergiesList}" IsVisible="{Binding IsAllergiesVisble}" BackgroundColor="Wheat" MinimumHeightRequest="35" MaximumHeightRequest="420" WidthRequest="180" HorizontalOptions="Start" Margin="30,0,0,0">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="classes:UserAllergyWithIsChecked">
+                            <Border Stroke="#deb887" MaximumHeightRequest="30" VerticalOptions="Start">
+                                <Grid ColumnDefinitions="20,150"  Margin="5,5,0,0">
+                                    <CheckBox Color="#a0522d" IsChecked="{Binding IsChecked}" />
+                                    <Label Grid.Column="1" TextColor="#a0522d" WidthRequest="70" Text="{Binding AllergyName}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
             </Grid>
             <Label FontAttributes="Bold" Text="Search results" IsVisible="{Binding InSearch}" />
             <CollectionView
