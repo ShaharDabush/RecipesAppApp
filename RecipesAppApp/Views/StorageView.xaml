@@ -1,12 +1,47 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:RecipesAppApp.Models"
+             xmlns:classes="clr-namespace:RecipesAppApp.Classes"
              x:Class="RecipesAppApp.Views.StorageView"
              Title="StorageView">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Entry Grid.Row="0" Placeholder="Search by Ingredient name" Text="{Binding SearchedIngredient}" HeightRequest="55"  ClearButtonVisibility="WhileEditing"/>
+        <CollectionView
+                Margin="10"
+                ItemsLayout="VerticalGrid, 3"
+                x:Name="searchCollectionView"
+                ItemsSource="{Binding IngredientsListForShow}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Ingredient">
+                    <VerticalStackLayout
+                            Padding="20"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center">
+                        <Image
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Aspect="Fill"
+                                HeightRequest="150"
+                                Source="{Binding IngredientImage}"
+                                WidthRequest="100" />
+                        <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Text="{Binding IngredientName}" 
+                                WidthRequest="100"/>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup>
+                                <VisualState Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="Wheat" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </VerticalStackLayout>
 </ContentPage>
