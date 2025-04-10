@@ -454,6 +454,40 @@ namespace RecipesAppApp.Services
                 return null;
             }
         }
+        public async Task<List<Ingredient>> GetIngredientsByUser(int userId)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}getIngredientsByUser";
+            try
+            {
+                string json = JsonSerializer.Serialize(userId);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+
+                    };
+                    string Responsecontent = await response.Content.ReadAsStringAsync();
+                    List<Ingredient> i = JsonSerializer.Deserialize<List<Ingredient>>(Responsecontent, options);
+                    if (i == null)
+                        return null;
+                    else return i;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
         public async Task<List<IngredientRecipe>> GetIngredientRecipesByRecipe(int recipeId)
         {
             //Set URI to the specific function API

@@ -75,18 +75,18 @@ namespace RecipesAppApp.ViewModels
         private void UpdatePhotoURL(string virtualPath)
         {
             Random r = new Random();
-            PhotoURL = proxy.GetImagesBaseAddress() + virtualPath + "?v=" + r.Next();
+            PhotoURL = RecipesService.GetImagesBaseAddress() + virtualPath + "?v=" + r.Next();
             LocalPhotoPath = "";
         }
 
         #endregion
-        private RecipesAppWebAPIProxy proxy;
+        private RecipesAppWebAPIProxy RecipesService;
         #endregion
-        public CreateIngredientViewModel(RecipesAppWebAPIProxy proxy)
+        public CreateIngredientViewModel(RecipesAppWebAPIProxy service)
         {
-            this.proxy = proxy;
+            this.RecipesService = service;
             UploadPhotoCommand = new Command(OnUploadPhoto);
-            PhotoURL = proxy.GetDefaultProfilePhotoUrl();
+            PhotoURL = RecipesService.GetDefaultProfilePhotoUrl();
             LocalPhotoPath = "";
             ImageResult = "";
         }

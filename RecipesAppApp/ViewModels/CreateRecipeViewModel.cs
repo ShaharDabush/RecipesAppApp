@@ -225,7 +225,7 @@ namespace RecipesAppApp.ViewModels
         private void UpdatePhotoURL(string virtualPath)
         {
             Random r = new Random();
-            PhotoURL = proxy.GetImagesBaseAddress() + virtualPath + "?v=" + r.Next();
+            PhotoURL = RecipesService.GetImagesBaseAddress() + virtualPath + "?v=" + r.Next();
             LocalPhotoPath = "";
         }
 
@@ -234,19 +234,19 @@ namespace RecipesAppApp.ViewModels
         public ICommand DiscardLevelCommand { get; set; }
         public ICommand SaveRecipeCommand { get; set; }
         #endregion
-        private RecipesAppWebAPIProxy proxy;
+        private RecipesAppWebAPIProxy RecipesService;
 
         #endregion
-        public CreateRecipeViewModel(RecipesAppWebAPIProxy proxy)
+        public CreateRecipeViewModel(RecipesAppWebAPIProxy service)
         {
-            this.proxy = proxy;
+            this.RecipesService = service;
             UploadPhotoCommand = new Command(OnUploadPhoto);
             SaveIngredientCommand = new Command(SaveIngredient);
             AddDirectionCommand = new Command(AddDirection);
             SaveRecipeCommand = new Command(SaveRecipe);
             DiscardLevelCommand = new Command<int>((int levelCount) => RemoveLevel(levelCount));
             DiscardIngredientCommand = new Command<int>((int IngredientId) => DiscardIngredient(IngredientId));
-            PhotoURL = proxy.GetDefaultProfilePhotoUrl();
+            PhotoURL = RecipesService.GetDefaultProfilePhotoUrl();
             LocalPhotoPath = "";
             ImageResult = "";
             UploadPhotoCommand = new Command(OnUploadPhoto);
@@ -276,7 +276,7 @@ namespace RecipesAppApp.ViewModels
 
         public async void GetIngredients()
         {
-            List<Ingredient> i = await proxy.GetAllIngredients();
+            List<Ingredient> i = await RecipesService.GetAllIngredients();
             AllIngredients = new ObservableCollection<Ingredient>(i);
             SearchedIngredient = new ObservableCollection<Ingredient>(i);
         }
@@ -381,7 +381,7 @@ namespace RecipesAppApp.ViewModels
             saveRecipeInfo.LevelsInfo = levels;
             saveRecipeInfo.IngredientsInfo = ingredientRecipes;
             saveRecipeInfo.RecipeInfo = newRecipe;
-            saveRecipeInfo = await proxy.SaveRecipe(saveRecipeInfo);
+            saveRecipeInfo = await RecipesService.SaveRecipe(saveRecipeInfo);
             if (saveRecipeInfo != null)
             {
                 //UPload profile imae if needed
@@ -389,7 +389,7 @@ namespace RecipesAppApp.ViewModels
                 {
 
                     Recipe r = new(saveRecipeInfo.RecipeInfo);
-                    string updatedRecipe = await proxy.UploadRecipeImage(r);
+                    string updatedRecipe = await RecipesService.UploadRecipeImage(r);
                     if (updatedRecipe == null)
                     {
                         await Application.Current.MainPage.DisplayAlert("Registration", "Recipe Data Was Saved BUT recipe image upload failed", "ok");

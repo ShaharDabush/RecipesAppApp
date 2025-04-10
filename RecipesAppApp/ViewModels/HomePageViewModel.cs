@@ -422,6 +422,7 @@ namespace RecipesAppApp.ViewModels
         {
              foreach(UserAllergyWithIsChecked a in AllergiesList)
             {
+
                 if(a.IsChecked == true)
                 {
                     if(a.AllergyName == "Gluten")

@@ -15,15 +15,15 @@ namespace RecipesAppApp.ViewModels
 
     public class SignUpViewModel : ViewModelBase
     {
-        private RecipesAppWebAPIProxy proxy;
-        public SignUpViewModel(RecipesAppWebAPIProxy proxy)
+        private RecipesAppWebAPIProxy RecipesService;
+        public SignUpViewModel(RecipesAppWebAPIProxy service)
         {
-            this.proxy = proxy;
+            this.RecipesService = service;
             RegisterCommand = new Command(OnRegister);
             CancelCommand = new Command(OnCancel);
             ShowPasswordCommand = new Command(OnShowPassword);
             UploadPhotoCommand = new Command(OnUploadPhoto);
-            PhotoURL = proxy.GetDefaultProfilePhotoUrl();
+            PhotoURL = RecipesService.GetDefaultProfilePhotoUrl();
             LocalPhotoPath = "";
             ImageResult = "";
             IsPassword = true;
@@ -276,7 +276,7 @@ namespace RecipesAppApp.ViewModels
         private void UpdatePhotoURL(string virtualPath)
         {
             Random r = new Random();
-            PhotoURL = proxy.GetImagesBaseAddress() + virtualPath + "?v=" + r.Next();
+            PhotoURL = RecipesService.GetImagesBaseAddress() + virtualPath + "?v=" + r.Next();
             LocalPhotoPath = "";
         }
 
@@ -501,8 +501,9 @@ namespace RecipesAppApp.ViewModels
 
                 //Call the Register method on the proxy to register the new user
                 InServerCall = true;
-                registerInfo = await proxy.Register(registerInfo);
+                registerInfo = await RecipesService.Register(registerInfo);
                 InServerCall = false;
+
 
                 //If the registration was successful, navigate to the login page
                 if (registerInfo.UserInfo != null)
@@ -512,8 +513,8 @@ namespace RecipesAppApp.ViewModels
                     {
                         
                         LoginInfo li = new(newUser.Email, newUser.UserPassword);
-                        await proxy.LoginAsync(li);
-                        string updatedUser = await proxy.UploadUserImage(registerInfo.UserInfo);
+                        await RecipesService.LoginAsync(li);
+                        string updatedUser = await RecipesService.UploadUserImage(registerInfo.UserInfo);
                         if (updatedUser == null)
                         {
                             InServerCall = false;
