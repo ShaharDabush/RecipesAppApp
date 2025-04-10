@@ -41,6 +41,16 @@ namespace RecipesAppApp.ViewModels
         private bool inSearch;
         private bool notInSearch;
         private bool isAllergiesVisble;
+        private bool isYourAllergiesVisble;
+        public bool IsYourAllergiesVisble
+        {
+            get { return isYourAllergiesVisble; }
+            set
+            {
+                isYourAllergiesVisble = value;
+                OnPropertyChanged("IsYourAllergiesVisble");
+            }
+        }
         public bool IsAllergiesVisble
         {
             get { return isAllergiesVisble; }
@@ -124,14 +134,13 @@ namespace RecipesAppApp.ViewModels
         }
         #endregion
         private bool isLoggedSearch;
-
+        private bool isYourAllergiesChecked;
         private String searchedName;
 
         public ICommand LoginCommand { get; set; }
         public ICommand ShowAllergiesCommand => new Command(ShowAllergies);
         public Command SignUpCommand { protected set; get; }
         public ICommand SortCommand => new Command(Sort);
-
         //on pressing the button to clear the sort
         public ICommand ClearSortCommand => new Command(ClearSort, () => !string.IsNullOrEmpty(SearchedName));
 
@@ -273,6 +282,16 @@ namespace RecipesAppApp.ViewModels
                 
             }
         }
+        public bool IsYourAllergiesChecked
+        {
+            get { return isYourAllergiesChecked; }
+            set
+            {
+                isYourAllergiesChecked = value;
+                OnPropertyChanged("IsYourAllergiesChecked");
+                AddYourAllergies();
+            }
+        }
 
         #endregion
         private async void MakeRecipesList()
@@ -321,6 +340,7 @@ namespace RecipesAppApp.ViewModels
             this.InSearch = false;
             this.NotInSearch = true;
             this.IsAllergiesVisble = false;
+            this.IsYourAllergiesChecked = false;
             //LoggedUser = ((App)Application.Current).LoggedInUser;
             recipes = new ObservableCollection<Recipe>();
             this.LoginCommand = new Command(GoToLogin);
@@ -328,10 +348,6 @@ namespace RecipesAppApp.ViewModels
             MakeRecipesList();
         }
 
-        public void CheckAllergy()
-        {
-
-        }
 
         private async void GoToSignUp()
         {
@@ -379,6 +395,8 @@ namespace RecipesAppApp.ViewModels
             //IsLogged = true;
         }
 
+
+        #region Allergy
         public void ShowAllergies()
         {
             if (IsAllergiesVisble == false)
@@ -388,6 +406,34 @@ namespace RecipesAppApp.ViewModels
             else 
             {
                 IsAllergiesVisble = false;
+            }
+            if(IsAllergiesVisble == false && ((App)Application.Current).LoggedInUser != null)
+            {
+                loggedUser = ((App)Application.Current).LoggedInUser;
+                IsYourAllergiesVisble = true ;
+            }
+            else if(IsYourAllergiesVisble == true)
+            {
+                IsAllergiesVisble = false;
+            }
+        }
+        public void CheckAllergy()
+        {
+
+        }
+
+        public async void AddYourAllergies()
+        {
+            List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
+            foreach (UserAllergyWithIsChecked a in AllergiesList)
+            {
+                foreach (Allergy au in UsersAllergy)
+                {
+                    if (a.AllergyId == au.Id)
+                    {
+                        a.IsChecked = true;
+                    }
+                }
             }
         }
 
@@ -411,6 +457,7 @@ namespace RecipesAppApp.ViewModels
         //            HasAllergy.Add(u2);
         //    }
         //}
+        #endregion
 
         #region Single Selection
 
