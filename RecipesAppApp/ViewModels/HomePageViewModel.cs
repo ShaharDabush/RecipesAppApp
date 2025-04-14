@@ -11,7 +11,7 @@ using RecipesAppApp.Models;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using RecipesAppApp.Classes;
-using Windows.ApplicationModel.VoiceCommands;
+//using Windows.ApplicationModel.VoiceCommands;
 
 
 namespace RecipesAppApp.ViewModels
