@@ -19,6 +19,7 @@ namespace RecipesAppApp.ViewModels
         private User loggedUser;
         private ObservableCollection<Ingredient> ingredientsList;
         private ObservableCollection<Ingredient> ingredientsListForShow;
+        private Storage storage;
         private string searchedIngredient;
 
         public string SearchedIngredient
@@ -69,7 +70,18 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged();
             }
         }
-
+        public Storage Storage
+        {
+            get
+            {
+                return storage;
+            }
+            set
+            {
+                this.storage = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         public StorageViewModel(RecipesAppWebAPIProxy service)
@@ -81,8 +93,8 @@ namespace RecipesAppApp.ViewModels
 
         public async void SetUserIngredients()
         {
-
-            List<Ingredient> ingredients = await this.RecipesService.GetIngredientsByUser(LoggedUser.Id);
+            Storage = await this.RecipesService.GetStoragesbyUser(LoggedUser.Id);
+            List<Ingredient> ingredients = await this.RecipesService.GetIngredientsByStorage(storage.Id);
             this.IngredientsList = new ObservableCollection<Ingredient>(ingredients);
             this.IngredientsListForShow = new ObservableCollection<Ingredient>(ingredients);
 

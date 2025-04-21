@@ -863,6 +863,39 @@ namespace RecipesAppApp.Services
                 return null;
             }
         }
+        public async Task<List<Ingredient>?> GetIngredientsByStorage(int storageId)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}getAllergysbyUser";
+            try
+            {
+                //Call the server API
+                string json = JsonSerializer.Serialize(storageId);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                //Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    List<Ingredient>? result = JsonSerializer.Deserialize<List<Ingredient>?>(resContent, options);
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         public async Task<bool> UpdateUser(User user)
         {
             //Set URI to the specific function API

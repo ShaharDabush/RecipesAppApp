@@ -10,30 +10,34 @@
     Title="HomePageView">
     <ScrollView x:Name="scrlview">
         <StackLayout>
-            <Grid ColumnDefinitions="5*,*,2*">
-                <Entry Grid.Column="0" PlaceholderColor="#a0522d" Placeholder="Search by player name" Text="{Binding SearchedName}" HorizontalOptions="Start" WidthRequest="270" HeightRequest="55" ClearButtonVisibility="WhileEditing" />
-                <ImageButton Grid.Column="1" Source="pickericon.png" Command="{Binding ShowAllergiesCommand}"/>
-                <Label Grid.Column="2" Text="Allergies">
+            <Grid ColumnDefinitions="4*,*,2*"  MaximumHeightRequest="500" MinimumHeightRequest="30">
+                <Entry Grid.Column="0" PlaceholderColor="#a0522d" Placeholder="Search by player name" Margin="10,0,0,12" Text="{Binding SearchedName}" HorizontalOptions="Start" WidthRequest="220" HeightRequest="40" ClearButtonVisibility="WhileEditing" VerticalOptions="Start"/>
+                <ImageButton Grid.Column="1" RotationX="{Binding FlipPicker}" Source="pickericon.png" Command="{Binding ShowAllergiesCommand}" WidthRequest="30" HeightRequest="30" Margin="50,8,0,50" VerticalOptions="Start"/>
+                <Label Grid.Column="2" Text="Allergies" WidthRequest="55" Margin="0,13,0,0">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ShowAllergiesCommand}"/>
                 </Label.GestureRecognizers>
                 </Label>
-                <Grid Grid.Column="1" Grid.ColumnSpan="2" ColumnDefinitions="20,150"  Margin="5,5,0,0" IsVisible="{Binding IsAllergiesVisble}">
-                    <CheckBox Color="#a0522d" IsChecked="{Binding IsYourAllergiesChecked}" />
-                    <Label Grid.Column="1" TextColor="#a0522d" WidthRequest="70" Text="Your allergies"/>
-                </Grid>
-                <CollectionView ItemsSource="{Binding AllergiesList}" IsVisible="{Binding IsAllergiesVisble}" BackgroundColor="Wheat" MinimumHeightRequest="35" MaximumHeightRequest="420" WidthRequest="180" HorizontalOptions="Start" Margin="30,0,0,0">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="classes:UserAllergyWithIsChecked">
-                            <Border Stroke="#deb887" MaximumHeightRequest="30" VerticalOptions="Start">
-                                <Grid ColumnDefinitions="20,150"  Margin="5,5,0,0">
-                                    <CheckBox Color="#a0522d" IsChecked="{Binding IsChecked}" />
-                                    <Label Grid.Column="1" TextColor="#a0522d" WidthRequest="70" Text="{Binding AllergyName}"/>
-                                </Grid>
+                <CollectionView Margin="40,40,0,0" ItemsSource="{Binding AllergiesList}" BackgroundColor="Wheat" MinimumHeightRequest="35" MaximumHeightRequest="420" WidthRequest="115" HorizontalOptions="Start" Grid.Column="1" Grid.ColumnSpan="2" IsVisible="{Binding IsAllergiesVisble}">
+                        <CollectionView.Header>
+                            <Border Stroke="#deb887" HeightRequest="45" StrokeShape="RoundRectangle 2,2,2,2" Grid.Column="1" Grid.ColumnSpan="2" IsVisible="{Binding IsYourAllergiesVisble}" VerticalOptions="Start" WidthRequest="115" HorizontalOptions="Start">
+                                <HorizontalStackLayout Margin="0,2,0,2">
+                                <CheckBox Margin="-9,0,0,0" Color="#a0522d" IsChecked="{Binding IsYourAllergiesChecked}" VerticalOptions="Center"/>
+                                    <Label Margin="-8,0,0,0" Grid.Column="1" TextColor="#a0522d" Text="Your allergies" VerticalOptions="Center" WidthRequest="70"/>
+                                </HorizontalStackLayout>
                             </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                        </CollectionView.Header>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="classes:UserAllergyWithIsChecked">
+                                <Border Stroke="#deb887" MaximumHeightRequest="30" VerticalOptions="Start" StrokeShape="RoundRectangle 2,2,2,2">
+                                    <HorizontalStackLayout Margin="0,2,0,2">
+                                        <CheckBox Margin="-9,0,0,0" Color="#a0522d" IsChecked="{Binding IsChecked}" VerticalOptions="Center"/>
+                                        <Label Margin="-8,0,0,0" Grid.Column="1" TextColor="#a0522d" Text="{Binding AllergyName}" VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
             </Grid>
             <Label FontAttributes="Bold" Text="Search results" IsVisible="{Binding InSearch}" />
             <CollectionView

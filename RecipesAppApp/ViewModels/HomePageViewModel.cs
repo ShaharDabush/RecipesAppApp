@@ -42,6 +42,17 @@ namespace RecipesAppApp.ViewModels
         private bool notInSearch;
         private bool isAllergiesVisble;
         private bool isYourAllergiesVisble;
+        private int flipPicker;
+        public int FlipPicker
+        {
+            get { return flipPicker; }
+            set
+            {
+                flipPicker = value;
+                OnPropertyChanged("FlipPicker");
+            }
+        }
+
         public bool IsYourAllergiesVisble
         {
             get { return isYourAllergiesVisble; }
@@ -290,7 +301,10 @@ namespace RecipesAppApp.ViewModels
             {
                 isYourAllergiesChecked = value;
                 OnPropertyChanged("IsYourAllergiesChecked");
-                AddYourAllergies();
+                if(IsYourAllergiesChecked == true)
+                {
+                  AddYourAllergies();
+                }
             }
         }
 
@@ -341,7 +355,9 @@ namespace RecipesAppApp.ViewModels
             this.InSearch = false;
             this.NotInSearch = true;
             this.IsAllergiesVisble = false;
+            this.isYourAllergiesVisble = false;
             this.IsYourAllergiesChecked = false;
+            this.FlipPicker = 0;
             //LoggedUser = ((App)Application.Current).LoggedInUser;
             recipes = new ObservableCollection<Recipe>();
             this.LoginCommand = new Command(GoToLogin);
@@ -413,10 +429,12 @@ namespace RecipesAppApp.ViewModels
                 loggedUser = ((App)Application.Current).LoggedInUser;
                 IsYourAllergiesVisble = true ;
             }
-            else if(IsYourAllergiesVisble == true)
+            else if( IsAllergiesVisble == false)
             {
-                IsAllergiesVisble = false;
+                IsYourAllergiesVisble = false;
             }
+            FlipPicker += 180;
+            FlipPicker = FlipPicker % 360;
         }
         public void CheckAllergy()
         {

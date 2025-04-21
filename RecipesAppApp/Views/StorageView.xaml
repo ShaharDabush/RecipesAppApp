@@ -4,6 +4,8 @@
              xmlns:models="clr-namespace:RecipesAppApp.Models"
              xmlns:classes="clr-namespace:RecipesAppApp.Classes"
              x:Class="RecipesAppApp.Views.StorageView"
+             BackgroundColor="Wheat"
+             Shell.BackgroundColor="Wheat"
              Title="StorageView">
     <VerticalStackLayout>
         <Entry Grid.Row="0" Placeholder="Search by Ingredient name" Text="{Binding SearchedIngredient}" HeightRequest="55"  ClearButtonVisibility="WhileEditing"/>
@@ -19,17 +21,14 @@
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="Center">
                         <Image
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Aspect="Fill"
-                                HeightRequest="150"
-                                Source="{Binding IngredientImage}"
-                                WidthRequest="100" />
+                            Aspect="Fill"
+                            HeightRequest="150"
+                            Source="https://img.freepik.com/photos-premium/grenouille-portant-hoodie-jaune-lunettes-lunettes-dessus_1153744-160740.jpg"
+                            WidthRequest="100" />
                         <Label
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Text="{Binding IngredientName}" 
-                                WidthRequest="100"/>
+                            Grid.Row="1"
+                            Text="{Binding IngredientName}" 
+                            WidthRequest="100"/>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup>
                                 <VisualState Name="Selected">
