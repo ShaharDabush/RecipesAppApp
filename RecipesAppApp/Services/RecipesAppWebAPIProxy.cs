@@ -866,7 +866,7 @@ namespace RecipesAppApp.Services
         public async Task<List<Ingredient>?> GetIngredientsByStorage(int storageId)
         {
             //Set URI to the specific function API
-            string url = $"{this.baseUrl}getAllergysbyUser";
+            string url = $"{this.baseUrl}getIngredientsByStorage";
             try
             {
                 //Call the server API

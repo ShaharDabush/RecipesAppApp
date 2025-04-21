@@ -23,7 +23,7 @@
                         <Image
                             Aspect="Fill"
                             HeightRequest="150"
-                            Source="https://img.freepik.com/photos-premium/grenouille-portant-hoodie-jaune-lunettes-lunettes-dessus_1153744-160740.jpg"
+                            Source="{Binding IngredientImage}"
                             WidthRequest="100" />
                         <Label
                             Grid.Row="1"

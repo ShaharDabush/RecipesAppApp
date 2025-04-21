@@ -32,6 +32,7 @@ namespace RecipesAppApp.ViewModels
             {
                 this.searchedIngredient = value;
                 OnPropertyChanged();
+                Sort();
             }
         }
         public ObservableCollection<Ingredient> IngredientsList
