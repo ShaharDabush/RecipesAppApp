@@ -4,6 +4,7 @@ using RecipesAppApp.ViewModels;
 using RecipesAppApp.Views;
 using RecipesAppApp.Services;
 using CommunityToolkit.Maui;
+using Syncfusion.Maui.Core.Hosting;
 
 namespace RecipesAppApp
 {
@@ -22,11 +23,12 @@ namespace RecipesAppApp
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-            builder
-                .UseMauiApp<App>()
-                .RegisterDataServices()
-                .RegisterPages()
-                .RegisterViewModels();
+                builder.ConfigureSyncfusionCore();
+                builder
+                    .UseMauiApp<App>()
+                    .RegisterDataServices()
+                    .RegisterPages()
+                    .RegisterViewModels();
 
 #if DEBUG
     		builder.Logging.AddDebug();
@@ -65,7 +67,6 @@ namespace RecipesAppApp
         {
             builder.Services.AddTransient<LoginViewModel>();
             builder.Services.AddTransient<SignUpViewModel>();
-            builder.Services.AddTransient<CreateIngredientViewModel>();
             builder.Services.AddTransient<CreateRecipeViewModel>();
             builder.Services.AddTransient<EditProfileViewModel>();
             builder.Services.AddTransient<HomePageViewModel>();

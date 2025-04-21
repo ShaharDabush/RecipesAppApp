@@ -1,12 +1,22 @@
+using CommunityToolkit.Maui.Views;
 using RecipesAppApp.ViewModels;
 
 namespace RecipesAppApp.Views;
 
 public partial class StorageView : ContentPage
 {
-	public StorageView(StorageViewModel vm)
+    private readonly IServiceProvider serviceProvider;
+    public StorageView(StorageViewModel vm, IServiceProvider sp)
 	{
-        BindingContext = vm;
+        this.serviceProvider = sp;
+        this.BindingContext = vm;
+        vm.OpenPopup += DisplayPopup;
         InitializeComponent();
 	}
+
+    public void DisplayPopup(List<string> l)
+    {
+        var popup = new AddPopup((CreateRecipeViewModel)this.BindingContext);
+        this.ShowPopup(popup);
+    }
 }

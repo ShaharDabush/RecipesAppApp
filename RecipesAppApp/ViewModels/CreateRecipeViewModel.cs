@@ -29,6 +29,10 @@ namespace RecipesAppApp.ViewModels
         private bool containDairy;
         private bool isKosher;
         private bool isGloten;
+        private bool morning;
+        private bool noon;
+        private bool evening;
+        private bool anyTime;
         private string searchedName;
         private bool inSearch;
 
@@ -66,6 +70,54 @@ namespace RecipesAppApp.ViewModels
             set
             {
                 this.containDairy = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool Morning
+        {
+            get
+            {
+                return this.morning;
+            }
+            set
+            {
+                this.morning = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool Noon
+        {
+            get
+            {
+                return this.noon;
+            }
+            set
+            {
+                this.noon = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool Evening
+        {
+            get
+            {
+                return this.evening;
+            }
+            set
+            {
+                this.evening = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool AnyTime
+        {
+            get
+            {
+                return this.anyTime;
+            }
+            set
+            {
+                this.anyTime = value;
                 OnPropertyChanged();
             }
         }
@@ -248,6 +300,7 @@ namespace RecipesAppApp.ViewModels
             DiscardIngredientCommand = new Command<int>((int IngredientId) => DiscardIngredient(IngredientId));
             PhotoURL = RecipesService.GetDefaultProfilePhotoUrl();
             LocalPhotoPath = "";
+            AnyTime = true;
             ImageResult = "";
             UploadPhotoCommand = new Command(OnUploadPhoto);
             RecipeName = "New Recipe";
@@ -370,7 +423,22 @@ namespace RecipesAppApp.ViewModels
             newRecipe.ContainsDairy = ContainDairy;
             newRecipe.ContainsMeat = ContainMeat;
             newRecipe.HowManyMadeIt = 0;
-            newRecipe.TimeOfDay = "TimeOfDay";
+            if( Morning == true)
+            {
+                newRecipe.TimeOfDay = "Morning";
+            }
+            else if(Noon == true)
+            {
+                newRecipe.TimeOfDay = "Noon";
+            }
+            else if(Evening == true)
+            {
+                newRecipe.TimeOfDay = "Evening";
+            }
+            else
+            {
+                newRecipe.TimeOfDay = "Any Time";
+            }
             List<Level> levels = new List<Level>();
             levels = ListOfDirections;
             List<IngredientRecipe> ingredientRecipes = new List<IngredientRecipe>();

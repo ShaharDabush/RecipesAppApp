@@ -26,11 +26,16 @@
     </Grid>
         <Label Text="Desciption" FontSize="25" Margin="20,0,0,0"/>
             <Border Stroke="#cd853f" StrokeShape="RoundRectangle 10,10,10,10" WidthRequest="350" HeightRequest="100" >
-            <Grid RowDefinitions="*">
-                <Editor HeightRequest="100" Text="{Binding Desciption}" Grid.Row="0" />
-                <BoxView BackgroundColor="Wheat"  Grid.Row="0" Margin="0,90,0,0" HeightRequest="10" WidthRequest="349" />
-            </Grid>
+                <Grid RowDefinitions="*">
+                    <Editor HeightRequest="100" Text="{Binding Desciption}" Grid.Row="0" />
+                    <BoxView BackgroundColor="Wheat"  Grid.Row="0" Margin="0,90,0,0" HeightRequest="10" WidthRequest="349" />
+                </Grid>
             </Border>
+            <Label Text="Time of day" FontSize="25" Margin="20,20,0,10"/>
+            <RadioButton Content="Morning" Margin="20,0,0,0" IsChecked="{Binding Morning}"/>
+            <RadioButton Content="Noon" Margin="20,0,0,0" IsChecked="{Binding Noon}" />
+            <RadioButton  Content="Evening" Margin="20,0,0,0" IsChecked="{Binding Evening}" />
+            <RadioButton  Content="Any Time" Margin="20,0,0,0" IsChecked="{Binding AnyTime}" />
             <Label Text="Contains" FontSize="25" Margin="20,20,0,0"/>
             <Grid ColumnDefinitions="*,*" Margin="-90,0,0,0">
                 <CheckBox Color="#a0522d" IsChecked="{Binding ContainMeat}"/>

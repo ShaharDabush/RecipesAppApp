@@ -28,7 +28,7 @@ namespace RecipesAppApp.ViewModels
         private User loggedUser;
         private List<Allergy> usersAllergy = new List<Allergy>();
         private List<Allergy> allAllergies = new List<Allergy>();
-        private List<UserAllergyWithIsChecked> hasAllergy = new List<UserAllergyWithIsChecked>();
+        private ObservableCollection<UserAllergyWithIsChecked> hasAllergy = new ObservableCollection<UserAllergyWithIsChecked>();
 
         public ObservableCollection<Allergy> Allergies
         {
@@ -57,7 +57,7 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public List<UserAllergyWithIsChecked> HasAllergy
+        public ObservableCollection<UserAllergyWithIsChecked> HasAllergy
         {
             get { return hasAllergy; }
             set

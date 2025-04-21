@@ -9,53 +9,98 @@ using RecipesAppApp.ViewModels;
 using RecipesAppApp.Services;
 using RecipesAppApp.Views;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using CommunityToolkit.Maui.Views;
 
 namespace RecipesAppApp.ViewModels
 {
-    public class StorageViewModel : ViewModelBase
+    public partial class StorageViewModel : ViewModelBase
     {
         #region attributes and properties
         private RecipesAppWebAPIProxy RecipesService;
         private User loggedUser;
-        private ObservableCollection<Ingredient> ingredientsList;
-        private ObservableCollection<Ingredient> ingredientsListForShow;
+        private ObservableCollection<Ingredient> ingredientsList1;
+        private ObservableCollection<Ingredient> ingredientsList2;
+        private ObservableCollection<Ingredient> ingredientsListForStorage;
+        private ObservableCollection<Ingredient> ingredientsListForNewIngredient;
+        public event Action<List<string>> OpenPopup;
         private Storage storage;
-        private string searchedIngredient;
+        private string searchedIngredientInStorage;
+        private string searchedNewIngredient;
+        public ICommand OpenCreateIngredientCommand { get; set; }
 
-        public string SearchedIngredient
+        public string SearchedNewIngredient
         {
             get
             {
-                return searchedIngredient;
+                return searchedNewIngredient;
             }
             set
             {
-                this.searchedIngredient = value;
+                this.searchedNewIngredient = value;
                 OnPropertyChanged();
-                Sort();
+                SortForNewIngredients();
             }
         }
-        public ObservableCollection<Ingredient> IngredientsList
+
+        public string SearchedIngredientInStorage
         {
             get
             {
-                return ingredientsList;
+                return searchedIngredientInStorage;
             }
             set
             {
-                this.ingredientsList = value;
+                this.searchedIngredientInStorage = value;
+                OnPropertyChanged();
+                SortForStorage();
+            }
+        }
+        public ObservableCollection<Ingredient> IngredientsList1
+        {
+            get
+            {
+                return ingredientsList1;
+            }
+            set
+            {
+                this.ingredientsList1 = value;
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<Ingredient> IngredientsListForShow
+        public ObservableCollection<Ingredient> IngredientsList2
         {
             get
             {
-                return ingredientsListForShow;
+                return ingredientsList2;
             }
             set
             {
-                this.ingredientsListForShow = value;
+                this.ingredientsList2 = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Ingredient> IngredientsListForStorage
+        {
+            get
+            {
+                return ingredientsListForStorage;
+            }
+            set
+            {
+                this.ingredientsListForStorage = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Ingredient> IngredientsListForNewIngredient
+        {
+            get
+            {
+                return ingredientsListForNewIngredient;
+            }
+            set
+            {
+                this.ingredientsListForNewIngredient = value;
                 OnPropertyChanged();
             }
         }
@@ -89,6 +134,7 @@ namespace RecipesAppApp.ViewModels
         {
             this.RecipesService = service;
             loggedUser = ((App)Application.Current).LoggedInUser;
+            OpenCreateIngredientCommand = new Command(OpenCreateIngredient);
             SetUserIngredients();
         }
 
@@ -96,35 +142,70 @@ namespace RecipesAppApp.ViewModels
         {
             Storage = await this.RecipesService.GetStoragesbyUser(LoggedUser.Id);
             List<Ingredient> ingredients = await this.RecipesService.GetIngredientsByStorage(storage.Id);
-            this.IngredientsList = new ObservableCollection<Ingredient>(ingredients);
-            this.IngredientsListForShow = new ObservableCollection<Ingredient>(ingredients);
+            this.IngredientsList1 = new ObservableCollection<Ingredient>(ingredients);
+            this.IngredientsListForStorage = new ObservableCollection<Ingredient>(ingredients);
+            List<Ingredient> allIngredients = await this.RecipesService.GetAllIngredients();
+            this.IngredientsList2 = new ObservableCollection<Ingredient>(allIngredients);
+            this.IngredientsListForNewIngredient = new ObservableCollection<Ingredient>(allIngredients);
 
         }
 
         //on SortCommand change the list and leave only the users that contain the given string
-        public void Sort()
+        public void SortForStorage()
         {
-            if (string.IsNullOrEmpty(SearchedIngredient))
+            if (string.IsNullOrEmpty(SearchedIngredientInStorage))
             {
-                ClearSort();
+                ClearSortForStorage();
             }
             else
             {
-                List<Ingredient> temp = IngredientsList.Where(i => i.IngredientName.ToLower().Contains(SearchedIngredient.ToLower())).ToList();
-                this.IngredientsListForShow.Clear();
+                List<Ingredient> temp = IngredientsList1.Where(i => i.IngredientName.ToLower().Contains(SearchedIngredientInStorage.ToLower())).ToList();
+                this.IngredientsListForStorage.Clear();
                 foreach (Ingredient i in temp)
                 {
-                    this.IngredientsListForShow.Add(i);
+                    this.IngredientsListForStorage.Add(i);
                 }
             }
         }
-        public void ClearSort()
+        public void ClearSortForStorage()
         {
-            if (!string.IsNullOrEmpty(SearchedIngredient))
-                this.SearchedIngredient = null;
+            if (!string.IsNullOrEmpty(SearchedIngredientInStorage))
+                this.SearchedIngredientInStorage = null;
             SetUserIngredients();
-            this.IngredientsListForShow = IngredientsList;
+            this.IngredientsListForStorage = IngredientsList1;
         }
 
+        public void SortForNewIngredients()
+        {
+            if (string.IsNullOrEmpty(SearchedNewIngredient))
+            {
+                ClearForNewIngredients();
+            }
+            else
+            {
+                List<Ingredient> temp = IngredientsList2.Where(i => i.IngredientName.ToLower().Contains(SearchedNewIngredient.ToLower())).ToList();
+                this.IngredientsListForNewIngredient.Clear();
+                foreach (Ingredient i in temp)
+                {
+                    this.IngredientsListForNewIngredient.Add(i);
+                }
+            }
+        }
+        public void ClearForNewIngredients()
+        {
+            if (!string.IsNullOrEmpty(SearchedNewIngredient))
+                this.SearchedNewIngredient = null;
+            SetUserIngredients();
+            this.IngredientsListForNewIngredient = IngredientsList2;
+        }
+
+        public void OpenCreateIngredient()
+        {
+            if(OpenPopup != null)
+            {
+            List<string> l = new List<string>();
+            OpenPopup(l);
+            }
+        }
     }
 }

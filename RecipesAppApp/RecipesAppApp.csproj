@@ -72,6 +72,7 @@
 	  <None Remove="Resources\Images\omeletterecipe.png" />
 	  <None Remove="Resources\Images\pastarose.png" />
 	  <None Remove="Resources\Images\pickericon.png" />
+	  <None Remove="Resources\Images\plus.png" />
 	  <None Remove="Resources\Images\ramen.png" />
 	  <None Remove="Resources\Images\removeuser.png" />
 	  <None Remove="Resources\Images\steak.png" />
@@ -83,6 +84,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+		<PackageReference Include="Syncfusion.Maui.Expander" Version="29.1.38" />
 	</ItemGroup>
 
 	<ItemGroup>

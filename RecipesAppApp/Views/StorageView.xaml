@@ -3,44 +3,102 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:RecipesAppApp.Models"
              xmlns:classes="clr-namespace:RecipesAppApp.Classes"
+             xmlns:expander="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
              x:Class="RecipesAppApp.Views.StorageView"
              BackgroundColor="Wheat"
              Shell.BackgroundColor="Wheat"
              Title="StorageView">
     <VerticalStackLayout>
-        <Entry Grid.Row="0" Placeholder="Search by Ingredient name" Text="{Binding SearchedIngredient}" HeightRequest="55"  ClearButtonVisibility="WhileEditing"/>
-        <CollectionView
+        <ScrollView>
+            <VerticalStackLayout>
+                <expander:SfExpander>
+                    <expander:SfExpander.Header>
+                        <Label Margin="5,0,0,0" Text="Search Ingredients"/>
+                    </expander:SfExpander.Header>
+                    <expander:SfExpander.Content>
+                        <VerticalStackLayout>
+                            <Entry Grid.Row="0" Placeholder="Search by Ingredient name" TextColor="#a0522d" Text="{Binding SearchedNewIngredient}" HeightRequest="55"  ClearButtonVisibility="WhileEditing"/>
+                            <CollectionView
                 Margin="10"
                 ItemsLayout="VerticalGrid, 3"
-                x:Name="searchCollectionView"
-                ItemsSource="{Binding IngredientsListForShow}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Ingredient">
-                    <VerticalStackLayout
+                x:Name="searchCollectionView1"
+                ItemsSource="{Binding IngredientsListForNewIngredient}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Ingredient">
+                                        <VerticalStackLayout
                             Padding="20"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="Center">
-                        <Image
+                                            <Image
                             Aspect="Fill"
                             HeightRequest="150"
                             Source="{Binding IngredientImage}"
                             WidthRequest="100" />
-                        <Label
+                                            <Label
                             Grid.Row="1"
                             Text="{Binding IngredientName}" 
                             WidthRequest="100"/>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup>
-                                <VisualState Name="Selected">
-                                    <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="Wheat" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                    </VerticalStackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup>
+                                                    <VisualState Name="Selected">
+                                                        <VisualState.Setters>
+                                                            <Setter Property="BackgroundColor" Value="Wheat" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
+                                        </VerticalStackLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </expander:SfExpander.Content>
+                </expander:SfExpander>
+                <Entry Grid.Row="0" Placeholder="Search by Ingredient name" TextColor="#a0522d" Text="{Binding SearchedIngredientInStorage}" HeightRequest="55"  ClearButtonVisibility="WhileEditing"/>
+                <CollectionView
+                Margin="10"
+                ItemsLayout="VerticalGrid, 3"
+                x:Name="searchCollectionView2"
+                ItemsSource="{Binding IngredientsListForStorage}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Ingredient">
+                            <VerticalStackLayout
+                            Padding="20"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center">
+                                <Image
+                            Aspect="Fill"
+                            HeightRequest="150"
+                            Source="{Binding IngredientImage}"
+                            WidthRequest="100" />
+                                <Label
+                            Grid.Row="1"
+                            Text="{Binding IngredientName}" 
+                            WidthRequest="100"/>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup>
+                                        <VisualState Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="Wheat" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+        <Frame HeightRequest="65"
+                   WidthRequest="65"
+                   CornerRadius="80"
+                   HorizontalOptions="Start"
+                   IsClippedToBounds="True"
+                   Padding="0"
+                   BorderColor="#a0522d"
+                   Margin="30,330,0,0">
+            <ImageButton Source="plus.png" WidthRequest="77" Command="{Binding OpenCreateIngredientCommand}" HeightRequest="77" Margin="0,0,0,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"    />
+        </Frame>
     </VerticalStackLayout>
 </ContentPage>
