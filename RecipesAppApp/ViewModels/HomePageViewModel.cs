@@ -11,6 +11,8 @@ using RecipesAppApp.Models;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using RecipesAppApp.Classes;
+using CommunityToolkit.Mvvm.Messaging;
+using System.ComponentModel.Design;
 //using Windows.ApplicationModel.VoiceCommands;
 
 
@@ -301,10 +303,11 @@ namespace RecipesAppApp.ViewModels
             {
                 isYourAllergiesChecked = value;
                 OnPropertyChanged("IsYourAllergiesChecked");
-                if(IsYourAllergiesChecked == true)
-                {
-                  AddYourAllergies();
-                }
+                if (IsYourAllergiesChecked == true)
+                    AddYourAllergies();
+                else
+                    RemoveYourAllergies();
+
             }
         }
 
@@ -356,7 +359,6 @@ namespace RecipesAppApp.ViewModels
             this.NotInSearch = true;
             this.IsAllergiesVisble = false;
             this.isYourAllergiesVisble = false;
-            this.IsYourAllergiesChecked = false;
             this.FlipPicker = 0;
             //LoggedUser = ((App)Application.Current).LoggedInUser;
             recipes = new ObservableCollection<Recipe>();
@@ -458,7 +460,8 @@ namespace RecipesAppApp.ViewModels
         public async void AddYourAllergies()
         {
             List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
-            foreach (UserAllergyWithIsChecked a in AllergiesList)
+            List<UserAllergyWithIsChecked> aL = new(AllergiesList);
+            foreach (UserAllergyWithIsChecked a in aL)
             {
                 foreach (Allergy au in UsersAllergy)
                 {
@@ -468,7 +471,100 @@ namespace RecipesAppApp.ViewModels
                     }
                 }
             }
+            AllergiesList = new(aL);
         }
+        public async void RemoveYourAllergies()
+        {
+            List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
+            List<UserAllergyWithIsChecked> aL = new(AllergiesList);
+            foreach (UserAllergyWithIsChecked a in aL)
+            {
+                foreach (Allergy au in UsersAllergy)
+                {
+                    if (a.AllergyId == au.Id)
+                    {
+                        a.IsChecked = false;
+                    }
+                }
+            }
+            AllergiesList = new(aL);
+        }
+        public async void FilterRecipes()
+        {
+            MakeRecipesList();
+            foreach(UserAllergyWithIsChecked a in AllergiesList)
+            {
+                if(a.IsChecked)
+                {
+
+                }
+            }
+
+ 
+        }
+        //public async void YourAllergiesCheck(object sender, Syncfusion.Maui.Buttons.StateChangedEventArgs e)
+        //{
+        //    if (e.IsChecked != null && e.IsChecked == true)
+        //    {
+        //        List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
+        //        List<UserAllergyWithIsChecked> aL = new(AllergiesList);
+        //        foreach (UserAllergyWithIsChecked a in aL)
+        //        {
+        //            foreach (Allergy au in UsersAllergy)
+        //            {
+        //                if (a.AllergyId == au.Id)
+        //                {
+        //                    a.IsChecked = true;
+        //                }
+        //            }
+        //        }
+        //        AllergiesList = new(aL);
+        //    }
+        //    if (e.IsChecked != null && e.IsChecked == false)
+        //    {
+        //        List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
+        //        List<UserAllergyWithIsChecked> aL = new(AllergiesList);
+        //        foreach (UserAllergyWithIsChecked a in aL)
+        //        {
+        //            foreach (Allergy au in UsersAllergy)
+        //            {
+        //                if (a.AllergyId == au.Id)
+        //                {
+        //                    a.IsChecked = false;
+        //                }
+        //            }
+        //        }
+        //        AllergiesList = new(aL);
+        //    }
+        //}
+        //public async void AllergiesStateChanged(object sender, Syncfusion.Maui.Buttons.StateChangedEventArgs e)
+        //{
+        //    if (LoggedUser != null)
+        //    {
+        //        int tCount = 0;
+        //        int fCount = 0;
+        //        List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
+        //        foreach (Allergy a in UsersAllergy)
+        //        {
+        //            foreach (UserAllergyWithIsChecked au in AllergiesList)
+        //            {
+        //                if (au.AllergyId == a.Id)
+        //                {
+        //                    if (au.IsChecked)
+        //                        tCount++;
+        //                    else
+        //                        fCount++;
+        //                }
+        //            }
+        //        }
+        //        if (tCount == UsersAllergy.Count)
+        //            WeakReferenceMessenger.Default.Send(new TriggerUiMessage("RunAllergieChangeStateTrue"));
+        //        else if (fCount == UsersAllergy.Count)
+        //            WeakReferenceMessenger.Default.Send(new TriggerUiMessage("RunAllergieChangeStateFalse"));
+        //        else
+        //            WeakReferenceMessenger.Default.Send(new TriggerUiMessage("RunAllergieChangeStateInter"));
+        //    }
+        //}
 
         //public async void SetAllergies()
         //{

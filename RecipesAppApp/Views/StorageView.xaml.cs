@@ -16,7 +16,7 @@ public partial class StorageView : ContentPage
 
     public void DisplayPopup(List<string> l)
     {
-        var popup = new AddPopup((CreateRecipeViewModel)this.BindingContext);
+        var popup = new CreateIngredientView((StorageViewModel)this.BindingContext);
         this.ShowPopup(popup);
     }
 }

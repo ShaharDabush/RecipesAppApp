@@ -4,7 +4,10 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:RecipesAppApp.Models"
+    xmlns:vm="clr-namespace:RecipesAppApp.ViewModels"
+    x:DataType="vm:HomePageViewModel"
     xmlns:classes="clr-namespace:RecipesAppApp.Classes"
+    xmlns:sfbutton="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
     BackgroundColor="Wheat"
     Shell.BackgroundColor="Wheat"
     Title="HomePageView">
@@ -18,21 +21,45 @@
                         <TapGestureRecognizer Command="{Binding ShowAllergiesCommand}"/>
                 </Label.GestureRecognizers>
                 </Label>
-                <CollectionView Margin="40,40,0,0" ItemsSource="{Binding AllergiesList}" BackgroundColor="Wheat" MinimumHeightRequest="35" MaximumHeightRequest="420" WidthRequest="115" HorizontalOptions="Start" Grid.Column="1" Grid.ColumnSpan="2" IsVisible="{Binding IsAllergiesVisble}">
+                <CollectionView Margin="20,40,0,0" ItemsSource="{Binding AllergiesList}" BackgroundColor="Wheat" MinimumHeightRequest="35" MaximumHeightRequest="420" MinimumWidthRequest="175" HorizontalOptions="Start" Grid.Column="0" Grid.ColumnSpan="3" IsVisible="{Binding IsAllergiesVisble}">
                         <CollectionView.Header>
-                            <Border Stroke="#deb887" HeightRequest="45" StrokeShape="RoundRectangle 2,2,2,2" Grid.Column="1" Grid.ColumnSpan="2" IsVisible="{Binding IsYourAllergiesVisble}" VerticalOptions="Start" WidthRequest="115" HorizontalOptions="Start">
+                            <Border Margin="8,0,0,0" Stroke="#deb887" HeightRequest="31" StrokeShape="RoundRectangle 2,2,2,2" IsVisible="{Binding IsYourAllergiesVisble}" VerticalOptions="Start" WidthRequest="125" HorizontalOptions="Start">
                                 <HorizontalStackLayout Margin="0,2,0,2">
-                                <CheckBox Margin="-9,0,0,0" Color="#a0522d" IsChecked="{Binding IsYourAllergiesChecked}" VerticalOptions="Center"/>
-                                    <Label Margin="-8,0,0,0" Grid.Column="1" TextColor="#a0522d" Text="Your allergies" VerticalOptions="Center" WidthRequest="70"/>
+                                <!--<sfbutton:SfCheckBox
+                                    IsThreeState="True"
+                                    Margin="-9,0,0,0"
+                                    UncheckedColor="#a0522d"
+                                    CheckedColor="#a0522d"
+                                    VerticalOptions="Center"
+                                    StateChanged="YourAllergiesCheck"
+                                    IsChecked="{Binding IsYourAllergiesChecked}"/>-->
+                                <CheckBox Margin="-9,0,0,0" Color="#a0522d" IsChecked="{Binding IsYourAllergiesChecked}" VerticalOptions="Center" CheckedChanged="AllergiesCheckChanged"/>
+                                    <Label Margin="-8,0,0,0" Grid.Column="1" TextColor="#a0522d" Text="Your allergies" VerticalOptions="Center"/>
                                 </HorizontalStackLayout>
                             </Border>
                         </CollectionView.Header>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            Orientation="Vertical"
+                            Span="3"
+                            HorizontalItemSpacing="5"
+                            VerticalItemSpacing="5">
+                        </GridItemsLayout>
+                    </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="classes:UserAllergyWithIsChecked">
-                                <Border Stroke="#deb887" MaximumHeightRequest="30" VerticalOptions="Start" StrokeShape="RoundRectangle 2,2,2,2">
-                                    <HorizontalStackLayout Margin="0,2,0,2">
-                                        <CheckBox Margin="-9,0,0,0" Color="#a0522d" IsChecked="{Binding IsChecked}" VerticalOptions="Center"/>
-                                        <Label Margin="-8,0,0,0" Grid.Column="1" TextColor="#a0522d" Text="{Binding AllergyName}" VerticalOptions="Center"/>
+                            <Border Stroke="#deb887"  WidthRequest="105" MaximumHeightRequest="30" VerticalOptions="Start" StrokeShape="RoundRectangle 2,2,2,2">
+                                <HorizontalStackLayout Margin="0,2,0,2">
+                                    <!--<sfbutton:SfCheckBox
+                                        x:Name="allergiesCheckBox"
+                                        IsThreeState="False"
+                                        Margin="-9,0,0,0"
+                                        UncheckedColor="#a0522d"
+                                        CheckedColor="#a0522d"
+                                        VerticalOptions="Center"
+                                        StateChanged="AllergiesStateChanged"/>-->
+                                    <CheckBox Margin="-9,0,0,0" Color="#a0522d" IsChecked="{Binding IsChecked}" VerticalOptions="Center"/>
+                                        <Label Margin="-8,0,0,0" Grid.Column="1" TextColor="#a0522d" Text="{Binding AllergyName}" VerticalOptions="Center"  />
                                     </HorizontalStackLayout>
                                 </Border>
                             </DataTemplate>
