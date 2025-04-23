@@ -5,6 +5,8 @@ using RecipesAppApp.Views;
 using RecipesAppApp.Services;
 using CommunityToolkit.Maui;
 using Syncfusion.Maui.Core.Hosting;
+using Camera.MAUI;
+using Camera.MAUI.ZXing;
 
 namespace RecipesAppApp
 {
@@ -15,6 +17,9 @@ namespace RecipesAppApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkitCamera()
+                .UseMauiCameraView()
+
                 // Initialize the .NET MAUI Community Toolkit by adding the below line of code
                 .UseMauiCommunityToolkit()
                 // After initializing the .NET MAUI Community Toolkit, optionally add additional fonts
@@ -24,14 +29,16 @@ namespace RecipesAppApp
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
                 builder.ConfigureSyncfusionCore();
-                builder
-                    .UseMauiApp<App>()
-                    .RegisterDataServices()
-                    .RegisterPages()
-                    .RegisterViewModels();
+            builder
+                .UseMauiApp<App>()
+                .RegisterDataServices()
+                .RegisterPages()
+                .RegisterViewModels();
+                
+
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

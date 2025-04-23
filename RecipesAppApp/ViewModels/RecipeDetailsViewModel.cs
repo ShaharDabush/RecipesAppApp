@@ -82,7 +82,26 @@ namespace RecipesAppApp.ViewModels
             List<IngredientsWithNameAndAmount> TrueListA = new List<IngredientsWithNameAndAmount>();
             for(int i = 0;i < IngredientList.Count; i++) 
             {
-                TrueListA.Add(new IngredientsWithNameAndAmount(this.IngredientRecipes[i].IngredientId, this.IngredientRecipes[i].RecipeId, this.IngredientRecipes[i].Amount, this.IngredientRecipes[i].MeasureUnits, this.ingredients[i].IngredientName));
+                TrueListA.Add(new IngredientsWithNameAndAmount(this.IngredientRecipes[i].IngredientId, this.IngredientRecipes[i].RecipeId, this.IngredientRecipes[i].Amount, this.IngredientRecipes[i].MeasureUnits, this.ingredients[i].IngredientName,false));
+            }
+            if(((App)Application.Current).LoggedInUser != null)
+            {
+                Storage s = await RecipesService.GetStoragesbyUser(((App)Application.Current).LoggedInUser.Id);
+                List<Ingredient> UserIngredient = await RecipesService.GetIngredientsByStorage(s.Id);
+                if(UserIngredient != null)
+                {
+                foreach(Ingredient i in UserIngredient)
+                {
+                    foreach(IngredientsWithNameAndAmount iwna in TrueListA)
+                    {
+                        if(i.Id == iwna.IngredientId)
+                        {
+                            iwna.IsChecked = true;
+                        }
+                    }
+                }   
+                }
+
             }
             this.TrueList = new ObservableCollection<IngredientsWithNameAndAmount>(TrueListA);
             OnPropertyChanged("Levels");

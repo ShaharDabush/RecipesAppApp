@@ -34,6 +34,7 @@ public partial class HomePageView : ContentPage
         vm.FilterRecipes();
     }
 
+
     //private void YourAllergiesCheck(object sender, Syncfusion.Maui.Buttons.StateChangedEventArgs e)
     //{
     //    HomePageViewModel vm = (HomePageViewModel)this.BindingContext;

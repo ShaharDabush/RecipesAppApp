@@ -58,7 +58,7 @@
                                         CheckedColor="#a0522d"
                                         VerticalOptions="Center"
                                         StateChanged="AllergiesStateChanged"/>-->
-                                    <CheckBox Margin="-9,0,0,0" Color="#a0522d" IsChecked="{Binding IsChecked}" VerticalOptions="Center"/>
+                                    <CheckBox Margin="-9,0,0,0" Color="#a0522d" IsChecked="{Binding IsChecked}" VerticalOptions="Center" CheckedChanged="AllergiesCheckChanged" />
                                         <Label Margin="-8,0,0,0" Grid.Column="1" TextColor="#a0522d" Text="{Binding AllergyName}" VerticalOptions="Center"  />
                                     </HorizontalStackLayout>
                                 </Border>

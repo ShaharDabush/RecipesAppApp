@@ -26,6 +26,8 @@
 
         public string TimeOfDay { get; set; } = null!;
 
+        public List<Allergy> Allergies { get; set; }
+
         public Recipe(Recipe r)
         {
             Id = r.Id;
@@ -40,6 +42,7 @@
             ContainsMeat = r.ContainsMeat;
             ContainsDairy = r.ContainsDairy;
             TimeOfDay = r.TimeOfDay;
+            Allergies = r.Allergies;
         }
         public Recipe() { }
     }

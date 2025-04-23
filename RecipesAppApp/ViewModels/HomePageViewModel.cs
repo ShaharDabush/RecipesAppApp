@@ -267,7 +267,6 @@ namespace RecipesAppApp.ViewModels
             {
                 this.allergiesList = value;
                 OnPropertyChanged();
-                CheckAllergy();
             }
         }
         public String SearchedName
@@ -496,7 +495,18 @@ namespace RecipesAppApp.ViewModels
             {
                 if(a.IsChecked)
                 {
-
+                    List<Recipe> rs = new List<Recipe>(); 
+                   foreach(Recipe r in RecipesWithoutGloten)
+                   {
+                        foreach(Allergy ar in r.Allergies)
+                        {
+                            if(a.AllergyId != ar.Id)
+                            {
+                                rs.Add(r);
+                            }
+                        }
+                   }
+                    RecipesWithoutGloten = new ObservableCollection<Recipe>(rs);
                 }
             }
 

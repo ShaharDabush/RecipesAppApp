@@ -22,7 +22,7 @@
                     <DataTemplate x:DataType="classes:IngredientsWithNameAndAmount">
                         <Grid ColumnDefinitions="20,150" RowDefinitions="20,20" Margin="5,0,0,0">
                             <Border StrokeShape="Ellipse"  Margin="0,0,0,0">
-                                <CheckBox WidthRequest="1544" HeightRequest="150" Grid.Column="0" Margin="0,0,0,0" Color="Green" />
+                                <CheckBox WidthRequest="1544" HeightRequest="150" Grid.Column="0" Margin="0,0,0,0" Color="Green" IsChecked="{Binding IsChecked}" />
                             </Border>
                             <Label Grid.Column="1"   WidthRequest="100"  >
                                 <Label.FormattedText>

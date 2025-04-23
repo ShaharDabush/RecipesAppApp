@@ -19,14 +19,17 @@ namespace RecipesAppApp.Classes
         public string MeasureUnits { get; set; } = null!;
 
         public string Name { get; set; } = null!;
+
+        public bool IsChecked { get; set; }
         public IngredientsWithNameAndAmount() { }
-        public IngredientsWithNameAndAmount(int IngredientId, int RecipeId, int Amount, string MeasureUnits, string Name) 
+        public IngredientsWithNameAndAmount(int IngredientId, int RecipeId, int Amount, string MeasureUnits, string Name, bool isChecked) 
         {
             this.IngredientId = IngredientId;
             this.RecipeId = RecipeId;
             this.Amount = Amount;
             this.MeasureUnits = MeasureUnits;
             this.Name = Name;
+            this.IsChecked = isChecked;
         }
     }
 }

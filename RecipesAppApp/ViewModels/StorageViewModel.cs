@@ -27,8 +27,21 @@ namespace RecipesAppApp.ViewModels
         private Storage storage;
         private string searchedIngredientInStorage;
         private string searchedNewIngredient;
+        private bool isInCameraMode;
         public ICommand OpenCreateIngredientCommand { get; set; }
 
+        public bool IsInCameraMode
+        {
+            get
+            {
+                return isInCameraMode;
+            }
+            set
+            {
+                this.isInCameraMode = value;
+                OnPropertyChanged();
+            }
+        }
         public string SearchedNewIngredient
         {
             get
@@ -135,6 +148,7 @@ namespace RecipesAppApp.ViewModels
             this.RecipesService = service;
             loggedUser = ((App)Application.Current).LoggedInUser;
             OpenCreateIngredientCommand = new Command(OpenCreateIngredient);
+            IsInCameraMode = false;
             SetUserIngredients();
         }
 
@@ -201,11 +215,12 @@ namespace RecipesAppApp.ViewModels
 
         public void OpenCreateIngredient()
         {
-            if(OpenPopup != null)
-            {
-            List<string> l = new List<string>();
-            OpenPopup(l);
-            }
+            IsInCameraMode = true;
+            //if(OpenPopup != null)
+            //{
+            //List<string> l = new List<string>();
+            //OpenPopup(l);
+            //}
         }
     }
 }

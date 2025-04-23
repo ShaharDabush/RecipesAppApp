@@ -157,7 +157,7 @@ namespace RecipesAppApp.ViewModels
             
             if (!ValidateMeasurementUnits())
             {
-             IngredientsWithNameAndAmount NewIngredient = new IngredientsWithNameAndAmount(IngredientId ,0,Amount,MeasureUnit, IngredientName);
+             IngredientsWithNameAndAmount NewIngredient = new IngredientsWithNameAndAmount(IngredientId ,0,Amount,MeasureUnit, IngredientName,false);
                 ListOfNewIngredients.Add(NewIngredient);
                 ListOfAddedIngredient = new ObservableCollection<IngredientsWithNameAndAmount>(ListOfNewIngredients);
                 MeasureUnit = "";
