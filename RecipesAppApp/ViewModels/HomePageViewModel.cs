@@ -311,7 +311,7 @@ namespace RecipesAppApp.ViewModels
         }
 
         #endregion
-        private async void MakeRecipesList()
+        private async Task MakeRecipesList()
         {
             List<Recipe> list = await RecipesService.GetAllRecipes();
             this.Recipes = new ObservableCollection<Recipe>(list);
@@ -342,12 +342,16 @@ namespace RecipesAppApp.ViewModels
             this.SearchedBarList = new ObservableCollection<Recipe>();
             this.InSearch = false;
             this.NotInSearch = true;
-            List<Allergy> allAllergies = await RecipesService.GetAllAllergeis();
-            foreach (Allergy a in allAllergies)
+            if(AllergiesList.Count == 0)
             {
+                List<Allergy> allAllergies = await RecipesService.GetAllAllergeis();
+                foreach (Allergy a in allAllergies)
+                {   
                 UserAllergyWithIsChecked u1 = new UserAllergyWithIsChecked(a.Id, a.AllergyName, false);
                 AllergiesList.Add(u1);
+                }
             }
+
         }
         public HomePageViewModel(RecipesAppWebAPIProxy service, SignUpView signUp, LoginView login)
         {
@@ -471,6 +475,7 @@ namespace RecipesAppApp.ViewModels
                 }
             }
             AllergiesList = new(aL);
+            FilterRecipes();
         }
         public async void RemoveYourAllergies()
         {
@@ -490,11 +495,12 @@ namespace RecipesAppApp.ViewModels
         }
         public async void FilterRecipes()
         {
-            MakeRecipesList();
-            foreach(UserAllergyWithIsChecked a in AllergiesList)
+            await MakeRecipesList();
+            foreach (UserAllergyWithIsChecked a in AllergiesList)
             {
                 if(a.IsChecked)
                 {
+                    #region RecipesWithoutGloten
                     List<Recipe> rs = new List<Recipe>(); 
                    foreach(Recipe r in RecipesWithoutGloten)
                    {
@@ -505,11 +511,16 @@ namespace RecipesAppApp.ViewModels
                                 rs.Add(r);
                             }
                         }
+                        if(r.Allergies.Count == 0)
+                        {
+                            rs.Add(r);
+                        }
                    }
                     RecipesWithoutGloten = new ObservableCollection<Recipe>(rs);
+                    OnPropertyChanged("RecipesWithoutGloten");
+                    #endregion
                 }
             }
-
  
         }
         //public async void YourAllergiesCheck(object sender, Syncfusion.Maui.Buttons.StateChangedEventArgs e)

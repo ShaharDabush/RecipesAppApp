@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-
+using Android.Health.Connect.DataTypes;
 using RecipesAppApp.Classes;
 using RecipesAppApp.Models;
 
@@ -932,6 +932,34 @@ namespace RecipesAppApp.Services
             try
             {
                 string json = JsonSerializer.Serialize(allergies);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+        public async Task<bool> SaveRating(Rating rate)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}saveRating";
+            try
+            {
+                string json = JsonSerializer.Serialize(rate);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)

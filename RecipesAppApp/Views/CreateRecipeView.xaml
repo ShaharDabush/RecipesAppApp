@@ -31,6 +31,8 @@
                     <BoxView BackgroundColor="Wheat"  Grid.Row="0" Margin="0,90,0,0" HeightRequest="10" WidthRequest="349" />
                 </Grid>
             </Border>
+            <Label Text="Kind" FontSize="25" Margin="20,20,0,0"/>
+            <Picker ItemsSource="{Binding ListOfKind}" SelectedItem="{Binding Kind}" WidthRequest="100" HorizontalOptions="Start" Margin="20,0,0,0"/>
             <Label Text="Time of day" FontSize="25" Margin="20,20,0,10"/>
             <RadioButton Content="Morning" Margin="20,0,0,0" IsChecked="{Binding Morning}"/>
             <RadioButton Content="Noon" Margin="20,0,0,0" IsChecked="{Binding Noon}" />

@@ -23,6 +23,39 @@ namespace RecipesAppApp.ViewModels
         public ObservableCollection<Ingredient> ingredients;
         public ObservableCollection<IngredientsWithNameAndAmount> trueList;
         private Recipe recipe;
+        private List<int> ratings;
+        private Rating userRating;
+        private double? rate;
+        public List<int> Ratings
+        {
+            get { return ratings; }
+            set
+            {
+                this.ratings = value;
+                OnPropertyChanged();
+            }
+        }
+        public double? Rate
+        {
+            get { return rate; }
+            set
+            {
+                this.rate = value;
+               OnPropertyChanged();
+                if (Rate != null)
+               SaveUserRating();
+            }
+        }
+        
+        public Rating UserRating
+        {
+            get { return userRating; }
+            set
+            {
+                this.userRating = value;
+                OnPropertyChanged();
+            }
+        }
         public Recipe Recipe
         {
             get { return recipe; }
@@ -110,7 +143,41 @@ namespace RecipesAppApp.ViewModels
         public RecipeDetailsViewModel(RecipesAppWebAPIProxy service)
         {
             this.RecipesService = service;
+            Ratings = new List<int>();
+            Ratings.Add(1);
+            Ratings.Add(2);
+            Ratings.Add(3);
+            Ratings.Add(4);
+            Ratings.Add(5);
+            Ratings.Add(6);
+            Ratings.Add(7);
+            Ratings.Add(8);
+            Ratings.Add(9);
+            Ratings.Add(10);
 
         }
+        public async void SaveUserRating()
+        {
+
+            if (((App)Application.Current).LoggedInUser != null)
+            {
+                UserRating = new Rating();
+                UserRating.UserId = ((App)Application.Current).LoggedInUser.Id;
+                UserRating.Rate = Rate.Value;
+                UserRating.RecipeId = Recipe.Id;
+                bool result = await RecipesService.SaveRating(UserRating);
+                if(result != true)
+                {
+                    Rate = null;
+                    OnPropertyChanged("Rate");
+                    await Application.Current.MainPage.DisplayAlert("Rating", "Someting went wrong try again later!", "ok");
+                }
+                OnPropertyChanged("Recipe");
+            }
+            else if (Rate != 0)
+            {
+                await Application.Current.MainPage.DisplayAlert("Rating", "You can not rate a recipe without an account Login Or Sigh Up and try again!", "ok");
+            }
+        } 
     }
 }

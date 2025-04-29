@@ -11,5 +11,9 @@
             Id = id;
             AllergyName = allergyName;
         }
+        public Allergy()
+        {
+
+        }
     }
 }

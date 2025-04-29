@@ -15,7 +15,20 @@
                 </Border.StrokeShape>
                 <Image Source="{Binding Recipe.RecipeImage}" HeightRequest="300" Aspect="AspectFill"></Image>
             </Border>
-            <Label Text="{Binding Recipe.RecipeDescription}"/>
+            <Grid ColumnDefinitions="*,*,1.7*" Margin="0,0,0,3">
+            <Label FontSize="20" Margin="5,-2,0,5" Grid.Column="0">
+                <Label.FormattedText>
+                    <FormattedString>
+                            <Span Text="Rating: " />
+                            <Span Text="{Binding Recipe.Rating}" Grid.Column="0"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+                <Border Stroke="Black" Grid.Column="1" WidthRequest="50" HeightRequest="30" >
+                    <Picker ItemsSource="{Binding Ratings}" SelectedItem="{Binding Rate}" WidthRequest="50" HeightRequest="40"/>
+                </Border>
+            </Grid>
+            <Label Text="{Binding Recipe.RecipeDescription}" Margin="5,0,0,0"/>
             <Label Text="Ingredients" Margin="0,20,0,20" FontSize="30" FontAttributes="Bold"/>
             <CollectionView ItemsSource="{Binding TrueList}">
                 <CollectionView.ItemTemplate>

@@ -20,8 +20,10 @@ namespace RecipesAppApp.ViewModels
         private ObservableCollection<Ingredient> allIngredients;
         private ObservableCollection<Ingredient> searchedIngredient;
         private ObservableCollection<Level> directions;
+        private List<string> listOfKind = new List<string>();
         List<Level> ListOfDirections = new List<Level>();
         public event Action<List<string>> OpenPopup;
+        private string kind;
         private string recipeName;
         private string desciption;
         private string timeOfDay;
@@ -45,6 +47,32 @@ namespace RecipesAppApp.ViewModels
             set
             {
                 this.timeOfDay = value;
+                OnPropertyChanged();
+            }
+
+        }
+        public string Kind
+        {
+            get
+            {
+                return this.kind;
+            }
+            set
+            {
+                this.kind = value;
+                OnPropertyChanged();
+            }
+
+        }
+        public List<string> ListOfKind
+        {
+            get
+            {
+                return this.listOfKind;
+            }
+            set
+            {
+                this.listOfKind = value;
                 OnPropertyChanged();
             }
 
@@ -324,6 +352,11 @@ namespace RecipesAppApp.ViewModels
             ListOfMeasureUnits.Add("°F");
             ListOfMeasureUnits.Add("units");
             ListOfMeasureUnits.Add("L");
+            ListOfKind.Add("Does not have");
+            ListOfKind.Add("Desert");
+            ListOfKind.Add("Japanise");
+            ListOfKind.Add("Italian");
+            ListOfKind.Add("French");
             GetIngredients();
         }
 
@@ -416,6 +449,7 @@ namespace RecipesAppApp.ViewModels
             newRecipe.RecipeImage = photoURL;
             newRecipe.RecipesName = recipeName;
             newRecipe.RecipeDescription = Desciption;
+            newRecipe.Kind = Kind;
             newRecipe.MadeBy = ((App)Application.Current).LoggedInUser.Id;
             newRecipe.Rating = 0;
             newRecipe.IsKosher = IsKosher;
