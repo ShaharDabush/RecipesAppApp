@@ -55,6 +55,19 @@
                 <CheckBox Color="#a0522d" IsChecked="{Binding IsGloten}"/>
                 <Label Text="Gluten" Grid.Column="1" Margin="-90,12,0,0" />
             </Grid>
+            <Label Text="Allergies" FontSize="25" Margin="20,20,0,0"/>
+            <CollectionView ItemsSource="{Binding AllergiesList}"  BackgroundColor="Wheat" MinimumHeightRequest="35" MaximumHeightRequest="420" WidthRequest="180" HorizontalOptions="Start" Margin="30,0,0,0">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="classes:UserAllergyWithIsChecked">
+                        <Border Stroke="#deb887" MaximumHeightRequest="30" VerticalOptions="Start">
+                            <Grid ColumnDefinitions="20,150"  Margin="5,5,0,0">
+                                <CheckBox Color="#a0522d" IsChecked="{Binding IsChecked}" />
+                                <Label Grid.Column="1" TextColor="#a0522d" WidthRequest="70" Text="{Binding AllergyName}"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
             <Label Text="Ingredients" FontSize="25" Margin="20,20,0,0"/>
             <Border Stroke="#deb887" StrokeShape="RoundRectangle 10,10,10,10" HeightRequest="30" WidthRequest="180" HorizontalOptions="Start" Margin="20,10,0,0" >
             <Grid RowDefinitions="*">

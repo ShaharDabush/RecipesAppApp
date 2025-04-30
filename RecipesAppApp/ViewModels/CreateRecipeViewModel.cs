@@ -19,6 +19,8 @@ namespace RecipesAppApp.ViewModels
         #region attributes and properties
         private ObservableCollection<Ingredient> allIngredients;
         private ObservableCollection<Ingredient> searchedIngredient;
+        private ObservableCollection<Allergy> allergies;
+        private ObservableCollection<UserAllergyWithIsChecked> allergiesList;
         private ObservableCollection<Level> directions;
         private List<string> listOfKind = new List<string>();
         List<Level> ListOfDirections = new List<Level>();
@@ -203,6 +205,24 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged();
             }
         }
+        public ObservableCollection<Allergy> Allergies
+        {
+            get => allergies;
+            set
+            {
+                allergies = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<UserAllergyWithIsChecked> AllergiesList
+        {
+            get => allergiesList;
+            set
+            {
+                allergiesList = value;
+                OnPropertyChanged();
+            }
+        }
         public ObservableCollection<Ingredient> SearchedIngredient
         {
             get => searchedIngredient;
@@ -366,6 +386,16 @@ namespace RecipesAppApp.ViewModels
             AllIngredients = new ObservableCollection<Ingredient>(i);
             SearchedIngredient = new ObservableCollection<Ingredient>(i);
         }
+        public async void GetAllergies()
+        {
+            List<Allergy> allAllergies = await RecipesService.GetAllAllergeis();
+            Allergies = new ObservableCollection<Allergy>(allAllergies);
+            foreach (Allergy a in Allergies)
+            {
+               UserAllergyWithIsChecked u1 = new UserAllergyWithIsChecked(a.Id, a.AllergyName, false);
+               AllergiesList.Add(u1);
+            }
+        }
 
         public void Sort()
         {
@@ -480,6 +510,15 @@ namespace RecipesAppApp.ViewModels
             {
                 ingredientRecipes.Add(new IngredientRecipe(i.IngredientId, i.RecipeId, i.Amount, i.MeasureUnits));
             }
+            List<Allergy> recipeAllergies = new List<Allergy>();
+            foreach(UserAllergyWithIsChecked a in AllergiesList)
+            {
+                if (a.IsChecked)
+                {
+                    recipeAllergies.Add(a.AllergyId, a.AllergyName);
+                }
+            }
+            saveRecipeInfo.RecipeInfo.Allergies = recipeAllergies;
             saveRecipeInfo.LevelsInfo = levels;
             saveRecipeInfo.IngredientsInfo = ingredientRecipes;
             saveRecipeInfo.RecipeInfo = newRecipe;
