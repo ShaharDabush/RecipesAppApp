@@ -26,9 +26,12 @@ namespace RecipesAppApp.ViewModels
         private User loggedUser;
         private ObservableCollection<Recipe> recipes;
         private ObservableCollection<Recipe> yourRecipes;
-        private ObservableCollection<Recipe> recipesWithoutGloten;
-        private ObservableCollection<Recipe> recipesWithoutLactose;
+        private ObservableCollection<Recipe> deserts;
+        private ObservableCollection<Recipe> japaneseRecipes;
+        private ObservableCollection<Recipe> frenchRecipes;
+        private ObservableCollection<Recipe> italianRecipes;
         private ObservableCollection<TopTenList> mostPopularRecipes;
+        private ObservableCollection<TopTenList> topRatedRecipes;
         private ObservableCollection<Recipe> kosherRecipes;
         private ObservableCollection<Recipe> searchedBarList;
         private ObservableCollection<UserAllergyWithIsChecked> allergiesList = new ObservableCollection<UserAllergyWithIsChecked> ();
@@ -195,27 +198,51 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<Recipe> RecipesWithoutGloten
+        public ObservableCollection<Recipe> Deserts
         {
             get
             {
-                return this.recipesWithoutGloten;
+                return this.deserts;
             }
             set
             {
-                this.recipesWithoutGloten = value;
+                this.deserts = value;
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<Recipe> RecipesWithoutLactose
+        public ObservableCollection<Recipe> JapaneseRecipes
         {
             get
             {
-                return this.recipesWithoutLactose;
+                return this.japaneseRecipes;
             }
             set
             {
-                this.recipesWithoutLactose = value;
+                this.japaneseRecipes = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Recipe> FrenchRecipes
+        {
+            get
+            {
+                return this.frenchRecipes;
+            }
+            set
+            {
+                this.frenchRecipes = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Recipe> ItalianRecipes
+        {
+            get
+            {
+                return this.italianRecipes;
+            }
+            set
+            {
+                this.italianRecipes = value;
                 OnPropertyChanged();
             }
         }
@@ -228,6 +255,19 @@ namespace RecipesAppApp.ViewModels
             set
             {
                 this.mostPopularRecipes = value;
+                OnPropertyChanged();
+            }
+
+        }
+        public ObservableCollection<TopTenList> TopRatedRecipes
+        {
+            get
+            {
+                return this.topRatedRecipes;
+            }
+            set
+            {
+                this.topRatedRecipes = value;
                 OnPropertyChanged();
             }
 
@@ -324,19 +364,32 @@ namespace RecipesAppApp.ViewModels
             {
                 this.YourRecipes = new();
             }
-            List<Recipe> NoGlotenList =  this.Recipes.Where<Recipe>(r => r.IsGloten == false).ToList();
-            this.RecipesWithoutGloten =  new ObservableCollection<Recipe>(NoGlotenList);
-            List<Recipe> NoLactoseList = this.Recipes.Where<Recipe>(r => r.ContainsDairy == false).ToList();
-            this.RecipesWithoutLactose = new ObservableCollection<Recipe>(NoLactoseList);
+            List<Recipe> DesertList = this.Recipes.Where<Recipe>(r => r.Kind == "Deserts").ToList();
+            this.Deserts = new ObservableCollection<Recipe>(DesertList);
+            List<Recipe> JapaneseList =  this.Recipes.Where<Recipe>(r => r.Kind == "Japanese").ToList();
+            this.JapaneseRecipes =  new ObservableCollection<Recipe>(JapaneseList);
+            List<Recipe> FrenchList = this.Recipes.Where<Recipe>(r => r.Kind == "French").ToList();
+            this.FrenchRecipes = new ObservableCollection<Recipe>(FrenchList);
+            List<Recipe> ItalianList = this.Recipes.Where<Recipe>(r => r.Kind == "Italian").ToList();
+            this.ItalianRecipes = new ObservableCollection<Recipe>(ItalianList);
             List<Recipe> MostPopular = new(this.Recipes);
             MostPopular = MostPopular.Take(10).OrderByDescending(x => x.HowManyMadeIt).ToList();
-            List<TopTenList> l = new List<TopTenList>();
+            List<TopTenList> l1 = new List<TopTenList>();
             for (int i = 0; i < MostPopular.Count; i++)
             {
                 TopTenList t = new TopTenList(MostPopular[i].Id, MostPopular[i].RecipesName, MostPopular[i].RecipeImage, i+1);
-                l.Add(t);
+                l1.Add(t);
             }
-            this.MostPopularRecipes = new ObservableCollection<TopTenList>(l);
+            this.MostPopularRecipes = new ObservableCollection<TopTenList>(l1);
+            List<Recipe> MostRated = new(this.Recipes);
+            MostRated = MostRated.Take(10).OrderByDescending(x => x.Rating).ToList();
+            List<TopTenList> l2 = new List<TopTenList>();
+            for (int i = 0; i < MostRated.Count; i++)
+            {
+                TopTenList t = new TopTenList(MostRated[i].Id, MostRated[i].RecipesName, MostRated[i].RecipeImage, i + 1);
+                l2.Add(t);
+            }
+            this.TopRatedRecipes = new ObservableCollection<TopTenList>(l2);
             List<Recipe> KosherList = this.Recipes.Where<Recipe>(r => r.IsKosher == true).ToList();
             this.KosherRecipes = new ObservableCollection<Recipe>(KosherList);
             this.SearchedBarList = new ObservableCollection<Recipe>();
@@ -500,24 +553,141 @@ namespace RecipesAppApp.ViewModels
             {
                 if(a.IsChecked)
                 {
-                    #region RecipesWithoutGloten
-                    List<Recipe> rs = new List<Recipe>(); 
-                   foreach(Recipe r in RecipesWithoutGloten)
-                   {
-                        foreach(Allergy ar in r.Allergies)
+                    bool IsAllergy;
+                    #region Deserts
+                    List<Recipe> D = new List<Recipe>();
+                    foreach (Recipe r in Deserts)
+                    {
+                        IsAllergy = false;
+                        if (r.Allergies.Count == 0)
                         {
-                            if(a.AllergyId != ar.Id)
+                            D.Add(r);
+                        }
+                        else
+                        {
+                            foreach (Allergy ar in r.Allergies)
                             {
-                                rs.Add(r);
+                                if (a.AllergyId == ar.Id)
+                                {
+                                    IsAllergy = true;
+                                }
                             }
                         }
-                        if(r.Allergies.Count == 0)
+                        if (IsAllergy == false)
                         {
-                            rs.Add(r);
+                            D.Add(r);
+                        }
+                    }
+                    Deserts = new ObservableCollection<Recipe>(D);
+                    OnPropertyChanged("Deserts");
+                    #endregion
+                    #region Japanese Recipes
+                    List<Recipe> jr = new List<Recipe>();
+                   foreach(Recipe r in JapaneseRecipes)
+                   {
+                        IsAllergy = false;
+                        if (r.Allergies.Count == 0)
+                        {
+                            jr.Add(r);
+                        }
+                        else
+                        {
+                          foreach (Allergy ar in r.Allergies)
+                          { 
+                               if(a.AllergyId == ar.Id)
+                               {
+                                    IsAllergy = true;
+                               }
+                          }
+                        }
+                        if (IsAllergy == false)
+                        {
+                            jr.Add(r);
                         }
                    }
-                    RecipesWithoutGloten = new ObservableCollection<Recipe>(rs);
-                    OnPropertyChanged("RecipesWithoutGloten");
+                    JapaneseRecipes = new ObservableCollection<Recipe>(jr);
+                    OnPropertyChanged("JapaneseRecipes");
+                    #endregion
+                    #region French Recipes
+                    List<Recipe> fr = new List<Recipe>();
+                    foreach (Recipe r in FrenchRecipes)
+                    {
+                        IsAllergy = false;
+                        if (r.Allergies.Count == 0)
+                        {
+                            fr.Add(r);
+                        }
+                        else
+                        {
+                            foreach (Allergy ar in r.Allergies)
+                            {
+                                if (a.AllergyId == ar.Id)
+                                {
+                                    IsAllergy = true;
+                                }
+                            }
+                        }
+                        if (IsAllergy == false)
+                        {
+                            fr.Add(r);
+                        }
+                    }
+                    FrenchRecipes = new ObservableCollection<Recipe>(fr);
+                    OnPropertyChanged("FrenchRecipes");
+                    #endregion
+                    #region Italian Recipes
+                    List<Recipe> ir = new List<Recipe>();
+                    foreach (Recipe r in ItalianRecipes)
+                    {
+                        IsAllergy = false;
+                        if (r.Allergies.Count == 0)
+                        {
+                            ir.Add(r);
+                        }
+                        else
+                        {
+                            foreach (Allergy ar in r.Allergies)
+                            {
+                                if (a.AllergyId == ar.Id)
+                                {
+                                    IsAllergy = true;
+                                }
+                            }
+                        }
+                        if (IsAllergy == false)
+                        {
+                            ir.Add(r);
+                        }
+                    }
+                    ItalianRecipes = new ObservableCollection<Recipe>(ir);
+                    OnPropertyChanged("ItalianRecipes");
+                    #endregion
+                    #region Kosher Recipes
+                    List<Recipe> kr = new List<Recipe>();
+                    foreach (Recipe r in KosherRecipes)
+                    {
+                        IsAllergy = false;
+                        if (r.Allergies.Count == 0)
+                        {
+                            kr.Add(r);
+                        }
+                        else
+                        {
+                            foreach (Allergy ar in r.Allergies)
+                            {
+                                if (a.AllergyId == ar.Id)
+                                {
+                                    IsAllergy = true;
+                                }
+                            }
+                        }
+                        if (IsAllergy == false)
+                        {
+                            kr.Add(r);
+                        }
+                    }
+                    KosherRecipes = new ObservableCollection<Recipe>(kr);
+                    OnPropertyChanged("KosherRecipes");
                     #endregion
                 }
             }
