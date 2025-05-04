@@ -653,6 +653,38 @@ namespace RecipesAppApp.Services
                 return null;
             }
         }
+        public async Task<Double?> GetRatingbyRecipe(int recipeId)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}getRatingbyRecipe";
+            try
+            {
+                string json = JsonSerializer.Serialize(recipeId);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string Responsecontent = await response.Content.ReadAsStringAsync();
+                    Double? i = JsonSerializer.Deserialize<Double?>(Responsecontent, options);
+                    if (i == null)
+                        return null;
+                    else return i;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
         public async Task<Storage> GetStoragesbyUser(int StorageId)
         {
             //Set URI to the specific function API

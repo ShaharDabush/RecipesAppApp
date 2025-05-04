@@ -10,10 +10,12 @@ namespace RecipesAppApp.Views;
 public partial class StorageView : ContentPage
 {
     private readonly IServiceProvider serviceProvider;
+    StorageViewModel vm;
     public StorageView(StorageViewModel vm, IServiceProvider sp)
 	{
         this.serviceProvider = sp;
         this.BindingContext = vm;
+        this.vm = vm;
         vm.OpenPopup += DisplayPopup;
         InitializeComponent();
         InitZing();
@@ -61,5 +63,13 @@ public partial class StorageView : ContentPage
                 
             });
         }
+    }
+
+    private void cameraView_BarcodeDetected_1(object sender, Camera.MAUI.ZXingHelper.BarcodeEventArgs args)
+    {
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            vm.IngredientCode = args.Result[0].BarcodeFormat.ToString();
+        });
     }
 }

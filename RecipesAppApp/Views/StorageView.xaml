@@ -16,7 +16,8 @@
         <ScrollView>
             
             <VerticalStackLayout>
-                <cv:CameraView x:Name="cameraView" WidthRequest="300" HeightRequest="200" CamerasLoaded="cameraView_CamerasLoaded" BarCodeDetectionEnabled="True"/>
+                <Label x:Name="barcodeResult" Text="{Binding IngedientCode}" />
+                <cv:CameraView x:Name="cameraView" WidthRequest="300" HeightRequest="200" IsVisible="{Binding isInCameraMode}" CamerasLoaded="cameraView_CamerasLoaded" BarCodeDetectionEnabled="True" BarcodeDetected="cameraView_BarcodeDetected_1"/>
                 <expander:SfExpander>
                     <expander:SfExpander.Header>
                         <Label Margin="5,0,0,0" Text="Search Ingredients"/>

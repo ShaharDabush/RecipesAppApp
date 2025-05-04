@@ -27,6 +27,7 @@ namespace RecipesAppApp.ViewModels
         private Storage storage;
         private string searchedIngredientInStorage;
         private string searchedNewIngredient;
+        private string ingredientCode;
         private bool isInCameraMode;
         public ICommand OpenCreateIngredientCommand { get; set; }
 
@@ -53,6 +54,18 @@ namespace RecipesAppApp.ViewModels
                 this.searchedNewIngredient = value;
                 OnPropertyChanged();
                 SortForNewIngredients();
+            }
+        }
+        public string IngredientCode
+        {
+            get
+            {
+                return ingredientCode;
+            }
+            set
+            {
+                this.ingredientCode = value;
+                OnPropertyChanged();
             }
         }
 

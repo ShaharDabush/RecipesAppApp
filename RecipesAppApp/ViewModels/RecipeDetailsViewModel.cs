@@ -25,6 +25,7 @@ namespace RecipesAppApp.ViewModels
         private Recipe recipe;
         private List<int> ratings;
         private Rating userRating;
+        private double recipeRating;
         private double? rate;
         public List<int> Ratings
         {
@@ -53,6 +54,15 @@ namespace RecipesAppApp.ViewModels
             set
             {
                 this.userRating = value;
+                OnPropertyChanged();
+            }
+        }
+        public double RecipeRating
+        {
+            get { return recipeRating; }
+            set
+            {
+                this.recipeRating = value;
                 OnPropertyChanged();
             }
         }
@@ -136,6 +146,8 @@ namespace RecipesAppApp.ViewModels
                 }
 
             }
+            RecipeRating = 0;
+            RecipeRating = Recipe.Rating;
             this.TrueList = new ObservableCollection<IngredientsWithNameAndAmount>(TrueListA);
             OnPropertyChanged("Levels");
             OnPropertyChanged("Ingredients");
@@ -172,7 +184,10 @@ namespace RecipesAppApp.ViewModels
                     OnPropertyChanged("Rate");
                     await Application.Current.MainPage.DisplayAlert("Rating", "Someting went wrong try again later!", "ok");
                 }
+                Double? NewRate = await RecipesService.GetRatingbyRecipe(Recipe.Id);
+                RecipeRating = NewRate.Value;
                 OnPropertyChanged("Recipe");
+                OnPropertyChanged("RecipeRating");
             }
             else if (Rate != 0)
             {

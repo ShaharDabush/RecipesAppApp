@@ -515,7 +515,8 @@ namespace RecipesAppApp.ViewModels
             {
                 if (a.IsChecked)
                 {
-                    recipeAllergies.Add(a.AllergyId, a.AllergyName);
+                    Allergy allergy = new Allergy(a.AllergyId,a.AllergyName);
+                    recipeAllergies.Add(allergy);
                 }
             }
             saveRecipeInfo.RecipeInfo.Allergies = recipeAllergies;

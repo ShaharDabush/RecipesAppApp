@@ -20,7 +20,7 @@
                 <Label.FormattedText>
                     <FormattedString>
                             <Span Text="Rating: " />
-                            <Span Text="{Binding Recipe.Rating}" Grid.Column="0"/>
+                            <Span Text="{Binding RecipeRating}" Grid.Column="0"/>
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
