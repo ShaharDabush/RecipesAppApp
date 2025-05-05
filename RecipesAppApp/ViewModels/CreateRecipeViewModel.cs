@@ -378,6 +378,7 @@ namespace RecipesAppApp.ViewModels
             ListOfKind.Add("Italian");
             ListOfKind.Add("French");
             GetIngredients();
+            GetAllergies();
         }
 
         public async void GetIngredients()
@@ -389,12 +390,13 @@ namespace RecipesAppApp.ViewModels
         public async void GetAllergies()
         {
             List<Allergy> allAllergies = await RecipesService.GetAllAllergeis();
-            Allergies = new ObservableCollection<Allergy>(allAllergies);
-            foreach (Allergy a in Allergies)
+            List<UserAllergyWithIsChecked> allergies = new List<UserAllergyWithIsChecked>();
+            foreach (Allergy a in allAllergies)
             {
                UserAllergyWithIsChecked u1 = new UserAllergyWithIsChecked(a.Id, a.AllergyName, false);
-               AllergiesList.Add(u1);
+                allergies.Add(u1);
             }
+            AllergiesList = new ObservableCollection<UserAllergyWithIsChecked>(allergies);
         }
 
         public void Sort()
@@ -474,6 +476,7 @@ namespace RecipesAppApp.ViewModels
 
         public async void SaveRecipe()
         {
+            //add try and catch
             SaveRecipeInfo saveRecipeInfo = new SaveRecipeInfo();
             Recipe newRecipe = new Recipe();
             newRecipe.RecipeImage = photoURL;
@@ -505,12 +508,12 @@ namespace RecipesAppApp.ViewModels
             }
             List<Level> levels = new List<Level>();
             levels = ListOfDirections;
-            List<IngredientRecipe> ingredientRecipes = new List<IngredientRecipe>();
+            List<IngredientRecipe> ingredientRecipes = new();
             foreach (IngredientsWithNameAndAmount i in ListOfNewIngredients)
             {
                 ingredientRecipes.Add(new IngredientRecipe(i.IngredientId, i.RecipeId, i.Amount, i.MeasureUnits));
             }
-            List<Allergy> recipeAllergies = new List<Allergy>();
+            List<Allergy> recipeAllergies = new();
             foreach(UserAllergyWithIsChecked a in AllergiesList)
             {
                 if (a.IsChecked)
@@ -519,10 +522,10 @@ namespace RecipesAppApp.ViewModels
                     recipeAllergies.Add(allergy);
                 }
             }
+            saveRecipeInfo.RecipeInfo = newRecipe;
             saveRecipeInfo.RecipeInfo.Allergies = recipeAllergies;
             saveRecipeInfo.LevelsInfo = levels;
             saveRecipeInfo.IngredientsInfo = ingredientRecipes;
-            saveRecipeInfo.RecipeInfo = newRecipe;
             saveRecipeInfo = await RecipesService.SaveRecipe(saveRecipeInfo);
             if (saveRecipeInfo != null)
             {
@@ -536,7 +539,15 @@ namespace RecipesAppApp.ViewModels
                     {
                         await Application.Current.MainPage.DisplayAlert("Registration", "Recipe Data Was Saved BUT recipe image upload failed", "ok");
                     }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Registration", "Recipe Data Was Saved!", "ok");
+                    }
                 }
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Registration", "Recipe Data Was not Save, please try again", "ok");
             }
 
         }

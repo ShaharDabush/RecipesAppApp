@@ -829,6 +829,34 @@ namespace RecipesAppApp.Services
                 return false;
             }
         }
+                public async Task<bool> RemoveStorageIngredient(List<Ingredient> ingredientList)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}removeStorageIngredient";
+            try
+            {
+                string json = JsonSerializer.Serialize(ingredientList);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
         public async Task<SaveRecipeInfo?> SaveRecipe(SaveRecipeInfo saveRecipeInfo)
         {
             //Set URI to the specific function API

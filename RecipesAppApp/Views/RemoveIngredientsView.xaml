@@ -29,5 +29,6 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        <Button Text="Remove Ingredients" Command="{Binding RemoveIngredientsFromStorageCommand}" BackgroundColor="#a0522d"/>
     </VerticalStackLayout>
 </toolkit:Popup>

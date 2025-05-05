@@ -23,5 +23,6 @@ namespace RecipesAppApp.Models
             Amount = amount;
             MeasureUnits = measureUnits;
         }
+
     }
 }

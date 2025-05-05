@@ -1,115 +1,276 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RecipesAppApp.Views.CreateRecipeView"
-             xmlns:models="clr-namespace:RecipesAppApp.Models"
-             xmlns:classes="clr-namespace:RecipesAppApp.Classes"
-             xmlns:viewmodels="clr-namespace:RecipesAppApp.ViewModels"             
-             Title="Create New Recipe"
-             BackgroundColor="Wheat"
-             Shell.BackgroundColor="Wheat"
-             x:DataType="viewmodels:CreateRecipeViewModel">
-    <ScrollView  x:Name="scrlview">
+<ContentPage
+    x:Class="RecipesAppApp.Views.CreateRecipeView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:classes="clr-namespace:RecipesAppApp.Classes"
+    xmlns:models="clr-namespace:RecipesAppApp.Models"
+    xmlns:viewmodels="clr-namespace:RecipesAppApp.ViewModels"
+    Title="Create New Recipe"
+    x:DataType="viewmodels:CreateRecipeViewModel"
+    BackgroundColor="Wheat"
+    Shell.BackgroundColor="Wheat">
+    <ScrollView x:Name="scrlview">
         <VerticalStackLayout x:Name="VSL">
-        <Grid
-            RowDefinitions="*">
-            <Entry Text="{Binding RecipeName}" Grid.Row="0" FontSize="20" HorizontalOptions="Center"  HorizontalTextAlignment="Center" WidthRequest="200"/>
-                <BoxView BackgroundColor="#cd853f" HorizontalOptions="Center" WidthRequest="200" HeightRequest="3" Grid.Row="0" Margin="0,33,0,0"/>
-        </Grid>
-    <Grid HorizontalOptions="Fill"
-        RowDefinitions="*"
-        ColumnDefinitions="*">
-                <Border Margin="20" StrokeShape="RoundRectangle 30,30,30,30" Stroke="#cd853f">
-                <Image Source="{Binding PhotoURL}" HeightRequest="300"  Aspect="AspectFill" Grid.Row="0" Grid.ColumnSpan="7" Grid.RowSpan="3" Grid.Column="0"></Image>
-        </Border>
-        <ImageButton x:Name="theEditImage" Source="edit.png" Grid.Row="0" Grid.Column="0"   CornerRadius="6"  Command="{Binding UploadPhotoCommand}" HeightRequest="60" HorizontalOptions="End" VerticalOptions="EndAndExpand" WidthRequest="50"> </ImageButton>
-    </Grid>
-        <Label Text="Desciption" FontSize="25" Margin="20,0,0,0"/>
-            <Border Stroke="#cd853f" StrokeShape="RoundRectangle 10,10,10,10" WidthRequest="350" HeightRequest="100" >
+            <Grid RowDefinitions="*">
+                <Entry
+                    Grid.Row="0"
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding RecipeName}"
+                    WidthRequest="200" />
+                <BoxView
+                    Grid.Row="0"
+                    Margin="0,33,0,0"
+                    BackgroundColor="#cd853f"
+                    HeightRequest="3"
+                    HorizontalOptions="Center"
+                    WidthRequest="200" />
+            </Grid>
+            <Grid
+                ColumnDefinitions="*"
+                HorizontalOptions="Fill"
+                RowDefinitions="*">
+                <Border
+                    Margin="20"
+                    Stroke="#cd853f"
+                    StrokeShape="RoundRectangle 30,30,30,30">
+                    <Image
+                        Grid.Row="0"
+                        Grid.RowSpan="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="7"
+                        Aspect="AspectFill"
+                        HeightRequest="300"
+                        Source="{Binding PhotoURL}" />
+                </Border>
+                <ImageButton
+                    x:Name="theEditImage"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Command="{Binding UploadPhotoCommand}"
+                    CornerRadius="6"
+                    HeightRequest="60"
+                    HorizontalOptions="End"
+                    Source="edit.png"
+                    VerticalOptions="EndAndExpand"
+                    WidthRequest="50" />
+            </Grid>
+            <Label
+                Margin="20,0,0,0"
+                FontSize="25"
+                Text="Desciption" />
+            <Border
+                HeightRequest="100"
+                Stroke="#cd853f"
+                StrokeShape="RoundRectangle 10,10,10,10"
+                WidthRequest="350">
                 <Grid RowDefinitions="*">
-                    <Editor HeightRequest="100" Text="{Binding Desciption}" Grid.Row="0" />
-                    <BoxView BackgroundColor="Wheat"  Grid.Row="0" Margin="0,90,0,0" HeightRequest="10" WidthRequest="349" />
+                    <Editor
+                        Grid.Row="0"
+                        HeightRequest="100"
+                        Text="{Binding Desciption}" />
+                    <BoxView
+                        Grid.Row="0"
+                        Margin="0,90,0,0"
+                        BackgroundColor="Wheat"
+                        HeightRequest="10"
+                        WidthRequest="349" />
                 </Grid>
             </Border>
-            <Label Text="Kind" FontSize="25" Margin="20,20,0,0"/>
-            <Picker ItemsSource="{Binding ListOfKind}" SelectedItem="{Binding Kind}" WidthRequest="100" HorizontalOptions="Start" Margin="20,0,0,0"/>
-            <Label Text="Time of day" FontSize="25" Margin="20,20,0,10"/>
-            <RadioButton Content="Morning" Margin="20,0,0,0" IsChecked="{Binding Morning}"/>
-            <RadioButton Content="Noon" Margin="20,0,0,0" IsChecked="{Binding Noon}" />
-            <RadioButton  Content="Evening" Margin="20,0,0,0" IsChecked="{Binding Evening}" />
-            <RadioButton  Content="Any Time" Margin="20,0,0,0" IsChecked="{Binding AnyTime}" />
-            <Label Text="Contains" FontSize="25" Margin="20,20,0,0"/>
-            <Grid ColumnDefinitions="*,*" Margin="-90,0,0,0">
-                <CheckBox Color="#a0522d" IsChecked="{Binding ContainMeat}"/>
-                <Label Text="Meat" Grid.Column="1" Margin="-90,12,0,0"/>
+            <Label
+                Margin="20,20,0,0"
+                FontSize="25"
+                Text="Kind" />
+            <Picker
+                Margin="20,0,0,0"
+                HorizontalOptions="Start"
+                ItemsSource="{Binding ListOfKind}"
+                SelectedItem="{Binding Kind}"
+                WidthRequest="100" />
+            <Label
+                Margin="20,20,0,10"
+                FontSize="25"
+                Text="Time of day" />
+            <RadioButton
+                Margin="20,0,0,0"
+                Content="Morning"
+                IsChecked="{Binding Morning}" />
+            <RadioButton
+                Margin="20,0,0,0"
+                Content="Noon"
+                IsChecked="{Binding Noon}" />
+            <RadioButton
+                Margin="20,0,0,0"
+                Content="Evening"
+                IsChecked="{Binding Evening}" />
+            <RadioButton
+                Margin="20,0,0,0"
+                Content="Any Time"
+                IsChecked="{Binding AnyTime}" />
+            <Label
+                Margin="20,20,0,0"
+                FontSize="25"
+                Text="Contains" />
+            <Grid Margin="-90,0,0,0" ColumnDefinitions="*,*">
+                <CheckBox IsChecked="{Binding ContainMeat}" Color="#a0522d" />
+                <Label
+                    Grid.Column="1"
+                    Margin="-90,12,0,0"
+                    Text="Meat" />
             </Grid>
-            <Grid ColumnDefinitions="*,*" Margin="-90,0,0,0">
-                <CheckBox Color="#a0522d" IsChecked="{Binding ContainDairy}"/>
-                <Label Text="Dairy" Grid.Column="1"  Margin="-90,12,0,0"/>
+            <Grid Margin="-90,0,0,0" ColumnDefinitions="*,*">
+                <CheckBox IsChecked="{Binding ContainDairy}" Color="#a0522d" />
+                <Label
+                    Grid.Column="1"
+                    Margin="-90,12,0,0"
+                    Text="Dairy" />
             </Grid>
-            <Grid ColumnDefinitions="*,*"  Margin="-90,0,0,0">
-                <CheckBox Color="#a0522d" IsChecked="{Binding IsKosher}" />
-                <Label Text="Kosher" Grid.Column="1" Margin="-90,12,0,0" />
+            <Grid Margin="-90,0,0,0" ColumnDefinitions="*,*">
+                <CheckBox IsChecked="{Binding IsKosher}" Color="#a0522d" />
+                <Label
+                    Grid.Column="1"
+                    Margin="-90,12,0,0"
+                    Text="Kosher" />
             </Grid>
-            <Grid ColumnDefinitions="*,*"  Margin="-90,0,0,0">
-                <CheckBox Color="#a0522d" IsChecked="{Binding IsGloten}"/>
-                <Label Text="Gluten" Grid.Column="1" Margin="-90,12,0,0" />
+            <Grid Margin="-90,0,0,0" ColumnDefinitions="*,*">
+                <CheckBox IsChecked="{Binding IsGloten}" Color="#a0522d" />
+                <Label
+                    Grid.Column="1"
+                    Margin="-90,12,0,0"
+                    Text="Gluten" />
             </Grid>
-            <Label Text="Allergies" FontSize="25" Margin="20,20,0,0"/>
-            <CollectionView ItemsSource="{Binding AllergiesList}"  BackgroundColor="Wheat" MinimumHeightRequest="35" MaximumHeightRequest="420" WidthRequest="180" HorizontalOptions="Start" Margin="30,0,0,0">
+            <Label
+                Margin="20,20,0,0"
+                FontSize="25"
+                Text="Allergies" />
+            <CollectionView
+                Margin="30,15,0,0"
+                BackgroundColor="Wheat"
+                HorizontalOptions="Start"
+                ItemsSource="{Binding AllergiesList}"
+                MaximumHeightRequest="420"
+                MinimumHeightRequest="35"
+                WidthRequest="180">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="classes:UserAllergyWithIsChecked">
-                        <Border Stroke="#deb887" MaximumHeightRequest="30" VerticalOptions="Start">
-                            <Grid ColumnDefinitions="20,150"  Margin="5,5,0,0">
-                                <CheckBox Color="#a0522d" IsChecked="{Binding IsChecked}" />
-                                <Label Grid.Column="1" TextColor="#a0522d" WidthRequest="70" Text="{Binding AllergyName}"/>
+                        <Border
+                            MaximumHeightRequest="30"
+                            Stroke="#deb887"
+                            VerticalOptions="Start">
+                            <Grid Margin="5,5,0,0" ColumnDefinitions="20,150">
+                                <CheckBox IsChecked="{Binding IsChecked}" Color="#a0522d" />
+                                <Label
+                                    Grid.Column="1"
+                                    Text="{Binding AllergyName}"
+                                    TextColor="#a0522d"
+                                    WidthRequest="70" />
                             </Grid>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Label Text="Ingredients" FontSize="25" Margin="20,20,0,0"/>
-            <Border Stroke="#deb887" StrokeShape="RoundRectangle 10,10,10,10" HeightRequest="30" WidthRequest="180" HorizontalOptions="Start" Margin="20,10,0,0" >
-            <Grid RowDefinitions="*">
-                    <Entry Text="{Binding SearchedName}" Grid.Row="0" Margin="0,0,0,-10" VerticalOptions="End" FontSize="15" HeightRequest="50" HorizontalOptions="Start" WidthRequest="180"/>
-                <BoxView BackgroundColor="Wheat" HeightRequest="10" Grid.Row="1" Margin="0,30,0,0"/>
-            </Grid>
+            <Label
+                Margin="20,20,0,0"
+                FontSize="25"
+                Text="Ingredients" />
+            <Border
+                Margin="20,10,0,0"
+                HeightRequest="30"
+                HorizontalOptions="Start"
+                Stroke="#deb887"
+                StrokeShape="RoundRectangle 10,10,10,10"
+                WidthRequest="180">
+                <Grid RowDefinitions="*">
+                    <Entry
+                        Grid.Row="0"
+                        Margin="0,5,0,-10"
+                        FontSize="15"
+                        HeightRequest="50"
+                        HorizontalOptions="Start"
+                        Text="{Binding SearchedName}"
+                        VerticalOptions="End"
+                        WidthRequest="180" />
+                    <BoxView
+                        Grid.Row="1"
+                        Margin="0,30,0,0"
+                        BackgroundColor="Wheat"
+                        HeightRequest="10" />
+                </Grid>
             </Border>
-            <CollectionView ItemsSource="{Binding SearchedIngredient}" MinimumHeightRequest="35" MaximumHeightRequest="400" WidthRequest="180" IsVisible="{Binding InSearch}" SelectionMode="Single"  SelectedItem="{Binding SelectedIngredient}" HorizontalOptions="Start" Margin="30,0,0,0">
+            <CollectionView
+                Margin="30,0,0,0"
+                HorizontalOptions="Start"
+                IsVisible="{Binding InSearch}"
+                ItemsSource="{Binding SearchedIngredient}"
+                MaximumHeightRequest="400"
+                MinimumHeightRequest="35"
+                SelectedItem="{Binding SelectedIngredient}"
+                SelectionMode="Single"
+                WidthRequest="180">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Ingredient">
-                        <Border Stroke="#deb887" MaximumHeightRequest="30" VerticalOptions="Start">
-                        <Grid ColumnDefinitions="20,150" RowDefinitions="20,20" Margin="5,5,0,0">
-                                <Label Grid.Column="1"   WidthRequest="50"  Margin="0,3,0,0" Text="{Binding IngredientName}" />
-                        </Grid>
+                        <Border
+                            MaximumHeightRequest="30"
+                            Stroke="#deb887"
+                            VerticalOptions="Start">
+                            <Grid
+                                Margin="5,5,0,0"
+                                ColumnDefinitions="20,150"
+                                RowDefinitions="20,20">
+                                <Label
+                                    Grid.Column="1"
+                                    Margin="0,3,0,0"
+                                    Text="{Binding IngredientName}"
+                                    WidthRequest="50" />
+                            </Grid>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-                    <VisualStateManager.VisualStateGroups>
-                        <VisualStateGroup>
-                            <VisualState Name="Selected">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="White" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateManager.VisualStateGroups>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup>
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="White" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
             </CollectionView>
-            <CollectionView ItemsSource="{Binding ListOfAddedIngredient}"  WidthRequest="200" HorizontalOptions="Start" Margin="30,20,0,0">
+            <CollectionView
+                Margin="30,20,0,0"
+                HorizontalOptions="Start"
+                ItemsSource="{Binding ListOfAddedIngredient}"
+                WidthRequest="200">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="classes:IngredientsWithNameAndAmount">
-                        <Grid ColumnDefinitions="40,150" RowDefinitions="20,20" Margin="5,0,0,0">
-                            <ImageButton Command="{Binding Path=BindingContext.DiscardIngredientCommand, Source={x:Reference VSL}} " CommandParameter="{Binding IngredientId}" Source="removeuser.png" WidthRequest="45" HeightRequest="150" Grid.Column="0" Margin="0,10,0,0"  />
-                            <Label Grid.Column="1"   WidthRequest="100" HeightRequest="20" Margin="0,10,0,0" >
+                        <Grid
+                            Margin="5,0,0,0"
+                            ColumnDefinitions="40,150"
+                            RowDefinitions="20,20">
+                            <ImageButton
+                                Grid.Column="0"
+                                Margin="0,10,0,0"
+                                Command="{Binding Path=BindingContext.DiscardIngredientCommand, Source={x:Reference VSL}}"
+                                CommandParameter="{Binding IngredientId}"
+                                HeightRequest="150"
+                                Source="removeuser.png"
+                                WidthRequest="45" />
+                            <Label
+                                Grid.Column="1"
+                                Margin="0,10,0,0"
+                                HeightRequest="20"
+                                WidthRequest="100">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="{Binding Amount}"/>
-                                        <Span Text=" "/>
-                                        <Span Text="{Binding MeasureUnits}"/>
-                                        <Span Text=" "/>
-                                        <Span Text="of"/>
-                                        <Span Text=" "/>
-                                        <Span Text="{Binding Name}"/>
+                                        <Span Text="{Binding Amount}" />
+                                        <Span Text=" " />
+                                        <Span Text="{Binding MeasureUnits}" />
+                                        <Span Text=" " />
+                                        <Span Text="of" />
+                                        <Span Text=" " />
+                                        <Span Text="{Binding Name}" />
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -117,24 +278,64 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Label Text="Directions" FontSize="25" Margin="20,0,0,0"/>
-            <CollectionView ItemsSource="{Binding Directions}" HorizontalOptions="Start" Margin="10,20,0,0" x:Name="CV">
+            <Label
+                Margin="20,0,0,0"
+                FontSize="25"
+                Text="Directions" />
+            <CollectionView
+                x:Name="CV"
+                Margin="10,20,0,0"
+                HorizontalOptions="Start"
+                ItemsSource="{Binding Directions}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate
-                        x:DataType="models:Level">
+                    <DataTemplate x:DataType="models:Level">
                         <Grid
-                            ColumnDefinitions="10,30,*" RowDefinitions="30,30" Margin="0,10,0,0">
-                            <ImageButton Source="removeuser.png" Command="{Binding Path=BindingContext.DiscardLevelCommand, Source={x:Reference CV}} " HorizontalOptions="Start" HeightRequest="20" WidthRequest="20" CommandParameter="{Binding LevelCount}" />
-                            <Border StrokeShape="Ellipse" Stroke="Black" StrokeThickness="1" HeightRequest="30" Grid.Column="1" Margin="12,0,-10,0">
-                                <Label Text="{Binding LevelCount}" FontAttributes="Bold" Grid.Column="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                            Margin="0,10,0,0"
+                            ColumnDefinitions="10,30,*"
+                            RowDefinitions="30,30">
+                            <ImageButton
+                                Command="{Binding Path=BindingContext.DiscardLevelCommand, Source={x:Reference CV}}"
+                                CommandParameter="{Binding LevelCount}"
+                                HeightRequest="20"
+                                HorizontalOptions="Start"
+                                Source="removeuser.png"
+                                WidthRequest="20" />
+                            <Border
+                                Grid.Column="1"
+                                Margin="12,0,-10,0"
+                                HeightRequest="30"
+                                Stroke="Black"
+                                StrokeShape="Ellipse"
+                                StrokeThickness="1">
+                                <Label
+                                    Grid.Column="0"
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Text="{Binding LevelCount}"
+                                    VerticalOptions="CenterAndExpand" />
                             </Border>
-                            <Editor MinimumHeightRequest="20" MaximumHeightRequest="70" Grid.Column="2" Grid.RowSpan="2" VerticalOptions="Start" Text="{Binding TextLevel}" Margin="20,0,0,0"/>
+                            <Editor
+                                Grid.RowSpan="2"
+                                Grid.Column="2"
+                                Margin="20,0,0,0"
+                                MaximumHeightRequest="70"
+                                MinimumHeightRequest="20"
+                                Text="{Binding TextLevel}"
+                                VerticalOptions="Start" />
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <ImageButton Source="adddirection.png" Command="{Binding AddDirectionCommand}" HorizontalOptions="Start" HeightRequest="50" Margin="-65,10,0,0"/>
-            <Button BackgroundColor="#a0522d" Text="Save Recipe" Command="{Binding SaveRecipeCommand}"/>
+            <ImageButton
+                Margin="-65,10,0,0"
+                Command="{Binding AddDirectionCommand}"
+                HeightRequest="50"
+                HorizontalOptions="Start"
+                Source="adddirection.png" />
+            <Button
+                BackgroundColor="#a0522d"
+                Command="{Binding SaveRecipeCommand}"
+                Text="Save Recipe" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

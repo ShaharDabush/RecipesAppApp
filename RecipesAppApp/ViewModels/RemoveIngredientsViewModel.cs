@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using RecipesAppApp.Classes;
 using RecipesAppApp.Services;
 using RecipesAppApp.Models;
+using System.Windows.Input;
 
 namespace RecipesAppApp.ViewModels
 {
@@ -14,6 +15,7 @@ namespace RecipesAppApp.ViewModels
     {
         private ObservableCollection<IngredientsWithNameAndAmount> userAndRecipeIngredients;
         private List<Ingredient> allUserIngredients;
+        public ICommand RemoveIngredientsFromStorageCommand => new Command(RemoveIngredientsFromStorage);
         public ObservableCollection<IngredientsWithNameAndAmount> UserAndRecipeIngredients
         {
             get { return userAndRecipeIngredients; }
@@ -49,6 +51,33 @@ namespace RecipesAppApp.ViewModels
                 }
             }
             UserAndRecipeIngredients = new ObservableCollection<IngredientsWithNameAndAmount>(IngredientsListForRemoveIngredients);
+        }
+
+        public async Task RemoveIngredientsFromStorage()
+        {
+            List<Ingredient> ingredientsToRemove = new List<Ingredient>();
+            foreach (IngredientsWithNameAndAmount i in UserAndRecipeIngredients)
+            {
+                if (i.IsChecked)
+                {
+                    foreach(Ingredient ui in AllUserIngredients)
+                    {
+                        if(i.IngredientId == ui.Id)
+                        {
+                            ingredientsToRemove.Add(new Ingredient(ui));
+                        }
+                    }
+                }
+            }
+            bool IsSuccessful = await RecipesService.RemoveStorageIngredient(ingredientsToRemove);
+            if (IsSuccessful)
+            {
+                await Application.Current.MainPage.DisplayAlert("Remove Ingredient", "Ingredients were Removed", "ok");
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Remove Ingredient", "Something went wrong, please try again later", "ok");
+            }
         }
 
     }

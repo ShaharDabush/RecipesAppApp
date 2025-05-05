@@ -3,28 +3,71 @@
     x:Class="RecipesAppApp.Views.HomePageView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:models="clr-namespace:RecipesAppApp.Models"
-    xmlns:vm="clr-namespace:RecipesAppApp.ViewModels"
-    x:DataType="vm:HomePageViewModel"
     xmlns:classes="clr-namespace:RecipesAppApp.Classes"
+    xmlns:models="clr-namespace:RecipesAppApp.Models"
     xmlns:sfbutton="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:vm="clr-namespace:RecipesAppApp.ViewModels"
+    Title="HomePageView"
+    x:DataType="vm:HomePageViewModel"
     BackgroundColor="Wheat"
-    Shell.BackgroundColor="Wheat"
-    Title="HomePageView">
+    Shell.BackgroundColor="Wheat">
     <ScrollView x:Name="scrlview">
         <StackLayout>
-            <Grid ColumnDefinitions="4*,*,2*"  MaximumHeightRequest="500" MinimumHeightRequest="30">
-                <Entry Grid.Column="0" PlaceholderColor="#a0522d" Placeholder="Search by player name" Margin="10,0,0,12" Text="{Binding SearchedName}" HorizontalOptions="Start" WidthRequest="220" HeightRequest="40" ClearButtonVisibility="WhileEditing" VerticalOptions="Start"/>
-                <ImageButton Grid.Column="1" RotationX="{Binding FlipPicker}" Source="pickericon.png" Command="{Binding ShowAllergiesCommand}" WidthRequest="30" HeightRequest="30" Margin="50,8,0,50" VerticalOptions="Start"/>
-                <Label Grid.Column="2" Text="Allergies" WidthRequest="55" Margin="0,13,0,0">
+            <Grid
+                ColumnDefinitions="4*,*,2*"
+                MaximumHeightRequest="500"
+                MinimumHeightRequest="30">
+                <Entry
+                    Grid.Column="0"
+                    Margin="10,0,0,12"
+                    ClearButtonVisibility="WhileEditing"
+                    HeightRequest="40"
+                    HorizontalOptions="Start"
+                    Placeholder="Search by player name"
+                    PlaceholderColor="#a0522d"
+                    Text="{Binding SearchedName}"
+                    VerticalOptions="Start"
+                    WidthRequest="220" />
+                <ImageButton
+                    Grid.Column="1"
+                    Margin="50,8,0,50"
+                    Command="{Binding ShowAllergiesCommand}"
+                    HeightRequest="30"
+                    RotationX="{Binding FlipPicker}"
+                    Source="pickericon.png"
+                    VerticalOptions="Start"
+                    WidthRequest="30" />
+                <Label
+                    Grid.Column="2"
+                    Margin="0,13,0,0"
+                    Text="Allergies"
+                    WidthRequest="55">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ShowAllergiesCommand}"/>
-                </Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ShowAllergiesCommand}" />
+                    </Label.GestureRecognizers>
                 </Label>
-                <CollectionView Margin="20,40,0,0" ItemsSource="{Binding AllergiesList}" BackgroundColor="Wheat" MinimumHeightRequest="35" MaximumHeightRequest="420" MinimumWidthRequest="175" HorizontalOptions="Start" Grid.Column="0" Grid.ColumnSpan="3" IsVisible="{Binding IsAllergiesVisble}">
-                        <CollectionView.Header>
-                            <Border Margin="8,0,0,0" Stroke="#deb887" HeightRequest="31" StrokeShape="RoundRectangle 2,2,2,2" IsVisible="{Binding IsYourAllergiesVisble}" VerticalOptions="Start" WidthRequest="125" HorizontalOptions="Start">
-                                <HorizontalStackLayout Margin="0,2,0,2">
+                <CollectionView
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="20,40,0,0"
+                    BackgroundColor="Wheat"
+                    HorizontalOptions="Start"
+                    IsVisible="{Binding IsAllergiesVisble}"
+                    ItemsSource="{Binding AllergiesList}"
+                    MaximumHeightRequest="420"
+                    MinimumHeightRequest="35"
+                    MinimumWidthRequest="175">
+                    <CollectionView.Header>
+                        <Border
+                            Margin="8,0,0,0"
+                            HeightRequest="31"
+                            HorizontalOptions="Start"
+                            IsVisible="{Binding IsYourAllergiesVisble}"
+                            Stroke="#deb887"
+                            StrokeShape="RoundRectangle 2,2,2,2"
+                            VerticalOptions="Start"
+                            WidthRequest="125">
+                            <HorizontalStackLayout Margin="0,2,0,2">
                                 <!--<sfbutton:SfCheckBox
                                     IsThreeState="True"
                                     Margin="-9,0,0,0"
@@ -33,22 +76,36 @@
                                     VerticalOptions="Center"
                                     StateChanged="YourAllergiesCheck"
                                     IsChecked="{Binding IsYourAllergiesChecked}"/>-->
-                                <CheckBox Margin="-9,0,0,0" Color="#a0522d" IsChecked="{Binding IsYourAllergiesChecked}" VerticalOptions="Center" CheckedChanged="AllergiesCheckChanged"/>
-                                    <Label Margin="-8,0,0,0" Grid.Column="1" TextColor="#a0522d" Text="Your allergies" VerticalOptions="Center"/>
-                                </HorizontalStackLayout>
-                            </Border>
-                        </CollectionView.Header>
+                                <CheckBox
+                                    Margin="-9,0,0,0"
+                                    CheckedChanged="AllergiesCheckChanged"
+                                    IsChecked="{Binding IsYourAllergiesChecked}"
+                                    VerticalOptions="Center"
+                                    Color="#a0522d" />
+                                <Label
+                                    Grid.Column="1"
+                                    Margin="-8,0,0,0"
+                                    Text="Your allergies"
+                                    TextColor="#a0522d"
+                                    VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </Border>
+                    </CollectionView.Header>
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout
+                            HorizontalItemSpacing="5"
                             Orientation="Vertical"
                             Span="3"
-                            HorizontalItemSpacing="5"
-                            VerticalItemSpacing="5">
-                        </GridItemsLayout>
+                            VerticalItemSpacing="5" />
                     </CollectionView.ItemsLayout>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="classes:UserAllergyWithIsChecked">
-                            <Border Stroke="#deb887"  WidthRequest="105" MaximumHeightRequest="30" VerticalOptions="Start" StrokeShape="RoundRectangle 2,2,2,2">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="classes:UserAllergyWithIsChecked">
+                            <Border
+                                MaximumHeightRequest="30"
+                                Stroke="#deb887"
+                                StrokeShape="RoundRectangle 2,2,2,2"
+                                VerticalOptions="Start"
+                                WidthRequest="105">
                                 <HorizontalStackLayout Margin="0,2,0,2">
                                     <!--<sfbutton:SfCheckBox
                                         x:Name="allergiesCheckBox"
@@ -58,20 +115,33 @@
                                         CheckedColor="#a0522d"
                                         VerticalOptions="Center"
                                         StateChanged="AllergiesStateChanged"/>-->
-                                    <CheckBox Margin="-9,0,0,0" Color="#a0522d" IsChecked="{Binding IsChecked}" VerticalOptions="Center" CheckedChanged="AllergiesCheckChanged" />
-                                        <Label Margin="-8,0,0,0" Grid.Column="1" TextColor="#a0522d" Text="{Binding AllergyName}" VerticalOptions="Center"  />
-                                    </HorizontalStackLayout>
-                                </Border>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                                    <CheckBox
+                                        Margin="-9,0,0,0"
+                                        CheckedChanged="AllergiesCheckChanged"
+                                        IsChecked="{Binding IsChecked}"
+                                        VerticalOptions="Center"
+                                        Color="#a0522d" />
+                                    <Label
+                                        Grid.Column="1"
+                                        Margin="-8,0,0,0"
+                                        Text="{Binding AllergyName}"
+                                        TextColor="#a0522d"
+                                        VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
             </Grid>
-            <Label FontAttributes="Bold" Text="Search results" IsVisible="{Binding InSearch}" />
-            <CollectionView
-                Margin="10"
-                ItemsLayout="VerticalGrid, 3"
-                x:Name="searchCollectionView"
+            <Label
+                FontAttributes="Bold"
                 IsVisible="{Binding InSearch}"
+                Text="Search results" />
+            <CollectionView
+                x:Name="searchCollectionView"
+                Margin="10"
+                IsVisible="{Binding InSearch}"
+                ItemsLayout="VerticalGrid, 3"
                 ItemsSource="{Binding SearchedBarList}"
                 SelectedItem="{Binding SelectedRecipe}"
                 SelectionMode="Single">
@@ -91,8 +161,8 @@
                             <Label
                                 Grid.Row="1"
                                 Grid.Column="0"
-                                Text="{Binding RecipesName}" 
-                                WidthRequest="100"/>
+                                Text="{Binding RecipesName}"
+                                WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
                                     <VisualState Name="Selected">
@@ -107,26 +177,26 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
             <Label
-                IsVisible="{Binding IsLoggedSearch}"
                 FontAttributes="Bold"
+                IsVisible="{Binding IsLoggedSearch}"
                 Text="Your recipes" />
             <CollectionView
-IsVisible="{Binding IsLoggedSearch}"
-ItemsSource="{Binding YourRecipes}"
-SelectedItem="{Binding SelectedRecipe}"
-SelectionMode="Single">
+                IsVisible="{Binding IsLoggedSearch}"
+                ItemsSource="{Binding YourRecipes}"
+                SelectedItem="{Binding SelectedRecipe}"
+                SelectionMode="Single">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Recipe">
                         <VerticalStackLayout
-            Padding="20"
-            HorizontalOptions="FillAndExpand"
-            VerticalOptions="Center">
+                            Padding="20"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center">
                             <Image
-                Aspect="Fill"
-                HeightRequest="150"
-                Source="{Binding RecipeImage}"
-                WidthRequest="100" />
-                            <Label Text="{Binding RecipesName}" WidthRequest="100"/>
+                                Aspect="Fill"
+                                HeightRequest="150"
+                                Source="{Binding RecipeImage}"
+                                WidthRequest="100" />
+                            <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
                                     <VisualState Name="Selected">
@@ -143,25 +213,27 @@ SelectionMode="Single">
                     <LinearItemsLayout Orientation="Horizontal" />
                 </CollectionView.ItemsLayout>
             </CollectionView>
-            <Label FontAttributes="Bold" Text="Kosher Recipes" IsVisible="{Binding NotInSearch}" />
+            <Label
+                FontAttributes="Bold"
+                IsVisible="{Binding NotInSearch}"
+                Text="Kosher Recipes" />
             <CollectionView
-     IsVisible="{Binding NotInSearch}"
-     ItemsSource="{Binding KosherRecipes}"
-     SelectedItem="{Binding SelectedRecipe}"
-     SelectionMode="Single">
+                IsVisible="{Binding NotInSearch}"
+                ItemsSource="{Binding KosherRecipes}"
+                SelectedItem="{Binding SelectedRecipe}"
+                SelectionMode="Single">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Recipe">
                         <VerticalStackLayout
-                 Padding="20"
-                 HorizontalOptions="FillAndExpand"
-                 VerticalOptions="Center">
+                            Padding="20"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center">
                             <Image
-                     Aspect="Fill"
-                     HeightRequest="150"
-                     Source="{Binding RecipeImage}"
-                     WidthRequest="100"
-                                />
-                            <Label Text="{Binding RecipesName}" WidthRequest="100"/>
+                                Aspect="Fill"
+                                HeightRequest="150"
+                                Source="{Binding RecipeImage}"
+                                WidthRequest="100" />
+                            <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
                                     <VisualState Name="Selected">
@@ -178,24 +250,27 @@ SelectionMode="Single">
                     <LinearItemsLayout Orientation="Horizontal" />
                 </CollectionView.ItemsLayout>
             </CollectionView>
-            <Label FontAttributes="Bold" Text="Japanese Food" IsVisible="{Binding NotInSearch}" />
+            <Label
+                FontAttributes="Bold"
+                IsVisible="{Binding NotInSearch}"
+                Text="Japanese Food" />
             <CollectionView
-     IsVisible="{Binding NotInSearch}"
-     ItemsSource="{Binding JapaneseRecipes}"
-     SelectedItem="{Binding SelectedRecipe}"
-     SelectionMode="Single">
+                IsVisible="{Binding NotInSearch}"
+                ItemsSource="{Binding JapaneseRecipes}"
+                SelectedItem="{Binding SelectedRecipe}"
+                SelectionMode="Single">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Recipe">
                         <VerticalStackLayout
-                 Padding="20"
-                 HorizontalOptions="FillAndExpand"
-                 VerticalOptions="Center">
+                            Padding="20"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center">
                             <Image
-                     Aspect="Fill"
-                     HeightRequest="150"
-                     Source="{Binding RecipeImage}"
-                     WidthRequest="100" />
-                            <Label Text="{Binding RecipesName}" WidthRequest="100"/>
+                                Aspect="Fill"
+                                HeightRequest="150"
+                                Source="{Binding RecipeImage}"
+                                WidthRequest="100" />
+                            <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
                                     <VisualState Name="Selected">
@@ -212,7 +287,10 @@ SelectionMode="Single">
                     <LinearItemsLayout Orientation="Horizontal" />
                 </CollectionView.ItemsLayout>
             </CollectionView>
-            <Label FontAttributes="Bold" Text="Top Ten Most Made Recipes" IsVisible="{Binding NotInSearch}" />
+            <Label
+                FontAttributes="Bold"
+                IsVisible="{Binding NotInSearch}"
+                Text="Top Ten Most Made Recipes" />
             <CollectionView
                 IsVisible="{Binding NotInSearch}"
                 ItemsSource="{Binding MostPopularRecipes}"
@@ -224,21 +302,26 @@ SelectionMode="Single">
                             Padding="20"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="Center">
-                            <Grid
-                                ColumnDefinitions="0.5*,*"
-                                RowDefinitions="*,0.25*">
-                            <Image
-                                Grid.Column="1"
-                                Aspect="Fill"
-                                HeightRequest="150"
-                                Source="{Binding RecipeImage}"
-                                WidthRequest="100" />
-                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding RecipeName}" WidthRequest="100"/>
-                                <Label FontSize="40" VerticalOptions="Center" Grid.RowSpan="2">
+                            <Grid ColumnDefinitions="0.5*,*" RowDefinitions="*,0.25*">
+                                <Image
+                                    Grid.Column="1"
+                                    Aspect="Fill"
+                                    HeightRequest="150"
+                                    Source="{Binding RecipeImage}"
+                                    WidthRequest="100" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Text="{Binding RecipeName}"
+                                    WidthRequest="100" />
+                                <Label
+                                    Grid.RowSpan="2"
+                                    FontSize="40"
+                                    VerticalOptions="Center">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding RecipePlace}"/>
-                                            <Span Text=". "/>
+                                            <Span Text="{Binding RecipePlace}" />
+                                            <Span Text=". " />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
@@ -259,20 +342,27 @@ SelectionMode="Single">
                     <LinearItemsLayout Orientation="Horizontal" />
                 </CollectionView.ItemsLayout>
             </CollectionView>
-            <Label FontAttributes="Bold" Text="French Food" IsVisible="{Binding NotInSearch}" />
-            <CollectionView IsVisible="{Binding NotInSearch}" ItemsSource="{Binding FrenchRecipes}" SelectedItem="{Binding SelectedRecipe}" SelectionMode="Single">
+            <Label
+                FontAttributes="Bold"
+                IsVisible="{Binding NotInSearch}"
+                Text="French Food" />
+            <CollectionView
+                IsVisible="{Binding NotInSearch}"
+                ItemsSource="{Binding FrenchRecipes}"
+                SelectedItem="{Binding SelectedRecipe}"
+                SelectionMode="Single">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Recipe">
                         <VerticalStackLayout
-                 Padding="20"
-                 HorizontalOptions="FillAndExpand"
-                 VerticalOptions="Center">
+                            Padding="20"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center">
                             <Image
-                     Aspect="Fill"
-                     HeightRequest="150"
-                     Source="{Binding RecipeImage}"
-                     WidthRequest="100" />
-                            <Label Text="{Binding RecipesName}" WidthRequest="100"/>
+                                Aspect="Fill"
+                                HeightRequest="150"
+                                Source="{Binding RecipeImage}"
+                                WidthRequest="100" />
+                            <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
                                     <VisualState Name="Selected">
@@ -289,20 +379,27 @@ SelectionMode="Single">
                     <LinearItemsLayout Orientation="Horizontal" />
                 </CollectionView.ItemsLayout>
             </CollectionView>
-            <Label FontAttributes="Bold" Text="Deserts" IsVisible="{Binding NotInSearch}" />
-            <CollectionView IsVisible="{Binding NotInSearch}" ItemsSource="{Binding Deserts}" SelectedItem="{Binding SelectedRecipe}" SelectionMode="Single">
+            <Label
+                FontAttributes="Bold"
+                IsVisible="{Binding NotInSearch}"
+                Text="Deserts" />
+            <CollectionView
+                IsVisible="{Binding NotInSearch}"
+                ItemsSource="{Binding Deserts}"
+                SelectedItem="{Binding SelectedRecipe}"
+                SelectionMode="Single">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Recipe">
                         <VerticalStackLayout
-                 Padding="20"
-                 HorizontalOptions="FillAndExpand"
-                 VerticalOptions="Center">
+                            Padding="20"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center">
                             <Image
-                     Aspect="Fill"
-                     HeightRequest="150"
-                     Source="{Binding RecipeImage}"
-                     WidthRequest="100" />
-                            <Label Text="{Binding RecipesName}" WidthRequest="100"/>
+                                Aspect="Fill"
+                                HeightRequest="150"
+                                Source="{Binding RecipeImage}"
+                                WidthRequest="100" />
+                            <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
                                     <VisualState Name="Selected">
@@ -319,20 +416,27 @@ SelectionMode="Single">
                     <LinearItemsLayout Orientation="Horizontal" />
                 </CollectionView.ItemsLayout>
             </CollectionView>
-            <Label FontAttributes="Bold" Text="Italian Food" IsVisible="{Binding NotInSearch}" />
-            <CollectionView IsVisible="{Binding NotInSearch}" ItemsSource="{Binding ItalianRecipes}" SelectedItem="{Binding SelectedRecipe}" SelectionMode="Single">
+            <Label
+                FontAttributes="Bold"
+                IsVisible="{Binding NotInSearch}"
+                Text="Italian Food" />
+            <CollectionView
+                IsVisible="{Binding NotInSearch}"
+                ItemsSource="{Binding ItalianRecipes}"
+                SelectedItem="{Binding SelectedRecipe}"
+                SelectionMode="Single">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Recipe">
                         <VerticalStackLayout
-                 Padding="20"
-                 HorizontalOptions="FillAndExpand"
-                 VerticalOptions="Center">
+                            Padding="20"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center">
                             <Image
-                     Aspect="Fill"
-                     HeightRequest="150"
-                     Source="{Binding RecipeImage}"
-                     WidthRequest="100" />
-                            <Label Text="{Binding RecipesName}" WidthRequest="100"/>
+                                Aspect="Fill"
+                                HeightRequest="150"
+                                Source="{Binding RecipeImage}"
+                                WidthRequest="100" />
+                            <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
                                     <VisualState Name="Selected">
@@ -349,29 +453,41 @@ SelectionMode="Single">
                     <LinearItemsLayout Orientation="Horizontal" />
                 </CollectionView.ItemsLayout>
             </CollectionView>
-            <Label FontAttributes="Bold" Text="Top Ten Most Rated Recipes" IsVisible="{Binding NotInSearch}" />
-            <CollectionView IsVisible="{Binding NotInSearch}" ItemsSource="{Binding TopRatedRecipes}" SelectedItem="{Binding SelectedTopTenRecipe}" SelectionMode="Single">
+            <Label
+                FontAttributes="Bold"
+                IsVisible="{Binding NotInSearch}"
+                Text="Top Ten Most Rated Recipes" />
+            <CollectionView
+                IsVisible="{Binding NotInSearch}"
+                ItemsSource="{Binding TopRatedRecipes}"
+                SelectedItem="{Binding SelectedTopTenRecipe}"
+                SelectionMode="Single">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="classes:TopTenList">
                         <VerticalStackLayout
-                 Padding="20"
-                 HorizontalOptions="FillAndExpand"
-                 VerticalOptions="Center">
-                            <Grid
-                     ColumnDefinitions="0.5*,*"
-                     RowDefinitions="*,0.25*">
+                            Padding="20"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center">
+                            <Grid ColumnDefinitions="0.5*,*" RowDefinitions="*,0.25*">
                                 <Image
-                     Grid.Column="1"
-                     Aspect="Fill"
-                     HeightRequest="150"
-                     Source="{Binding RecipeImage}"
-                     WidthRequest="100" />
-                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding RecipeName}" WidthRequest="100"/>
-                                <Label FontSize="40" VerticalOptions="Center" Grid.RowSpan="2">
+                                    Grid.Column="1"
+                                    Aspect="Fill"
+                                    HeightRequest="150"
+                                    Source="{Binding RecipeImage}"
+                                    WidthRequest="100" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Text="{Binding RecipeName}"
+                                    WidthRequest="100" />
+                                <Label
+                                    Grid.RowSpan="2"
+                                    FontSize="40"
+                                    VerticalOptions="Center">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding RecipePlace}"/>
-                                            <Span Text=". "/>
+                                            <Span Text="{Binding RecipePlace}" />
+                                            <Span Text=". " />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>

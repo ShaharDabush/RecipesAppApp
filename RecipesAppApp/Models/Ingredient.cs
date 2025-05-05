@@ -20,5 +20,21 @@
 
         public string Barkod { get; set; } = null!;
 
+        public Ingredient() { }
+
+        public Ingredient(Ingredient i)
+        {
+            Id = i.Id;
+            IngredientName = i.IngredientName;
+            IngredientImage = i.IngredientImage;
+            KindId = i.KindId;
+            IsKosher = i.IsKosher;
+            IsGloten = i.IsGloten;
+            Meat = i.Meat;
+            Dairy = i.Dairy;
+            Barkod = i.Barkod;
+        }
+
+
     }
 }
