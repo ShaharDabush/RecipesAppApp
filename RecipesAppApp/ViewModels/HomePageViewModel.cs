@@ -172,7 +172,17 @@ namespace RecipesAppApp.ViewModels
         }
         public bool IsLoggedSearch
         {
-            get { return ((App)Application.Current).LoggedInUser != null && !InSearch; }
+            //get { return ((App)Application.Current).LoggedInUser != null && !InSearch; }
+            get
+            {
+                return isLoggedSearch;
+            }
+            set
+            {
+                isLoggedSearch = value;
+                OnPropertyChanged();
+                isLoggedSearch = ((App)Application.Current).LoggedInUser != null && !InSearch;
+            }
         }  
         public ObservableCollection<Recipe> Recipes
         {
@@ -364,7 +374,7 @@ namespace RecipesAppApp.ViewModels
             {
                 this.YourRecipes = new();
             }
-            List<Recipe> DesertList = this.Recipes.Where<Recipe>(r => r.Kind == "Deserts").ToList();
+            List<Recipe> DesertList = this.Recipes.Where<Recipe>(r => r.Kind == "Desert").ToList();
             this.Deserts = new ObservableCollection<Recipe>(DesertList);
             List<Recipe> JapaneseList =  this.Recipes.Where<Recipe>(r => r.Kind == "Japanese").ToList();
             this.JapaneseRecipes =  new ObservableCollection<Recipe>(JapaneseList);
@@ -407,7 +417,7 @@ namespace RecipesAppApp.ViewModels
 
         }
         public HomePageViewModel(RecipesAppWebAPIProxy service, SignUpView signUp, LoginView login)
-        {
+       {
             this.signupView = signUp;
             this.RecipesService = service;
             this.loginView = login;
@@ -416,6 +426,7 @@ namespace RecipesAppApp.ViewModels
             this.IsAllergiesVisble = false;
             this.isYourAllergiesVisble = false;
             this.FlipPicker = 0;
+            OnPropertyChanged("IsLoggedSearch");
             //LoggedUser = ((App)Application.Current).LoggedInUser;
             recipes = new ObservableCollection<Recipe>();
             this.LoginCommand = new Command(GoToLogin);
@@ -484,7 +495,7 @@ namespace RecipesAppApp.ViewModels
             }
             if(IsAllergiesVisble == false && ((App)Application.Current).LoggedInUser != null)
             {
-                loggedUser = ((App)Application.Current).LoggedInUser;
+                LoggedUser = ((App)Application.Current).LoggedInUser;
                 IsYourAllergiesVisble = true ;
             }
             else if( IsAllergiesVisble == false)

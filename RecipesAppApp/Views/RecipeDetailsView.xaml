@@ -66,6 +66,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+            <Button Text="Remove Ingredient" Command="{Binding RemoveIngredientsCommand}" IsVisible="{Binding IsRemoveIngredientVisible}"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

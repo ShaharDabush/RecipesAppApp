@@ -1,12 +1,21 @@
+using CommunityToolkit.Maui.Views;
 using RecipesAppApp.ViewModels;
 
 namespace RecipesAppApp.Views;
 
 public partial class RecipeDetailsView : ContentPage
 {
-	public RecipeDetailsView(RecipeDetailsViewModel vm)
+    private readonly IServiceProvider serviceProvider;
+    public RecipeDetailsView(RecipeDetailsViewModel vm, IServiceProvider sp)
 	{
-		BindingContext = vm;
-		InitializeComponent();
+        this.serviceProvider = sp;
+        BindingContext = vm;
+        vm.OpenPopup += DisplayPopup;
+        InitializeComponent();
 	}
+    public void DisplayPopup(List<string> l)
+    {
+        var popup = new RemoveIngredientsView((RecipeDetailsViewModel)this.BindingContext);
+        this.ShowPopup(popup);
+    }
 }

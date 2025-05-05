@@ -80,7 +80,6 @@ namespace RecipesAppApp
             builder.Services.AddTransient<ProfileViewModel>();
             builder.Services.AddTransient<RecipeDetailsViewModel>();
             builder.Services.AddTransient<RecipesAproveViewModel>();
-            builder.Services.AddTransient<RemoveIngredientsViewModel>();
             builder.Services.AddTransient<SettingViewModel>();
             builder.Services.AddTransient<StorageViewModel>();
             builder.Services.AddTransient<UsersListViewModel>();

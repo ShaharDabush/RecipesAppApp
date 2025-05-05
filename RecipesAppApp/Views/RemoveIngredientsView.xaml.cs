@@ -1,12 +1,19 @@
+using CommunityToolkit.Maui.Views;
 using RecipesAppApp.ViewModels;
 
 namespace RecipesAppApp.Views;
 
-public partial class RemoveIngredientsView : ContentPage
+public partial class RemoveIngredientsView : Popup
 {
-	public RemoveIngredientsView(RemoveIngredientsViewModel vm)
-	{
-        BindingContext = vm;
+	public RemoveIngredientsView( RecipeDetailsViewModel vm)
+    {
+        this.BindingContext = vm;
         InitializeComponent();
 	}
+    public void ClosePopup(List<string> l) => Close();
+
+    private void Button_Clicked(object sender, EventArgs e)
+    {
+        this.Close();
+    }
 }

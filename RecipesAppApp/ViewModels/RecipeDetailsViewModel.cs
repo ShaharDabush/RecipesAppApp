@@ -9,24 +9,39 @@ using RecipesAppApp.Classes;
 using RecipesAppApp.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Windows.Input;
 
 
 namespace RecipesAppApp.ViewModels
 {
     [QueryProperty(nameof(Recipe), "Recipe")]
-    public class RecipeDetailsViewModel : ViewModelBase
+    public partial class RecipeDetailsViewModel : ViewModelBase
     {
         #region attributes and properties
+        public ICommand RemoveIngredientsCommand => new Command(RemoveIngredients);
         private RecipesAppWebAPIProxy RecipesService;
+        public event Action<List<string>> OpenPopup;
         public ObservableCollection<Level> levels;
         public ObservableCollection<IngredientRecipe> ingredientRecipes;
         public ObservableCollection<Ingredient> ingredients;
         public ObservableCollection<IngredientsWithNameAndAmount> trueList;
+        public User loggedUser;
         private Recipe recipe;
         private List<int> ratings;
         private Rating userRating;
         private double recipeRating;
         private double? rate;
+        private bool isRemoveIngredientVisible;
+
+        public bool IsRemoveIngredientVisible
+        {
+            get { return isRemoveIngredientVisible; }
+            set
+            {
+                this.isRemoveIngredientVisible = value;
+                OnPropertyChanged();
+            }
+        }
         public List<int> Ratings
         {
             get { return ratings; }
@@ -55,6 +70,19 @@ namespace RecipesAppApp.ViewModels
             {
                 this.userRating = value;
                 OnPropertyChanged();
+            }
+        }
+        public User LoggedUser
+        {
+            get
+            {
+                return loggedUser;
+            }
+            set
+            {
+                loggedUser = value;
+                OnPropertyChanged();
+
             }
         }
         public double RecipeRating
@@ -155,6 +183,16 @@ namespace RecipesAppApp.ViewModels
         public RecipeDetailsViewModel(RecipesAppWebAPIProxy service)
         {
             this.RecipesService = service;
+            if(((App)Application.Current).LoggedInUser != null)
+            {
+                IsRemoveIngredientVisible = true;
+                LoggedUser = ((App)Application.Current).LoggedInUser;
+            }
+            else
+            {
+                IsRemoveIngredientVisible = false;
+                LoggedUser = null;
+            }
             Ratings = new List<int>();
             Ratings.Add(1);
             Ratings.Add(2);
@@ -194,5 +232,15 @@ namespace RecipesAppApp.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Rating", "You can not rate a recipe without an account Login Or Sigh Up and try again!", "ok");
             }
         } 
+
+        public void RemoveIngredients()
+        {
+            if (OpenPopup != null)
+            {
+                List<string> l = new List<string>();
+                OpenPopup(l);
+            }
+            MakeListsForRemoveIngredients();
+        }
     }
 }
