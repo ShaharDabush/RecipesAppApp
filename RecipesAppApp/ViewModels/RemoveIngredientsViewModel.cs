@@ -53,7 +53,7 @@ namespace RecipesAppApp.ViewModels
             UserAndRecipeIngredients = new ObservableCollection<IngredientsWithNameAndAmount>(IngredientsListForRemoveIngredients);
         }
 
-        public async Task RemoveIngredientsFromStorage()
+        public async void RemoveIngredientsFromStorage()
         {
             List<Ingredient> ingredientsToRemove = new List<Ingredient>();
             foreach (IngredientsWithNameAndAmount i in UserAndRecipeIngredients)
@@ -69,7 +69,7 @@ namespace RecipesAppApp.ViewModels
                     }
                 }
             }
-            bool IsSuccessful = await RecipesService.RemoveStorageIngredient(ingredientsToRemove);
+            bool IsSuccessful = await RecipesService.RemoveStorageIngredients(ingredientsToRemove,LoggedUser.StorageId.Value);
             if (IsSuccessful)
             {
                 await Application.Current.MainPage.DisplayAlert("Remove Ingredient", "Ingredients were Removed", "ok");

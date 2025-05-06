@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecipesAppApp.Views.EditProfileView"
              xmlns:models="clr-namespace:RecipesAppApp.Models"
+             xmlns:classes="clr-namespace:RecipesAppApp.Classes"
              xmlns:viewmodels="clr-namespace:RecipesAppApp.ViewModels"
              x:DataType="viewmodels:EditProfileViewModel"
              Title="EditProfileView">
@@ -39,11 +40,11 @@
         <Border Stroke="Black">
             <CollectionView  x:Name="membersCV" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="4" ItemsSource="{Binding UsersWithSameStorage}" BackgroundColor="White" Margin="5">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:User">
+                    <DataTemplate x:DataType="classes:UsersWithManager">
                         <Grid ColumnDefinitions="*,0.2*">
                             <Label Text="{Binding UserName}" Grid.Column="0" Margin="3" />
                             <Label Text="(Admin)" Grid.Column="3" Margin="2" IsVisible="{Binding IsAdmin}"/>
-                            <ImageButton Source="removeuser.png" Grid.Column="3" Command="{Binding Path=BindingContext.DiscardMembersCommand, Source={x:Reference VSL}} " CommandParameter="{Binding Id}" CornerRadius="500" WidthRequest="30" HeightRequest="30" IsVisible="{Binding IsNotAdmin}" />
+                            <ImageButton Source="removeuser.png" Grid.Column="3" Command="{Binding Path=BindingContext.DiscardMembersCommand, Source={x:Reference VSL}} " CommandParameter="{Binding Id}" CornerRadius="500" WidthRequest="30" HeightRequest="30" IsVisible="{Binding IsNotManager}" />
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

@@ -30,6 +30,9 @@ namespace RecipesAppApp.ViewModels
         private ObservableCollection<Recipe> japaneseRecipes;
         private ObservableCollection<Recipe> frenchRecipes;
         private ObservableCollection<Recipe> italianRecipes;
+        private ObservableCollection<Recipe> breakfastRecipes;
+        private ObservableCollection<Recipe> lunchRecipes;
+        private ObservableCollection<Recipe> dinnerRecipes;
         private ObservableCollection<TopTenList> mostPopularRecipes;
         private ObservableCollection<TopTenList> topRatedRecipes;
         private ObservableCollection<Recipe> kosherRecipes;
@@ -282,6 +285,43 @@ namespace RecipesAppApp.ViewModels
             }
 
         }
+        public ObservableCollection<Recipe> BreakfastRecipes
+        {
+            get
+            {
+                return this.breakfastRecipes;
+            }
+            set
+            {
+                this.breakfastRecipes = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Recipe> LunchRecipes
+        {
+            get
+            {
+                return this.lunchRecipes;
+            }
+            set
+            {
+                this.lunchRecipes = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Recipe> DinnerRecipes
+        {
+            get
+            {
+                return this.dinnerRecipes;
+            }
+            set
+            {
+                this.dinnerRecipes = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<Recipe> KosherRecipes
         {
             get
@@ -382,6 +422,12 @@ namespace RecipesAppApp.ViewModels
             this.FrenchRecipes = new ObservableCollection<Recipe>(FrenchList);
             List<Recipe> ItalianList = this.Recipes.Where<Recipe>(r => r.Kind == "Italian").ToList();
             this.ItalianRecipes = new ObservableCollection<Recipe>(ItalianList);
+            List<Recipe> BreakfastList = this.Recipes.Where<Recipe>(r => r.TimeOfDay == "Morning").ToList();
+            this.BreakfastRecipes = new ObservableCollection<Recipe>(BreakfastList);
+            List<Recipe> LunchList = this.Recipes.Where<Recipe>(r => r.TimeOfDay == "Noon").ToList();
+            this.LunchRecipes = new ObservableCollection<Recipe>(LunchList);
+            List<Recipe> DinnerList = this.Recipes.Where<Recipe>(r => r.TimeOfDay == "Evening").ToList();
+            this.DinnerRecipes = new ObservableCollection<Recipe>(DinnerList);
             List<Recipe> MostPopular = new(this.Recipes);
             MostPopular = MostPopular.Take(10).OrderByDescending(x => x.HowManyMadeIt).ToList();
             List<TopTenList> l1 = new List<TopTenList>();
@@ -565,6 +611,33 @@ namespace RecipesAppApp.ViewModels
                 if(a.IsChecked)
                 {
                     bool IsAllergy;
+                    #region Search List
+                    List<Recipe> sbl = new List<Recipe>();
+                    foreach (Recipe r in Recipes)
+                    {
+                        IsAllergy = false;
+                        if (r.Allergies.Count == 0)
+                        {
+                            sbl.Add(r);
+                        }
+                        else
+                        {
+                            foreach (Allergy ar in r.Allergies)
+                            {
+                                if (a.AllergyId == ar.Id)
+                                {
+                                    IsAllergy = true;
+                                }
+                            }
+                        }
+                        if (IsAllergy == false)
+                        {
+                            sbl.Add(r);
+                        }
+                    }
+                    Recipes = new ObservableCollection<Recipe>(sbl);
+                    OnPropertyChanged("Recipes");
+                    #endregion
                     #region Deserts
                     List<Recipe> D = new List<Recipe>();
                     foreach (Recipe r in Deserts)
@@ -700,94 +773,91 @@ namespace RecipesAppApp.ViewModels
                     KosherRecipes = new ObservableCollection<Recipe>(kr);
                     OnPropertyChanged("KosherRecipes");
                     #endregion
+                    #region Breakfast Recipes
+                    List<Recipe> br = new List<Recipe>();
+                    foreach (Recipe r in BreakfastRecipes)
+                    {
+                        IsAllergy = false;
+                        if (r.Allergies.Count == 0)
+                        {
+                            br.Add(r);
+                        }
+                        else
+                        {
+                            foreach (Allergy ar in r.Allergies)
+                            {
+                                if (a.AllergyId == ar.Id)
+                                {
+                                    IsAllergy = true;
+                                }
+                            }
+                        }
+                        if (IsAllergy == false)
+                        {
+                            br.Add(r);
+                        }
+                    }
+                    BreakfastRecipes = new ObservableCollection<Recipe>(br);
+                    OnPropertyChanged("BreakfastRecipes");
+                    #endregion
+                    #region Lunch Recipes
+                    List<Recipe> lr = new List<Recipe>();
+                    foreach (Recipe r in LunchRecipes)
+                    {
+                        IsAllergy = false;
+                        if (r.Allergies.Count == 0)
+                        {
+                            lr.Add(r);
+                        }
+                        else
+                        {
+                            foreach (Allergy ar in r.Allergies)
+                            {
+                                if (a.AllergyId == ar.Id)
+                                {
+                                    IsAllergy = true;
+                                }
+                            }
+                        }
+                        if (IsAllergy == false)
+                        {
+                            lr.Add(r);
+                        }
+                    }
+                    LunchRecipes = new ObservableCollection<Recipe>(lr);
+                    OnPropertyChanged("LunchRecipes");
+                    #endregion
+                    #region Dinner Recipes
+                    List<Recipe> dr = new List<Recipe>();
+                    foreach (Recipe r in DinnerRecipes)
+                    {
+                        IsAllergy = false;
+                        if (r.Allergies.Count == 0)
+                        {
+                            dr.Add(r);
+                        }
+                        else
+                        {
+                            foreach (Allergy ar in r.Allergies)
+                            {
+                                if (a.AllergyId == ar.Id)
+                                {
+                                    IsAllergy = true;
+                                }
+                            }
+                        }
+                        if (IsAllergy == false)
+                        {
+                            dr.Add(r);
+                        }
+                    }
+                    DinnerRecipes = new ObservableCollection<Recipe>(dr);
+                    OnPropertyChanged("DinnerRecipes");
+                    #endregion
                 }
             }
  
         }
-        //public async void YourAllergiesCheck(object sender, Syncfusion.Maui.Buttons.StateChangedEventArgs e)
-        //{
-        //    if (e.IsChecked != null && e.IsChecked == true)
-        //    {
-        //        List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
-        //        List<UserAllergyWithIsChecked> aL = new(AllergiesList);
-        //        foreach (UserAllergyWithIsChecked a in aL)
-        //        {
-        //            foreach (Allergy au in UsersAllergy)
-        //            {
-        //                if (a.AllergyId == au.Id)
-        //                {
-        //                    a.IsChecked = true;
-        //                }
-        //            }
-        //        }
-        //        AllergiesList = new(aL);
-        //    }
-        //    if (e.IsChecked != null && e.IsChecked == false)
-        //    {
-        //        List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
-        //        List<UserAllergyWithIsChecked> aL = new(AllergiesList);
-        //        foreach (UserAllergyWithIsChecked a in aL)
-        //        {
-        //            foreach (Allergy au in UsersAllergy)
-        //            {
-        //                if (a.AllergyId == au.Id)
-        //                {
-        //                    a.IsChecked = false;
-        //                }
-        //            }
-        //        }
-        //        AllergiesList = new(aL);
-        //    }
-        //}
-        //public async void AllergiesStateChanged(object sender, Syncfusion.Maui.Buttons.StateChangedEventArgs e)
-        //{
-        //    if (LoggedUser != null)
-        //    {
-        //        int tCount = 0;
-        //        int fCount = 0;
-        //        List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
-        //        foreach (Allergy a in UsersAllergy)
-        //        {
-        //            foreach (UserAllergyWithIsChecked au in AllergiesList)
-        //            {
-        //                if (au.AllergyId == a.Id)
-        //                {
-        //                    if (au.IsChecked)
-        //                        tCount++;
-        //                    else
-        //                        fCount++;
-        //                }
-        //            }
-        //        }
-        //        if (tCount == UsersAllergy.Count)
-        //            WeakReferenceMessenger.Default.Send(new TriggerUiMessage("RunAllergieChangeStateTrue"));
-        //        else if (fCount == UsersAllergy.Count)
-        //            WeakReferenceMessenger.Default.Send(new TriggerUiMessage("RunAllergieChangeStateFalse"));
-        //        else
-        //            WeakReferenceMessenger.Default.Send(new TriggerUiMessage("RunAllergieChangeStateInter"));
-        //    }
-        //}
-
-        //public async void SetAllergies()
-        //{
-        //    List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
-        //    foreach (Allergy a in Allergies)
-        //    {
-        //        bool b = false;
-        //        foreach (Allergy au in UsersAllergy)
-        //        {
-        //            if (a.Id == au.Id)
-        //            {
-        //                UserAllergyWithIsChecked u1 = new UserAllergyWithIsChecked(a.Id, a.AllergyName, true);
-        //                HasAllergy.Add(u1);
-        //                b = true;
-        //            }
-        //        }
-        //        UserAllergyWithIsChecked u2 = new UserAllergyWithIsChecked(a.Id, a.AllergyName, false);
-        //        if (!b)
-        //            HasAllergy.Add(u2);
-        //    }
-        //}
         #endregion
 
         #region Single Selection

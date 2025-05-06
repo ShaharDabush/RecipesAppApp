@@ -9,6 +9,7 @@ using RecipesAppApp.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.Maui;
 
 
 namespace RecipesAppApp.ViewModels
@@ -140,7 +141,7 @@ namespace RecipesAppApp.ViewModels
         private RecipesAppWebAPIProxy RecipesService;
         private User loggedUser;
         
-        private ObservableCollection<User> usersWithSameStorage;
+        private ObservableCollection<UsersWithManager> usersWithSameStorage;
         public ICommand DiscardMembersCommand { get; set; }
         private bool isNotAdmin;
 
@@ -174,7 +175,7 @@ namespace RecipesAppApp.ViewModels
             }
         }
 
-        public ObservableCollection<User> UsersWithSameStorage
+        public ObservableCollection<UsersWithManager> UsersWithSameStorage
         {
             get { return usersWithSameStorage; }
             set
@@ -196,11 +197,25 @@ namespace RecipesAppApp.ViewModels
             GetusersList();
             IsNotAdmin = !loggedUser.IsAdmin.Value;
             StorageName = LoggedUserStorage.StorageName;
+
         }
         public async void GetusersList()
         {
             List<User> users = await RecipesService.GetUsersbyStorage(LoggedUser.Id);
-            this.UsersWithSameStorage = new ObservableCollection<User>(users);
+            List<UsersWithManager> usersWithManager = new List<UsersWithManager>();
+            foreach (User user in users) 
+            {
+                if(LoggedUserStorage.Manager == user.Id)
+                {
+                    usersWithManager.Add(new UsersWithManager(user, true));
+                }
+                else
+                {
+                    usersWithManager.Add(new UsersWithManager(user, false));
+                }
+            }
+
+            this.UsersWithSameStorage = new ObservableCollection<UsersWithManager>(usersWithManager);
 
         }
         public async void ChangeName()

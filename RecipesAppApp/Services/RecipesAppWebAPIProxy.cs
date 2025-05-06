@@ -34,7 +34,7 @@ namespace RecipesAppApp.Services
         private HttpClient client;
         private string baseUrl;
         public static string BaseAddress = "https://32zgfnxw-5281.euw.devtunnels.ms/api/";
-        private static string ImageBaseAddress = "https://32zgfnxw-5281.euw.devtunnels.ms/";
+        public static string ImageBaseAddress = "https://32zgfnxw-5281.euw.devtunnels.ms/";
         #endregion
 
         public RecipesAppWebAPIProxy()
@@ -829,10 +829,38 @@ namespace RecipesAppApp.Services
                 return false;
             }
         }
-                public async Task<bool> RemoveStorageIngredient(List<Ingredient> ingredientList)
+        public async Task<bool> RemoveStorageIngredient(int ingredientId, int storageId)
         {
             //Set URI to the specific function API
-            string url = $"{this.baseUrl}removeStorageIngredient";
+            string url = $"{this.baseUrl}removeStorageIngredient?storageId={storageId}";
+            try
+            {
+                string json = JsonSerializer.Serialize(ingredientId);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+        public async Task<bool> RemoveStorageIngredients(List<Ingredient> ingredientList,int storageId)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}removeStorageIngredients?storageId={storageId}";
             try
             {
                 string json = JsonSerializer.Serialize(ingredientList);

@@ -10,14 +10,11 @@
              BackgroundColor="Wheat"
              Shell.BackgroundColor="Wheat"
              Title="StorageView">
-    
+
     <VerticalStackLayout>
-        
         <ScrollView>
-            
             <VerticalStackLayout>
-                <Label x:Name="barcodeResult" Text="{Binding IngedientCode}" />
-                <cv:CameraView x:Name="cameraView" WidthRequest="300" HeightRequest="200" IsVisible="{Binding isInCameraMode}" CamerasLoaded="cameraView_CamerasLoaded" BarCodeDetectionEnabled="True" BarcodeDetected="cameraView_BarcodeDetected_1"/>
+                <cv:CameraView x:Name="cameraView" WidthRequest="300" HeightRequest="200" IsVisible="False" CamerasLoaded="cameraView_CamerasLoaded" BarCodeDetectionEnabled="True" BarcodeDetected="cameraView_BarcodeDetected_1"/>
                 <expander:SfExpander>
                     <expander:SfExpander.Header>
                         <Label Margin="5,0,0,0" Text="Search Ingredients"/>
@@ -104,9 +101,8 @@
                    IsClippedToBounds="True"
                    Padding="0"
                    BorderColor="#a0522d"
-                   Margin="30,200,0,0">
+                   Margin="30,100,0,0">
             <ImageButton Source="plus.png" WidthRequest="77" Command="{Binding OpenCreateIngredientCommand}" HeightRequest="77" Margin="0,0,0,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"    />
         </Frame>
-
     </VerticalStackLayout>
 </ContentPage>

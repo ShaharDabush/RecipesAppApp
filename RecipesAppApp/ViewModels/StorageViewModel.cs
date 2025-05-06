@@ -229,11 +229,11 @@ namespace RecipesAppApp.ViewModels
         public void OpenCreateIngredient()
         {
             IsInCameraMode = true;
-            //if (OpenPopup != null)
-            //{
-            //    List<string> l = new List<string>();
-            //    OpenPopup(l);
-            //}
+            if (OpenPopup != null)
+            {
+                List<string> l = new List<string>();
+                OpenPopup(l);
+            }
         }
     }
 }

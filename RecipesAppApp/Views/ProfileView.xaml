@@ -16,7 +16,7 @@
                 <Label Text="{Binding LoggedUser.UserName}" Grid.Column="1" Grid.Row="0"  Margin="5,5,5,5" FontSize="30"/>
             </Border>
             <Border Stroke="#cd853f" Grid.Column="0" Grid.Row="0" StrokeThickness="3" Margin="5" >
-                <Image Source="{Binding LoggedUser.UserImage}"  Margin="5" />
+                <Image Source="{Binding LoggedUser.UserImageURL}"  Margin="5" />
             </Border>
             <Button Text="Edit" Command="{Binding EditProfileCommand}" VerticalOptions="End" BackgroundColor="#a0522d" HorizontalOptions="Start" Margin="20" Grid.Column="2" HeightRequest="30" WidthRequest="90" Padding="0" FontSize="15"/>
             <Border Stroke="#cd853f"  Grid.Column="1" Grid.Row="1" StrokeThickness="3" Margin="5" >

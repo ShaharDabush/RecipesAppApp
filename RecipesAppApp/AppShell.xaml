@@ -12,16 +12,16 @@
     <FlyoutItem  Route="HomePage" FlyoutDisplayOptions="AsSingleItem" Title="HomePage">
         <ShellContent ContentTemplate="{DataTemplate views:HomePageView}"/>
     </FlyoutItem>
-    <FlyoutItem  Route="Storage" FlyoutDisplayOptions="AsSingleItem" Title="Storage">
+    <FlyoutItem  Route="Storage" FlyoutDisplayOptions="AsSingleItem" Title="Storage" IsVisible="{Binding IsLogged}">
         <ShellContent ContentTemplate="{DataTemplate views:StorageView}"/>
     </FlyoutItem>
-    <FlyoutItem  Route="CreateRecipe" FlyoutDisplayOptions="AsSingleItem" Title="Create new Recipe">
+    <FlyoutItem  Route="CreateRecipe" FlyoutDisplayOptions="AsSingleItem" Title="Create new Recipe" IsVisible="{Binding IsLogged}">
         <ShellContent ContentTemplate="{DataTemplate views:CreateRecipeView}"/>
     </FlyoutItem>
-    <FlyoutItem  Route="Profile" FlyoutDisplayOptions="AsSingleItem" Title="Profile">
+    <FlyoutItem  Route="Profile" FlyoutDisplayOptions="AsSingleItem" Title="Profile" IsVisible="{Binding IsLogged}">
         <ShellContent ContentTemplate="{DataTemplate views:ProfileView}"/>
     </FlyoutItem>
-    <FlyoutItem  Route="Settings" FlyoutDisplayOptions="AsSingleItem" Title="Settings">
+    <FlyoutItem  Route="Settings" FlyoutDisplayOptions="AsSingleItem" Title="Settings" IsVisible="{Binding IsLogged}">
         <ShellContent ContentTemplate="{DataTemplate views:SettingsView}"/>
     </FlyoutItem>
     <FlyoutItem  Route="Lists" FlyoutDisplayOptions="AsSingleItem" Title="Lists" IsVisible="{Binding IsAdmin}">

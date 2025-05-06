@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RecipesAppApp.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace RecipesAppApp.Models
 {
@@ -23,6 +24,14 @@ namespace RecipesAppApp.Models
         public bool? IsKohser { get; set; }
 
         public string? Vegetarianism { get; set; }
+
+        public string UserImageURL
+        {
+            get
+            {
+                return RecipesAppWebAPIProxy.ImageBaseAddress + UserImage;
+            }
+        }
 
         public User() { }
     }

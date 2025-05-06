@@ -251,6 +251,43 @@
                 </CollectionView.ItemsLayout>
             </CollectionView>
             <Label
+      FontAttributes="Bold"
+      IsVisible="{Binding NotInSearch}"
+      Text="For Breakfast" />
+            <CollectionView
+      IsVisible="{Binding NotInSearch}"
+      ItemsSource="{Binding BreakfastRecipes}"
+      SelectedItem="{Binding SelectedRecipe}"
+      SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Recipe">
+                        <VerticalStackLayout
+                  Padding="20"
+                  HorizontalOptions="FillAndExpand"
+                  VerticalOptions="Center">
+                            <Image
+                      Aspect="Fill"
+                      HeightRequest="150"
+                      Source="{Binding RecipeImage}"
+                      WidthRequest="100" />
+                            <Label Text="{Binding RecipesName}" WidthRequest="100" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Wheat" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+            <Label
                 FontAttributes="Bold"
                 IsVisible="{Binding NotInSearch}"
                 Text="Japanese Food" />
@@ -335,6 +372,43 @@
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
                             </Grid>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+            <Label
+      FontAttributes="Bold"
+      IsVisible="{Binding NotInSearch}"
+      Text="For Lunch" />
+            <CollectionView
+      IsVisible="{Binding NotInSearch}"
+      ItemsSource="{Binding LunchRecipes}"
+      SelectedItem="{Binding SelectedRecipe}"
+      SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Recipe">
+                        <VerticalStackLayout
+                  Padding="20"
+                  HorizontalOptions="FillAndExpand"
+                  VerticalOptions="Center">
+                            <Image
+                      Aspect="Fill"
+                      HeightRequest="150"
+                      Source="{Binding RecipeImage}"
+                      WidthRequest="100" />
+                            <Label Text="{Binding RecipesName}" WidthRequest="100" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Wheat" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                         </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -436,6 +510,43 @@
                                 HeightRequest="150"
                                 Source="{Binding RecipeImage}"
                                 WidthRequest="100" />
+                            <Label Text="{Binding RecipesName}" WidthRequest="100" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Wheat" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+            <Label
+      FontAttributes="Bold"
+      IsVisible="{Binding NotInSearch}"
+      Text="For Dinner" />
+            <CollectionView
+      IsVisible="{Binding NotInSearch}"
+      ItemsSource="{Binding DinnerRecipes}"
+      SelectedItem="{Binding SelectedRecipe}"
+      SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Recipe">
+                        <VerticalStackLayout
+                  Padding="20"
+                  HorizontalOptions="FillAndExpand"
+                  VerticalOptions="Center">
+                            <Image
+                      Aspect="Fill"
+                      HeightRequest="150"
+                      Source="{Binding RecipeImage}"
+                      WidthRequest="100" />
                             <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>

@@ -54,13 +54,13 @@ public partial class StorageView : ContentPage
     {
         if (cameraView.NumCamerasDetected > 0)
         {
-            
+
             cameraView.Camera = cameraView.Cameras.First();
             MainThread.BeginInvokeOnMainThread(async () =>
             {
                 await cameraView.StopCameraAsync();
                 await cameraView.StartCameraAsync();
-                
+
             });
         }
     }
