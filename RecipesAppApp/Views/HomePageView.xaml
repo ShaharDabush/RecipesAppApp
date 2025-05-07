@@ -156,7 +156,7 @@
                                 Grid.Column="0"
                                 Aspect="Fill"
                                 HeightRequest="150"
-                                Source="{Binding RecipeImage}"
+                                Source="{Binding RecipeImageURL}"
                                 WidthRequest="100" />
                             <Label
                                 Grid.Row="1"
@@ -194,7 +194,7 @@
                             <Image
                                 Aspect="Fill"
                                 HeightRequest="150"
-                                Source="{Binding RecipeImage}"
+                                Source="{Binding RecipeImageURL}"
                                 WidthRequest="100" />
                             <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
@@ -231,7 +231,7 @@
                             <Image
                                 Aspect="Fill"
                                 HeightRequest="150"
-                                Source="{Binding RecipeImage}"
+                                Source="{Binding RecipeImageURL}"
                                 WidthRequest="100" />
                             <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
@@ -268,7 +268,7 @@
                             <Image
                       Aspect="Fill"
                       HeightRequest="150"
-                      Source="{Binding RecipeImage}"
+                      Source="{Binding RecipeImageURL}"
                       WidthRequest="100" />
                             <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
@@ -305,7 +305,7 @@
                             <Image
                                 Aspect="Fill"
                                 HeightRequest="150"
-                                Source="{Binding RecipeImage}"
+                                Source="{Binding RecipeImageURL}"
                                 WidthRequest="100" />
                             <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
@@ -344,7 +344,7 @@
                                     Grid.Column="1"
                                     Aspect="Fill"
                                     HeightRequest="150"
-                                    Source="{Binding RecipeImage}"
+                                    Source="{Binding RecipeImageURL}"
                                     WidthRequest="100" />
                                 <Label
                                     Grid.Row="1"
@@ -397,7 +397,7 @@
                             <Image
                       Aspect="Fill"
                       HeightRequest="150"
-                      Source="{Binding RecipeImage}"
+                      Source="{Binding RecipeImageURL}"
                       WidthRequest="100" />
                             <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
@@ -434,7 +434,7 @@
                             <Image
                                 Aspect="Fill"
                                 HeightRequest="150"
-                                Source="{Binding RecipeImage}"
+                                Source="{Binding RecipeImageURL}"
                                 WidthRequest="100" />
                             <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
@@ -471,7 +471,7 @@
                             <Image
                                 Aspect="Fill"
                                 HeightRequest="150"
-                                Source="{Binding RecipeImage}"
+                                Source="{Binding RecipeImageURL}"
                                 WidthRequest="100" />
                             <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
@@ -508,7 +508,7 @@
                             <Image
                                 Aspect="Fill"
                                 HeightRequest="150"
-                                Source="{Binding RecipeImage}"
+                                Source="{Binding RecipeImageURL}"
                                 WidthRequest="100" />
                             <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
@@ -545,7 +545,7 @@
                             <Image
                       Aspect="Fill"
                       HeightRequest="150"
-                      Source="{Binding RecipeImage}"
+                      Source="{Binding RecipeImageURL}"
                       WidthRequest="100" />
                             <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
@@ -584,7 +584,7 @@
                                     Grid.Column="1"
                                     Aspect="Fill"
                                     HeightRequest="150"
-                                    Source="{Binding RecipeImage}"
+                                    Source="{Binding RecipeImageURL}"
                                     WidthRequest="100" />
                                 <Label
                                     Grid.Row="1"

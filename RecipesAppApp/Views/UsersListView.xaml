@@ -14,7 +14,7 @@
                 <DataTemplate>
                     <Grid Padding="20" HorizontalOptions="FillAndExpand" ColumnDefinitions="*,*" RowDefinitions="*,*,*,*" VerticalOptions="Start">
                             <Image Grid.Column="0" Grid.RowSpan="5" Grid.Row="0"  WidthRequest="130"  HeightRequest="130" HorizontalOptions="Start" Aspect="Fill"
-                           Source="{Binding UserImage}"
+                           Source="{Binding UserImageURL}"
                             />
                         <Label Grid.Column="1" Grid.Row="0"
                            Text="{Binding UserName}"

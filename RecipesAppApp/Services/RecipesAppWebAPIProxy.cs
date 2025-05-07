@@ -717,6 +717,71 @@ namespace RecipesAppApp.Services
                 return null;
             }
         }
+        public async Task<Ingredient?> GetIngredientsByBarcode(string barcode)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}getIngredientsByBarcode";
+            try
+            {
+                string json = JsonSerializer.Serialize(barcode);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string Responsecontent = await response.Content.ReadAsStringAsync();
+                    Ingredient i = JsonSerializer.Deserialize<Ingredient>(Responsecontent, options);
+                    if (i == null)
+                        return null;
+                    else return i;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+        public async Task<bool> AddIngredietToStorage(int ingredientId, int storageId)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}addIngredietToStorage?storageId={storageId}";
+            try
+            {
+                //Call the server API
+                string json = JsonSerializer.Serialize(ingredientId);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                //Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    bool result = JsonSerializer.Deserialize<bool>(resContent, options);
+                    return result;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
         public async Task<bool> ChangeName(User user)
         {
             //Set URI to the specific function API
@@ -916,6 +981,39 @@ namespace RecipesAppApp.Services
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+        public async Task<bool> SaveIngredient(Ingredient newIngredient, int storageId)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}saveIngredient?storageId={storageId}";
+            try
+            {
+                //Call the server API
+                string json = JsonSerializer.Serialize(newIngredient);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                //Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    bool result = JsonSerializer.Deserialize<bool>(resContent, options);
+                    return result;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
         public async Task<List<Allergy>?> GetAllergiesByUser(int userId)

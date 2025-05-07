@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RecipesAppApp.Services;
 
 namespace RecipesAppApp.Classes
 {
@@ -23,6 +24,13 @@ namespace RecipesAppApp.Classes
         public int HowManyMadeIt { get; set; }
 
         public string UserName { get; set; }
+        public string RecipeImageURL
+        {
+            get
+            {
+                return RecipesAppWebAPIProxy.ImageBaseAddress + RecipeImage;
+            }
+        }
 
         public RecipeWithUserName() { }
         public RecipeWithUserName(int Id, string RecipesName, string RecipeDescription, string RecipeImage, int MadeBy, int Rating ,int HowManyMadeIt, string UserName)

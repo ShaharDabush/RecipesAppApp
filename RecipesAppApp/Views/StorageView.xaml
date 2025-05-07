@@ -36,7 +36,7 @@
                                             <Image
                             Aspect="Fill"
                             HeightRequest="150"
-                            Source="{Binding IngredientImage}"
+                            Source="{Binding IngredientImageURL}"
                             WidthRequest="100" />
                                             <Label
                             Grid.Row="1"
@@ -73,7 +73,7 @@
                                 <Image
                             Aspect="Fill"
                             HeightRequest="150"
-                            Source="{Binding IngredientImage}"
+                            Source="{Binding IngredientImageURL}"
                             WidthRequest="100" />
                                 <Label
                             Grid.Row="1"

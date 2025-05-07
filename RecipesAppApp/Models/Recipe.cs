@@ -1,4 +1,6 @@
-﻿namespace RecipesAppApp.Models
+﻿using RecipesAppApp.Services;
+
+namespace RecipesAppApp.Models
 {
     public class Recipe
     {
@@ -29,6 +31,14 @@
         public string TimeOfDay { get; set; } = null!;
 
         public List<Allergy> Allergies { get; set; }
+
+        public string RecipeImageURL
+        {
+            get
+            {
+                return RecipesAppWebAPIProxy.ImageBaseAddress + RecipeImage;
+            }
+        }
 
         public Recipe(Recipe r)
         {

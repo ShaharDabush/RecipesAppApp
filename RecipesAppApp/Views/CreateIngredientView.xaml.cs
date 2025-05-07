@@ -21,6 +21,11 @@ public partial class CreateIngredientView : Popup
     private void Button_Clicked(object sender, EventArgs e)
     {
         this.Close();
+        vm.AddIngredientToStorage();
+    }
+    private void Button_Clicked_1(object sender, EventArgs e)
+    {
+        this.Close();
     }
     private void InitZing()
     {
@@ -64,6 +69,7 @@ public partial class CreateIngredientView : Popup
         MainThread.BeginInvokeOnMainThread(() =>
         {
             vm.IngredientCode = args.Result[0].BarcodeFormat.ToString();
+            vm.GetIngredientByBarcode();
         });
     }
 }

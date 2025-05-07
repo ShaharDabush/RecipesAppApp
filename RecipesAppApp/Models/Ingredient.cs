@@ -1,4 +1,6 @@
-﻿namespace RecipesAppApp.Models
+﻿using RecipesAppApp.Services;
+
+namespace RecipesAppApp.Models
 {
     public class Ingredient
     {
@@ -19,6 +21,13 @@
         public bool Dairy { get; set; }
 
         public string Barkod { get; set; } = null!;
+        public string IngredientImageURL
+        {
+            get
+            {
+                return RecipesAppWebAPIProxy.ImageBaseAddress + IngredientImage;
+            }
+        }
 
         public Ingredient() { }
 

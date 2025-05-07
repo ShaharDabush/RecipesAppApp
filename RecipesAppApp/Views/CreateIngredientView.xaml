@@ -5,12 +5,25 @@
              xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
              xmlns:viewmodels="clr-namespace:RecipesAppApp.ViewModels"
              HorizontalOptions="Center"
-             Size="270,300"
+             Size="{Binding PopupSize}"
              Color="Wheat"
              VerticalOptions="Center"
              x:Class="RecipesAppApp.Views.CreateIngredientView">
-    <VerticalStackLayout>
-        <!--<Label x:Name="barcodeResult" Text="{Binding IngedientCode}" />-->
-        <cv:CameraView x:Name="cameraView" WidthRequest="390" HeightRequest="300" IsVisible="{Binding IsInCameraMode}" CamerasLoaded="cameraView_CamerasLoaded" BarCodeDetectionEnabled="True" BarcodeDetected="cameraView_BarcodeDetected_1"/>
+    <VerticalStackLayout Margin="0,10,0,0">
+        <cv:CameraView x:Name="cameraView" VerticalOptions="Start" WidthRequest="390" HeightRequest="300" IsVisible="False" CamerasLoaded="cameraView_CamerasLoaded" BarCodeDetectionEnabled="True" BarcodeDetected="cameraView_BarcodeDetected_1"/>
+        <Label Text="{Binding IngredientBarcode.IngredientName}" FontSize="40" Margin="10,10,0,0" IsVisible="{Binding IsNewingredientVisible}" />
+        <Label FontSize="25" HorizontalTextAlignment="Center"  Margin="0,10,0,-10" IsVisible="{Binding IsAddingredientVisible}">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="Do you want to add "/>
+                    <Span Text="{Binding IngredientBarcode.IngredientName}"/>
+                    <Span Text=" to your storage?"/>
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+        <Grid ColumnDefinitions="*,*" Margin="0,20,0,0">
+            <Button Text="No" Clicked="Button_Clicked_1"  BackgroundColor="#a0522d" Grid.Column="0" WidthRequest="150" Margin="0,10,0,-10" IsVisible="{Binding IsAddingredientVisible}"/>
+            <Button Text="Yes" Clicked="Button_Clicked" BackgroundColor="#a0522d" Grid.Column="1" WidthRequest="150" Margin="0,10,0,-10" IsVisible="{Binding IsAddingredientVisible}"/>
+        </Grid>
     </VerticalStackLayout>
 </toolkit:Popup>

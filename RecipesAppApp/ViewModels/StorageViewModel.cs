@@ -27,22 +27,8 @@ namespace RecipesAppApp.ViewModels
         private Storage storage;
         private string searchedIngredientInStorage;
         private string searchedNewIngredient;
-        private string ingredientCode;
-        private bool isInCameraMode;
         public ICommand OpenCreateIngredientCommand { get; set; }
 
-        public bool IsInCameraMode
-        {
-            get
-            {
-                return isInCameraMode;
-            }
-            set
-            {
-                this.isInCameraMode = value;
-                OnPropertyChanged();
-            }
-        }
         public string SearchedNewIngredient
         {
             get
@@ -54,18 +40,6 @@ namespace RecipesAppApp.ViewModels
                 this.searchedNewIngredient = value;
                 OnPropertyChanged();
                 SortForNewIngredients();
-            }
-        }
-        public string IngredientCode
-        {
-            get
-            {
-                return ingredientCode;
-            }
-            set
-            {
-                this.ingredientCode = value;
-                OnPropertyChanged();
             }
         }
 
@@ -229,11 +203,13 @@ namespace RecipesAppApp.ViewModels
         public void OpenCreateIngredient()
         {
             IsInCameraMode = true;
+            PopupSize = new Size(270,300);
             if (OpenPopup != null)
             {
                 List<string> l = new List<string>();
                 OpenPopup(l);
             }
+            //GetIngredientByBarcode();
         }
     }
 }

@@ -13,7 +13,7 @@
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="30"/>
                 </Border.StrokeShape>
-                <Image Source="{Binding Recipe.RecipeImage}" HeightRequest="300" Aspect="AspectFill"></Image>
+                <Image Source="{Binding Recipe.RecipeImageURL}" HeightRequest="300" Aspect="AspectFill"></Image>
             </Border>
             <Grid ColumnDefinitions="*,*,1.7*" Margin="0,0,0,3">
             <Label FontSize="20" Margin="5,-2,0,5" Grid.Column="0">
