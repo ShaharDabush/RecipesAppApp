@@ -10,17 +10,78 @@
              VerticalOptions="Center"
              x:Class="RecipesAppApp.Views.CreateIngredientView">
     <VerticalStackLayout Margin="0,10,0,0">
-        <cv:CameraView x:Name="cameraView" VerticalOptions="Start" WidthRequest="390" HeightRequest="300" IsVisible="False" CamerasLoaded="cameraView_CamerasLoaded" BarCodeDetectionEnabled="True" BarcodeDetected="cameraView_BarcodeDetected_1"/>
-        <Label Text="{Binding IngredientBarcode.IngredientName}" FontSize="40" Margin="10,10,0,0" IsVisible="{Binding IsNewingredientVisible}" />
-        <Label FontSize="25" HorizontalTextAlignment="Center"  Margin="0,10,0,-10" IsVisible="{Binding IsAddingredientVisible}">
-            <Label.FormattedText>
-                <FormattedString>
-                    <Span Text="Do you want to add "/>
-                    <Span Text="{Binding IngredientBarcode.IngredientName}"/>
-                    <Span Text=" to your storage?"/>
-                </FormattedString>
-            </Label.FormattedText>
+        <cv:CameraView x:Name="cameraView" VerticalOptions="Start" WidthRequest="390" HeightRequest="300" IsVisible="False" 
+                       CamerasLoaded="cameraView_CamerasLoaded" BarCodeDetectionEnabled="True" BarcodeDetected="cameraView_BarcodeDetected_1"/>
+        <Entry Text="{Binding IngredientCode}" IsVisible="{Binding IsInCameraMode}"/>
+        <Button Text="Save" Clicked="Button_Clicked_2" IsVisible="{Binding IsInCameraMode}"/>
+        <Grid ColumnDefinitions="*,*"  IsVisible="{Binding IsNewingredientVisible}">
+            <Entry Grid.Column="1" Text="{Binding IngredientBarcode.IngredientName}" WidthRequest="150" HorizontalOptions="End" VerticalOptions="Start"
+                   FontSize="40" Margin="0,30,10,0"/>
+        <Grid ColumnDefinitions="*" HorizontalOptions="Fill" RowDefinitions="*">
+                <Border Margin="20" Stroke="#cd853f" StrokeShape="RoundRectangle 30,30,30,30" Grid.Column="0" >
+                <Image Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="7" Aspect="AspectFill"  HeightRequest="100" Source="{Binding PhotoURL}" />
+            </Border>
+            <ImageButton x:Name="theEditImage" Grid.Row="0" Grid.Column="0" Command="{Binding UploadPhotoCommand}" HeightRequest="60" 
+                         HorizontalOptions="End" Source="edit.png" VerticalOptions="EndAndExpand" WidthRequest="50" />
+        </Grid>
+        </Grid>
+        <Label
+                Margin="20,20,0,0"
+                FontSize="25"
+                Text="Contains"
+                IsVisible="{Binding IsNewingredientVisible}"/>
+        <Grid Margin="-72,0,0,0" ColumnDefinitions="*,*" IsVisible="{Binding IsNewingredientVisible}">
+            <CheckBox IsChecked="{Binding ContainMeat}" Color="#a0522d" />
+            <Label
+                    Grid.Column="1"
+                    Margin="-80,12,0,0"
+                    Text="Meat" />
+        </Grid>
+        <Grid Margin="-72,0,0,0" ColumnDefinitions="*,*" IsVisible="{Binding IsNewingredientVisible}">
+            <CheckBox IsChecked="{Binding ContainDairy}" Color="#a0522d" />
+            <Label
+                    Grid.Column="1"
+                    Margin="-80,12,0,0"
+                    Text="Dairy" />
+        </Grid>
+        <Grid Margin="-72,0,0,0" ColumnDefinitions="*,*" IsVisible="{Binding IsNewingredientVisible}">
+            <CheckBox IsChecked="{Binding IsKosher}" Color="#a0522d" />
+            <Label
+                    Grid.Column="1"
+                    Margin="-80,12,0,0"
+                    Text="Kosher" />
+        </Grid>
+        <Grid Margin="-72,0,0,0" ColumnDefinitions="*,*" IsVisible="{Binding IsNewingredientVisible}">
+            <CheckBox IsChecked="{Binding IsGloten}" Color="#a0522d" />
+            <Label
+                    Grid.Column="1"
+                    Margin="-80,12,0,0"
+                    Text="Gluten" />
+        </Grid>
+        <Label Grid.Column="0" FontSize="20" HorizontalTextAlignment="Start" 
+               Margin="30,10,0,0" IsVisible="{Binding IsNewingredientVisible}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BackToBarcodeCommend}" />
+                </Label.GestureRecognizers>
+                <Label.FormattedText>
+                    <FormattedString>
+                    <Span Text="Barcode: " TextColor="#FF6B6965" TextDecorations="Underline" />
+                    <Span Text="{Binding IngredientCode}" TextColor="#FF6B6965" TextDecorations="Underline" />
+                        <Span Text=" >" TextColor="#FF6B6965"/>
+                    </FormattedString>
+                </Label.FormattedText>
         </Label>
+            <Label FontSize="25" HorizontalTextAlignment="Center"  Margin="0,10,0,-10" 
+                   IsVisible="{Binding IsAddingredientVisible}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Do you want to add "/>
+                        <Span Text="{Binding IngredientBarcode.IngredientName}"/>
+                        <Span Text=" to your storage?"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        <Button Text="Save Ingredient" BackgroundColor="#a0522d" Command="{Binding SaveingredientCommand}"/>
         <Grid ColumnDefinitions="*,*" Margin="0,20,0,0">
             <Button Text="No" Clicked="Button_Clicked_1"  BackgroundColor="#a0522d" Grid.Column="0" WidthRequest="150" Margin="0,10,0,-10" IsVisible="{Binding IsAddingredientVisible}"/>
             <Button Text="Yes" Clicked="Button_Clicked" BackgroundColor="#a0522d" Grid.Column="1" WidthRequest="150" Margin="0,10,0,-10" IsVisible="{Binding IsAddingredientVisible}"/>

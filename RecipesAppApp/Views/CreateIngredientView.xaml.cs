@@ -29,7 +29,7 @@ public partial class CreateIngredientView : Popup
     }
     private void InitZing()
     {
-        cameraView.BarcodeDetected += CameraView_BarcodeDetected;
+        cameraView.BarcodeDetected += cameraView_BarcodeDetected_1;
         cameraView.BarCodeDecoder = new ZXingBarcodeDecoder();
         cameraView.BarCodeOptions = new BarcodeDecodeOptions
         {
@@ -59,10 +59,14 @@ public partial class CreateIngredientView : Popup
             {
                 await cameraView.StopCameraAsync();
                 await cameraView.StartCameraAsync();
+                cameraView.BarCodeDetectionEnabled = true;
+                cameraView.BarcodeDetected += CameraView_BarcodeDetected;
 
             });
         }
     }
+
+    
 
     private void cameraView_BarcodeDetected_1(object sender, Camera.MAUI.ZXingHelper.BarcodeEventArgs args)
     {
@@ -71,5 +75,10 @@ public partial class CreateIngredientView : Popup
             vm.IngredientCode = args.Result[0].BarcodeFormat.ToString();
             vm.GetIngredientByBarcode();
         });
+    }
+
+    private void Button_Clicked_2(object sender, EventArgs e)
+    {
+        vm.GetIngredientByBarcode();
     }
 }

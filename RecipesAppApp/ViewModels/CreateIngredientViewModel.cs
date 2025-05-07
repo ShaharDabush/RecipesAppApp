@@ -23,6 +23,60 @@ namespace RecipesAppApp.ViewModels
         private string ingredientCode;
         private Ingredient? ingredientBarcode;
         private Size popupSize;
+        #region New Ingredient
+        private bool containMeat;
+        private bool containDairy;
+        private bool isKosher;
+        private bool isGloten;
+        public bool ContainMeat
+        {
+            get
+            {
+                return this.containMeat;
+            }
+            set
+            {
+                this.containMeat = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool ContainDairy
+        {
+            get
+            {
+                return this.containDairy;
+            }
+            set
+            {
+                this.containDairy = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool IsKosher
+        {
+            get
+            {
+                return this.isKosher;
+            }
+            set
+            {
+                this.isKosher = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool IsGloten
+        {
+            get
+            {
+                return this.isGloten;
+            }
+            set
+            {
+                this.isGloten = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
         #region IsVisible properties
         private bool isInCameraMode;
         private bool isNewingredientVisible;
@@ -101,19 +155,90 @@ namespace RecipesAppApp.ViewModels
             }
         }
 
+        #region Photo
+
+        private string imageResult;
+        public string ImageResult
+        {
+            get => imageResult;
+            set
+            {
+                imageResult = value;
+                OnPropertyChanged("PhotoURL");
+            }
+        }
+
+        private string photoURL;
+
+        public string PhotoURL
+        {
+            get => photoURL;
+            set
+            {
+                photoURL = value;
+                OnPropertyChanged("PhotoURL");
+            }
+        }
+
+        private string localPhotoPath;
+
+        public string LocalPhotoPath
+        {
+            get => localPhotoPath;
+            set
+            {
+                localPhotoPath = value;
+                OnPropertyChanged("LocalPhotoPath");
+            }
+        }
+
+        public Command UploadPhotoCommand { get; }
+        //This method open the file picker to select a photo
+        private async void OnUploadPhoto()
+        {
+            try
+            {
+                var result = await MediaPicker.Default.PickPhotoAsync(new MediaPickerOptions
+                {
+                    Title = "Please select a photo",
+                });
+
+                if (result != null)
+                {
+                    // The user picked a file
+                    this.LocalPhotoPath = result.FullPath;
+                    this.PhotoURL = result.FullPath;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+        }
+
+        private void UpdatePhotoURL(string virtualPath)
+        {
+            Random r = new Random();
+            PhotoURL = RecipesService.GetImagesBaseAddress() + virtualPath + "?v=" + r.Next();
+            LocalPhotoPath = "";
+        }
+        #endregion
+        public Command BackToBarcodeCommend { set; get; }
+        public Command SaveingredientCommand { set; get; }
         #endregion
 
         public async void GetIngredientByBarcode()
         {
             IsInCameraMode = false;
-            IngredientCode = "Barkod";
             IngredientBarcode = await RecipesService.GetIngredientsByBarcode(IngredientCode);
             if (IngredientBarcode == null)
             {
                 PopupSize = new Size(340, 600);
                 IsNewingredientVisible = true;
                 IngredientBarcode = new Ingredient();
-                IngredientBarcode.IngredientName = "";
+                IngredientBarcode.IngredientName = "New Ingredient";
+                IngredientBarcode.IngredientImage = PhotoURL;
+                IngredientBarcode.Barkod = IngredientCode;
 
             }
             else
@@ -131,6 +256,7 @@ namespace RecipesAppApp.ViewModels
             if(result)
             {
                 await Application.Current.MainPage.DisplayAlert("Add Ingredient", "Ingredient was added to your storage", "ok");
+                OnPropertyChanged("IngredientsListForStorage");
             }
             else
             {
@@ -138,6 +264,18 @@ namespace RecipesAppApp.ViewModels
             }
         }
 
+        public async void Saveingredient()
+        {
+           bool result = await RecipesService.SaveIngredient(IngredientBarcode);
+            if(result)
+            {
+                await Application.Current.MainPage.DisplayAlert("Save Ingredient", "Ingredient was saved and added to your storage", "ok");
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Save Ingredient", "Something went wrong, please try again later", "ok");
+            }
+        }
 
     }
 }

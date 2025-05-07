@@ -128,13 +128,17 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged();
             }
         }
+
         #endregion
 
         public StorageViewModel(RecipesAppWebAPIProxy service)
         {
             this.RecipesService = service;
             loggedUser = ((App)Application.Current).LoggedInUser;
+            UploadPhotoCommand = new Command(OnUploadPhoto);
             OpenCreateIngredientCommand = new Command(OpenCreateIngredient);
+            SaveingredientCommand = new Command(Saveingredient);
+            BackToBarcodeCommend = new Command(BackToBarcode);
             IsInCameraMode = false;
             SetUserIngredients();
         }
@@ -160,9 +164,9 @@ namespace RecipesAppApp.ViewModels
             }
             else
             {
-                List<Ingredient> temp = IngredientsList1.Where(i => i.IngredientName.ToLower().Contains(SearchedIngredientInStorage.ToLower())).ToList();
+                List<Ingredient> temp1 = IngredientsList1.Where(i => i.IngredientName.ToLower().Contains(SearchedIngredientInStorage.ToLower())).ToList();
                 this.IngredientsListForStorage.Clear();
-                foreach (Ingredient i in temp)
+                foreach (Ingredient i in temp1)
                 {
                     this.IngredientsListForStorage.Add(i);
                 }
@@ -184,9 +188,9 @@ namespace RecipesAppApp.ViewModels
             }
             else
             {
-                List<Ingredient> temp = IngredientsList2.Where(i => i.IngredientName.ToLower().Contains(SearchedNewIngredient.ToLower())).ToList();
+                List<Ingredient> temp2 = IngredientsList2.Where(i => i.IngredientName.ToLower().Contains(SearchedNewIngredient.ToLower())).ToList();
                 this.IngredientsListForNewIngredient.Clear();
-                foreach (Ingredient i in temp)
+                foreach (Ingredient i in temp2)
                 {
                     this.IngredientsListForNewIngredient.Add(i);
                 }
@@ -202,6 +206,9 @@ namespace RecipesAppApp.ViewModels
 
         public void OpenCreateIngredient()
         {
+            IsAddingredientVisible = false;
+            IsNewingredientVisible = false;
+            IngredientCode = "";
             IsInCameraMode = true;
             PopupSize = new Size(270,300);
             if (OpenPopup != null)
@@ -210,6 +217,14 @@ namespace RecipesAppApp.ViewModels
                 OpenPopup(l);
             }
             //GetIngredientByBarcode();
+        }
+        public void BackToBarcode()
+        {
+            IsAddingredientVisible = false;
+            IsNewingredientVisible = false;
+            IngredientCode = "";
+            IsInCameraMode = true;
+            PopupSize = new Size(270, 300);
         }
     }
 }

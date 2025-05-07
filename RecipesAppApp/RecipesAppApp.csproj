@@ -75,6 +75,7 @@
 	  <None Remove="Resources\Images\plus.png" />
 	  <None Remove="Resources\Images\ramen.png" />
 	  <None Remove="Resources\Images\removeuser.png" />
+	  <None Remove="Resources\Images\rightarrow.png" />
 	  <None Remove="Resources\Images\steak.png" />
 	</ItemGroup>
 

@@ -23,7 +23,7 @@
                     ClearButtonVisibility="WhileEditing"
                     HeightRequest="40"
                     HorizontalOptions="Start"
-                    Placeholder="Search by player name"
+                    Placeholder="Search by recipe name"
                     PlaceholderColor="#a0522d"
                     Text="{Binding SearchedName}"
                     VerticalOptions="Start"
