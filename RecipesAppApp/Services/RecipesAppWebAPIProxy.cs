@@ -242,10 +242,10 @@ namespace RecipesAppApp.Services
         public async Task<string?> UploadIngredientImage(Ingredient ingredient)
         {
             //Set URI to the specific function API
-            string url = $"{this.baseUrl}uploadUserImage?IngredientName={ingredient.Id}";
+            string url = $"{this.baseUrl}UploadIngredientImage?IngredientName={ingredient.IngredientName}";
             try
             {
-                string imagePath = ingredient.IngredientName;
+                string imagePath = ingredient.IngredientImage;
                 //Create the form data
                 MultipartFormDataContent form = new MultipartFormDataContent();
                 var fileContent = new ByteArrayContent(File.ReadAllBytes(imagePath));

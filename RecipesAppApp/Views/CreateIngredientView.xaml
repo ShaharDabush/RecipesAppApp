@@ -15,7 +15,7 @@
         <Entry Text="{Binding IngredientCode}" IsVisible="{Binding IsInCameraMode}"/>
         <Button Text="Save" Clicked="Button_Clicked_2" IsVisible="{Binding IsInCameraMode}"/>
         <Grid ColumnDefinitions="*,*"  IsVisible="{Binding IsNewingredientVisible}">
-            <Entry Grid.Column="1" Text="{Binding IngredientBarcode.IngredientName}" WidthRequest="150" HorizontalOptions="End" VerticalOptions="Start"
+            <Entry Grid.Column="1" Text="{Binding NewIngredientName}" WidthRequest="150" HorizontalOptions="End" VerticalOptions="Start"
                    FontSize="40" Margin="0,30,10,0"/>
         <Grid ColumnDefinitions="*" HorizontalOptions="Fill" RowDefinitions="*">
                 <Border Margin="20" Stroke="#cd853f" StrokeShape="RoundRectangle 30,30,30,30" Grid.Column="0" >
@@ -59,7 +59,7 @@
                     Text="Gluten" />
         </Grid>
         <Label Grid.Column="0" FontSize="20" HorizontalTextAlignment="Start" 
-               Margin="30,10,0,0" IsVisible="{Binding IsNewingredientVisible}">
+               Margin="30,30,0,0" IsVisible="{Binding IsNewingredientVisible}">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding BackToBarcodeCommend}" />
                 </Label.GestureRecognizers>
@@ -71,6 +71,7 @@
                     </FormattedString>
                 </Label.FormattedText>
         </Label>
+        <Button Text="Save Ingredient" BackgroundColor="#a0522d" Margin="0,70,0,0" WidthRequest="250" Command="{Binding SaveingredientCommand}" IsVisible="{Binding IsNewingredientVisible}"/>
             <Label FontSize="25" HorizontalTextAlignment="Center"  Margin="0,10,0,-10" 
                    IsVisible="{Binding IsAddingredientVisible}">
                 <Label.FormattedText>
@@ -81,7 +82,6 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-        <Button Text="Save Ingredient" BackgroundColor="#a0522d" Command="{Binding SaveingredientCommand}"/>
         <Grid ColumnDefinitions="*,*" Margin="0,20,0,0">
             <Button Text="No" Clicked="Button_Clicked_1"  BackgroundColor="#a0522d" Grid.Column="0" WidthRequest="150" Margin="0,10,0,-10" IsVisible="{Binding IsAddingredientVisible}"/>
             <Button Text="Yes" Clicked="Button_Clicked" BackgroundColor="#a0522d" Grid.Column="1" WidthRequest="150" Margin="0,10,0,-10" IsVisible="{Binding IsAddingredientVisible}"/>

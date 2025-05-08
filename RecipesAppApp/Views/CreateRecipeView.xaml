@@ -257,7 +257,7 @@
                                 HeightRequest="150"
                                 Source="removeuser.png"
                                 WidthRequest="45" />
-                            <Label
+                            <Label 
                                 Grid.Column="1"
                                 Margin="0,10,0,0"
                                 HeightRequest="20"

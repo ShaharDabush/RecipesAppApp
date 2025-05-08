@@ -28,6 +28,19 @@ namespace RecipesAppApp.ViewModels
         private bool containDairy;
         private bool isKosher;
         private bool isGloten;
+        private string newIngredientName;
+        public string NewIngredientName
+        {
+            get
+            {
+                return this.newIngredientName;
+            }
+            set
+            {
+                this.newIngredientName = value;
+                OnPropertyChanged();
+            }
+        }
         public bool ContainMeat
         {
             get
@@ -236,7 +249,7 @@ namespace RecipesAppApp.ViewModels
                 PopupSize = new Size(340, 600);
                 IsNewingredientVisible = true;
                 IngredientBarcode = new Ingredient();
-                IngredientBarcode.IngredientName = "New Ingredient";
+                NewIngredientName = "New Ingredient";
                 IngredientBarcode.IngredientImage = PhotoURL;
                 IngredientBarcode.Barkod = IngredientCode;
 
@@ -266,10 +279,29 @@ namespace RecipesAppApp.ViewModels
 
         public async void Saveingredient()
         {
-           bool result = await RecipesService.SaveIngredient(IngredientBarcode);
+            IngredientBarcode = new Ingredient();
+            IngredientBarcode.IngredientName = NewIngredientName;
+            IngredientBarcode.IngredientImage = PhotoURL;
+            IngredientBarcode.IsKosher = IsKosher;
+            IngredientBarcode.IsGloten = IsGloten;
+            IngredientBarcode.Dairy = ContainDairy;
+            IngredientBarcode.Meat = ContainMeat;
+            IngredientBarcode.Barkod = IngredientCode;
+            IngredientBarcode.KindId = 1;
+            bool result = await RecipesService.SaveIngredient(IngredientBarcode,LoggedUser.StorageId.Value);
             if(result)
             {
-                await Application.Current.MainPage.DisplayAlert("Save Ingredient", "Ingredient was saved and added to your storage", "ok");
+                Ingredient i = new(IngredientBarcode);
+                string updatedIngredient = await RecipesService.UploadIngredientImage(i);
+                if (updatedIngredient == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Save Ingredient", "Ingredient Data Was Saved BUT recipe image upload failed", "ok");
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Save Ingredient", "Ingredient was saved and added to your storage", "ok");
+                    SetUserIngredients();
+                }
             }
             else
             {

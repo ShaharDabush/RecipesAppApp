@@ -152,7 +152,6 @@ namespace RecipesAppApp.ViewModels
             List<Ingredient> allIngredients = await this.RecipesService.GetAllIngredients();
             this.IngredientsList2 = new ObservableCollection<Ingredient>(allIngredients);
             this.IngredientsListForNewIngredient = new ObservableCollection<Ingredient>(allIngredients);
-
         }
 
         //on SortCommand change the list and leave only the users that contain the given string
