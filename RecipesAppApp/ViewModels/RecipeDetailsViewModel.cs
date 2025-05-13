@@ -32,7 +32,16 @@ namespace RecipesAppApp.ViewModels
         private double recipeRating;
         private double? rate;
         private bool isRemoveIngredientVisible;
-
+        private int amount;
+        public int Amount
+        {
+            get { return amount; }
+            set
+            {
+                this.amount  = value;
+                OnPropertyChanged();
+            }
+        }
         public bool IsRemoveIngredientVisible
         {
             get { return isRemoveIngredientVisible; }
@@ -204,6 +213,7 @@ namespace RecipesAppApp.ViewModels
             Ratings.Add(8);
             Ratings.Add(9);
             Ratings.Add(10);
+            Amount = 1;
 
         }
         public async void SaveUserRating()
@@ -241,6 +251,20 @@ namespace RecipesAppApp.ViewModels
                 OpenPopup(l);
             }
             MakeListsForRemoveIngredients();
+        }
+
+        public void ChangeAmont()
+        {
+            foreach(IngredientsWithNameAndAmount i in TrueList)
+            {
+                i.Amount = Amount * i.Amount;
+            }
+            Refresh();
+        }
+
+        public void Refresh()
+        {
+            OnPropertyChanged("TrueList");
         }
     }
 }

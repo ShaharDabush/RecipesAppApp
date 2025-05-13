@@ -256,8 +256,23 @@ namespace RecipesAppApp.ViewModels
             }
             else
             {
-                PopupSize = new Size(340, 150);
-                IsAddingredientVisible = true;
+                bool AlreadyExists = false;
+                foreach (Ingredient i in IngredientsListForStorage)
+                {
+                    if (i.Id == IngredientBarcode.Id)
+                    {
+                        AlreadyExists = true;
+                    }
+                }
+                if(AlreadyExists)
+                {
+                     await Application.Current.MainPage.DisplayAlert("Add Ingredient", "you already has this ingredient in your storage", "ok");
+                }
+                else
+                {
+                    PopupSize = new Size(340, 150);
+                    IsAddingredientVisible = true;
+                }
             }
     
             

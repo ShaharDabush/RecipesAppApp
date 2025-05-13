@@ -58,6 +58,16 @@
                         </VerticalStackLayout>
                     </expander:SfExpander.Content>
                 </expander:SfExpander>
+        <Frame HeightRequest="65"
+                   WidthRequest="65"
+                   CornerRadius="80"
+                   HorizontalOptions="Start"
+                   IsClippedToBounds="True"
+                   Padding="0"
+                   BorderColor="#a0522d"
+                   Margin="30,0,0,0">
+            <ImageButton Source="plus.png" WidthRequest="77" Command="{Binding OpenCreateIngredientCommand}" HeightRequest="77" Margin="0,0,0,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"    />
+        </Frame>
                 <Entry Grid.Row="0" Placeholder="Search by Ingredient name" TextColor="#a0522d" PlaceholderColor="#a0522d" Text="{Binding SearchedIngredientInStorage}" HeightRequest="55"  ClearButtonVisibility="WhileEditing"/>
                 <CollectionView
                 Margin="10"
@@ -94,15 +104,5 @@
                 </CollectionView>
             </VerticalStackLayout>
         </ScrollView>
-        <Frame HeightRequest="65"
-                   WidthRequest="65"
-                   CornerRadius="80"
-                   HorizontalOptions="Start"
-                   IsClippedToBounds="True"
-                   Padding="0"
-                   BorderColor="#a0522d"
-                   Margin="30,100,0,0">
-            <ImageButton Source="plus.png" WidthRequest="77" Command="{Binding OpenCreateIngredientCommand}" HeightRequest="77" Margin="0,0,0,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"    />
-        </Frame>
     </VerticalStackLayout>
 </ContentPage>

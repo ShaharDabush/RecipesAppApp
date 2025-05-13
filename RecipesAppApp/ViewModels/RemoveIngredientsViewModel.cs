@@ -69,6 +69,7 @@ namespace RecipesAppApp.ViewModels
                     }
                 }
             }
+
             bool IsSuccessful = await RecipesService.RemoveStorageIngredients(ingredientsToRemove,LoggedUser.StorageId.Value);
             if (IsSuccessful)
             {

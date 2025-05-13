@@ -14,7 +14,7 @@ namespace RecipesAppApp.Classes
 
         public int RecipeId { get; set; }
 
-        public int Amount { get; set; }
+        public double Amount { get; set; }
 
         public string MeasureUnits { get; set; } = null!;
 

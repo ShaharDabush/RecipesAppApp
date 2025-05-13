@@ -163,6 +163,7 @@ namespace RecipesAppApp.ViewModels
                 MeasureUnit = "";
                 Amount = 0;
             }
+           
         }
 
     }
