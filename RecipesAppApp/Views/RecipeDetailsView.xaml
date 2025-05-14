@@ -30,6 +30,12 @@
             </Grid>
             <Label Text="{Binding Recipe.RecipeDescription}" Margin="5,0,0,0"/>
             <Label Text="Ingredients" Margin="0,20,0,20" FontSize="30" FontAttributes="Bold"/>
+            <Grid ColumnDefinitions="*,*" WidthRequest="100" HorizontalOptions="Start"  >
+                <Border Stroke="Black" WidthRequest="40" HeightRequest="28" HorizontalOptions="Start" StrokeShape="RoundRectangle 10,10,10,10" Margin="5,-10,0,20" Padding="0,0,0,-9">
+                <Entry Text="{Binding Amount}" Margin="4,0,0,0"  />
+            </Border>
+                <Button Grid.Column="1" WidthRequest="30" HeightRequest="28" Margin="0,-10,0,20" BackgroundColor="#a0522d" Command="{Binding ChangeAmountCommand}"/>
+            </Grid>
             <CollectionView ItemsSource="{Binding TrueList}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="classes:IngredientsWithNameAndAmount">

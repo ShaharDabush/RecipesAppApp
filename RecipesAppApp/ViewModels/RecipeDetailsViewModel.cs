@@ -19,6 +19,7 @@ namespace RecipesAppApp.ViewModels
     {
         #region attributes and properties
         public ICommand RemoveIngredientsCommand => new Command(RemoveIngredients);
+        public ICommand ChangeAmountCommand { get; set; }
         private RecipesAppWebAPIProxy RecipesService;
         public event Action<List<string>> OpenPopup;
         public ObservableCollection<Level> levels;
@@ -32,8 +33,8 @@ namespace RecipesAppApp.ViewModels
         private double recipeRating;
         private double? rate;
         private bool isRemoveIngredientVisible;
-        private int amount;
-        public int Amount
+        private double amount;
+        public double Amount
         {
             get { return amount; }
             set
@@ -202,6 +203,7 @@ namespace RecipesAppApp.ViewModels
                 IsRemoveIngredientVisible = false;
                 LoggedUser = null;
             }
+            ChangeAmountCommand = new Command(ChangeAmount);
             Ratings = new List<int>();
             Ratings.Add(1);
             Ratings.Add(2);
@@ -253,13 +255,14 @@ namespace RecipesAppApp.ViewModels
             MakeListsForRemoveIngredients();
         }
 
-        public void ChangeAmont()
+        public void ChangeAmount()
         {
+            MakeLists();
             foreach(IngredientsWithNameAndAmount i in TrueList)
             {
                 i.Amount = Amount * i.Amount;
             }
-            Refresh();
+            OnPropertyChanged("TrueList");
         }
 
         public void Refresh()

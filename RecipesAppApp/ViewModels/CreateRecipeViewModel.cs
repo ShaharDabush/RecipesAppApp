@@ -511,7 +511,7 @@ namespace RecipesAppApp.ViewModels
             List<IngredientRecipe> ingredientRecipes = new();
             foreach (IngredientsWithNameAndAmount i in ListOfNewIngredients)
             {
-                ingredientRecipes.Add(new IngredientRecipe(i.IngredientId, i.RecipeId, i.Amount, i.MeasureUnits));
+                ingredientRecipes.Add(new IngredientRecipe(i.IngredientId, i.RecipeId,(int)i.Amount , i.MeasureUnits));
             }
             List<Allergy> recipeAllergies = new();
             foreach(UserAllergyWithIsChecked a in AllergiesList)

@@ -133,6 +133,14 @@ namespace RecipesAppApp.ViewModels
 
         public StorageViewModel(RecipesAppWebAPIProxy service)
         {
+            if(((App)Application.Current).LoggedInUser.StorageId == null)
+            {
+                StorageNull();
+            }
+            else
+            {
+                SetUserIngredients();
+            }
             this.RecipesService = service;
             loggedUser = ((App)Application.Current).LoggedInUser;
             UploadPhotoCommand = new Command(OnUploadPhoto);
@@ -140,7 +148,6 @@ namespace RecipesAppApp.ViewModels
             SaveingredientCommand = new Command(Saveingredient);
             BackToBarcodeCommend = new Command(BackToBarcode);
             IsInCameraMode = false;
-            SetUserIngredients();
         }
 
         public async void SetUserIngredients()
@@ -224,6 +231,12 @@ namespace RecipesAppApp.ViewModels
             IngredientCode = "";
             IsInCameraMode = true;
             PopupSize = new Size(270, 300);
+        }
+
+        public async void StorageNull()
+        {
+            Shell.Current.Navigation.PopAsync();
+            await Application.Current.MainPage.DisplayAlert("Storage does not exeist", "You have been kicked out of your storage please create new one", "ok");
         }
     }
 }

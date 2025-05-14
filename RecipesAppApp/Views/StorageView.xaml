@@ -5,12 +5,11 @@
              xmlns:classes="clr-namespace:RecipesAppApp.Classes"
              xmlns:expander="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-                          xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
+             xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
              x:Class="RecipesAppApp.Views.StorageView"
              BackgroundColor="Wheat"
              Shell.BackgroundColor="Wheat"
              Title="StorageView">
-
     <VerticalStackLayout>
         <ScrollView>
             <VerticalStackLayout>
@@ -23,10 +22,10 @@
                         <VerticalStackLayout>
                             <Entry Grid.Row="0" Placeholder="Search by Ingredient name" TextColor="#a0522d" PlaceholderColor="#a0522d" Text="{Binding SearchedNewIngredient}" HeightRequest="55"  ClearButtonVisibility="WhileEditing"/>
                             <CollectionView
-                Margin="10"
-                ItemsLayout="VerticalGrid, 3"
-                x:Name="searchCollectionView1"
-                ItemsSource="{Binding IngredientsListForNewIngredient}">
+                                Margin="10"
+                                ItemsLayout="VerticalGrid, 3"
+                                x:Name="searchCollectionView1"
+                                ItemsSource="{Binding IngredientsListForNewIngredient}">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="models:Ingredient">
                                         <VerticalStackLayout
