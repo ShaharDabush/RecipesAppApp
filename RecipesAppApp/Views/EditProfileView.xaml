@@ -6,6 +6,8 @@
              xmlns:classes="clr-namespace:RecipesAppApp.Classes"
              xmlns:viewmodels="clr-namespace:RecipesAppApp.ViewModels"
              x:DataType="viewmodels:EditProfileViewModel"
+             BackgroundColor="Wheat"
+             Shell.BackgroundColor="Wheat"
              Title="EditProfileView">
     <VerticalStackLayout x:Name="VSL">
         <!-- Personal Changes -->
@@ -15,8 +17,8 @@
             RowDefinitions="*,*" >
             <Label Text="Name" FontSize="20" Grid.Column="0" Margin="4,0,0,0"/>
             <Label Text="{Binding NameError}" IsVisible="{Binding ShowNameError}" Grid.Column="1"  />
-            <Button Command="{Binding NameCommand}" Text="Update" Grid.Column="1" WidthRequest="80" Grid.Row="1" HorizontalOptions="End" />
-            <Entry Text="{Binding Name}" HorizontalOptions="Start"  WidthRequest="290" ClearButtonVisibility="WhileEditing" Grid.Column="0" Grid.Row="1"/>
+            <Button Command="{Binding NameCommand}" Text="Update" BackgroundColor="#a0522d" Grid.Column="1" WidthRequest="80" Grid.Row="1" HorizontalOptions="End" />
+            <Entry Text="{Binding Name}" HorizontalOptions="Start" WidthRequest="290" ClearButtonVisibility="WhileEditing" Grid.Column="0" Grid.Row="1"/>
         </Grid>
 
         <Grid 
@@ -24,7 +26,7 @@
              RowDefinitions="*,*" >
             <Label Text="Mail" FontSize="20" Grid.Column="0" Grid.Row="0" Margin="4"/>
             <Label Text="{Binding EmailError}" IsVisible="{Binding ShowEmailError}" Grid.Column="1" Grid.Row="0" />
-            <Button Command="{Binding MailCommand}" Text="Update" Grid.Column="1" WidthRequest="80" Grid.Row="1" HorizontalOptions="End" />
+            <Button Command="{Binding MailCommand}" Text="Update" BackgroundColor="#a0522d" Grid.Column="1" WidthRequest="80" Grid.Row="1" HorizontalOptions="End" />
             <Entry  Text="{Binding Email}" HorizontalOptions="Start"  WidthRequest="290" ClearButtonVisibility="WhileEditing" Grid.Column="0" Grid.Row="1"/>
         </Grid>
         <!-- Storage Changes -->
@@ -33,17 +35,18 @@
              ColumnDefinitions="*,*"
              RowDefinitions="*,*" >
             <Label Text="Storage Name" FontSize="20" Grid.Column="0" Grid.Row="0" Margin="4"/>
-            <Button Command="{Binding StorageNameCommand}" Text="Update" Grid.Column="1" WidthRequest="80" Grid.Row="1" HorizontalOptions="End" />
+            <Button Command="{Binding StorageNameCommand}" Text="Update" BackgroundColor="#a0522d" Grid.Column="1" WidthRequest="80" Grid.Row="1" HorizontalOptions="End" />
             <Entry  Text="{Binding StorageName}" HorizontalOptions="Start"  WidthRequest="290" ClearButtonVisibility="WhileEditing" Grid.Column="0" Grid.Row="1"/>
         </Grid>
         <Label Text="Storage member" FontSize="20" Grid.Column="0" Margin="4,0,0,0"/>
-        <Border Stroke="Black">
-            <CollectionView  x:Name="membersCV" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="4" ItemsSource="{Binding UsersWithSameStorage}" BackgroundColor="White" Margin="5">
+        <Border Stroke="#a0522d" Margin="5" StrokeThickness="2">
+            <CollectionView  x:Name="membersCV" Grid.Column="0"  Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="4" ItemsSource="{Binding UsersWithSameStorage}" BackgroundColor="Wheat" Margin="5">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="classes:UsersWithManager">
                         <Grid ColumnDefinitions="*,0.2*">
                             <Label Text="{Binding UserName}" Grid.Column="0" Margin="3" />
-                            <Label Text="(Admin)" Grid.Column="3" Margin="2" IsVisible="{Binding IsAdmin}"/>
+                            <Label Text="(Manager)" TextColor="#cd853f" Grid.Column="3" Margin="-6,2,2,2" IsVisible="{Binding IsManager}"/>
+                            <Label Text="(You)" TextColor="#cd853f" Grid.Column="3" Margin="2" IsVisible="{Binding IsAdmin}"/>
                             <ImageButton Source="removeuser.png" Grid.Column="3" Command="{Binding Path=BindingContext.DiscardMembersCommand, Source={x:Reference VSL}} " CommandParameter="{Binding Id}" CornerRadius="500" WidthRequest="30" HeightRequest="30" IsVisible="{Binding IsNotManager}" />
                         </Grid>
                     </DataTemplate>

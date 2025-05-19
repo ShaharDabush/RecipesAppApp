@@ -6,7 +6,6 @@ using RecipesAppApp.Services;
 using CommunityToolkit.Maui;
 using Syncfusion.Maui.Core.Hosting;
 using Camera.MAUI;
-using Camera.MAUI.ZXing;
 
 namespace RecipesAppApp
 {

@@ -1,9 +1,10 @@
-using Camera.MAUI.ZXing;
+//using Camera.MAUI.ZXing;
 using Camera.MAUI;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Views;
 using RecipesAppApp.ViewModels;
 using System.Diagnostics;
+using ZXing;
 
 namespace RecipesAppApp.Views;
 
@@ -27,40 +28,40 @@ public partial class CreateIngredientView : Popup
     {
         this.Close();
     }
-    private void InitZing()
-    {
-        cameraView.BarcodeDetected += cameraView_BarcodeDetected_1;
-        cameraView.BarCodeDecoder = new ZXingBarcodeDecoder();
-        cameraView.BarCodeOptions = new BarcodeDecodeOptions
-        {
-            AutoRotate = true,
-            PossibleFormats = { BarcodeFormat.QR_CODE },
-            ReadMultipleCodes = false,
-            TryHarder = true,
-            TryInverted = true
-        };
-        cameraView.BarCodeDetectionFrameRate = 10;
-        cameraView.BarCodeDetectionMaxThreads = 5;
-        cameraView.ControlBarcodeResultDuplicate = true;
-        cameraView.BarCodeDetectionEnabled = true;
-    }
-    private void CameraView_BarcodeDetected(object sender, Camera.MAUI.ZXingHelper.BarcodeEventArgs args)
-    {
-        Debug.WriteLine("BarcodeText=" + args.Result[0].Text);
-    }
+    //private void InitZing()
+    //{
+    //    cameraView.BarcodeDetected += cameraView_BarcodeDetected_1;
+    //    cameraView.BarCodeDecoder = new ZXingBarcodeDecoder();
+    //    cameraView.BarCodeOptions = new BarcodeDecodeOptions
+    //    {
+    //        AutoRotate = true,
+    //        PossibleFormats = { BarcodeFormat.QR_CODE },
+    //        ReadMultipleCodes = false,
+    //        TryHarder = true,
+    //        TryInverted = true
+    //    };
+    //    cameraView.BarCodeDetectionFrameRate = 10;
+    //    cameraView.BarCodeDetectionMaxThreads = 5;
+    //    cameraView.ControlBarcodeResultDuplicate = true;
+    //    cameraView.BarCodeDetectionEnabled = true;
+    //}
+    //private void CameraView_BarcodeDetected(object sender, Camera.MAUI.ZXingHelper.BarcodeEventArgs args)
+    //{
+    //    Debug.WriteLine("BarcodeText=" + args.Result[0].Text);
+    //}
 
     private void cameraView_CamerasLoaded(object sender, EventArgs e)
     {
-        if (cameraView.NumCamerasDetected > 0)
+        if (cameraView.Cameras.Count > 0)
         {
 
-            cameraView.Camera = cameraView.Cameras.First();
+            cameraView.Camera = cameraView.Cameras[0];
             MainThread.BeginInvokeOnMainThread(async () =>
             {
                 await cameraView.StopCameraAsync();
                 await cameraView.StartCameraAsync();
                 cameraView.BarCodeDetectionEnabled = true;
-                cameraView.BarcodeDetected += CameraView_BarcodeDetected;
+                cameraView.BarcodeDetected += cameraView_BarcodeDetected;
 
             });
         }
@@ -68,7 +69,7 @@ public partial class CreateIngredientView : Popup
 
     
 
-    private void cameraView_BarcodeDetected_1(object sender, Camera.MAUI.ZXingHelper.BarcodeEventArgs args)
+    private void cameraView_BarcodeDetected(object sender, Camera.MAUI.ZXingHelper.BarcodeEventArgs args)
     {
         MainThread.BeginInvokeOnMainThread(() =>
         {

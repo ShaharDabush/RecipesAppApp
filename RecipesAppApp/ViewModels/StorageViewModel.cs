@@ -11,6 +11,7 @@ using RecipesAppApp.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Views;
+using System.Runtime.CompilerServices;
 
 namespace RecipesAppApp.ViewModels
 {
@@ -133,14 +134,6 @@ namespace RecipesAppApp.ViewModels
 
         public StorageViewModel(RecipesAppWebAPIProxy service)
         {
-            if(((App)Application.Current).LoggedInUser.StorageId == null)
-            {
-                StorageNull();
-            }
-            else
-            {
-                SetUserIngredients();
-            }
             this.RecipesService = service;
             loggedUser = ((App)Application.Current).LoggedInUser;
             UploadPhotoCommand = new Command(OnUploadPhoto);
@@ -148,6 +141,16 @@ namespace RecipesAppApp.ViewModels
             SaveingredientCommand = new Command(Saveingredient);
             BackToBarcodeCommend = new Command(BackToBarcode);
             IsInCameraMode = false;
+
+            if (loggedUser.StorageId == null)
+            {
+                Test();
+            }
+            else
+            {
+                SetUserIngredients();
+            }
+            
         }
 
         public async void SetUserIngredients()
@@ -233,10 +236,15 @@ namespace RecipesAppApp.ViewModels
             PopupSize = new Size(270, 300);
         }
 
-        public async void StorageNull()
+        public async void Test()
+        {
+            await StorageNull();
+        }
+        public async Task<bool> StorageNull()
         {
             Shell.Current.Navigation.PopAsync();
             await Application.Current.MainPage.DisplayAlert("Storage does not exeist", "You have been kicked out of your storage please create new one", "ok");
+            return true;
         }
     }
 }

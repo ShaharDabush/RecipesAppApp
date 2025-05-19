@@ -25,26 +25,31 @@ namespace RecipesAppApp.Classes
 
         public bool? IsNotAdmin { get => !IsAdmin; }
 
+        public bool IsManager { get; set; }
+
         public bool IsNotManager { get; set; }
+
+        public bool IsLoggedUser { get; set; }
 
         public bool? IsKohser { get; set; }
 
         public string? Vegetarianism { get; set; }
 
         public UsersWithManager() { }
-        public UsersWithManager(User u , bool isNotManager) 
+        public UsersWithManager(User u , bool isManager, bool isNotManager, bool isLoggedUser)
         {
-            u.Id = Id;
-            u.UserName = UserName;
-            u.Email = Email;
-            u.UserPassword = UserPassword;
-            u.UserImage = UserImage;
-            u.StorageId = StorageId;
-            u.IsAdmin = IsAdmin;
-            u.IsKohser = IsKohser;
-            u.Vegetarianism = Vegetarianism;
-            isNotManager = IsNotManager;
-
+            Id = u.Id;
+            UserName = u.UserName;
+            Email = u.Email;
+            UserPassword = u.UserPassword;
+            UserImage = u.UserImage;
+            StorageId = u.StorageId;
+            IsAdmin = u.IsAdmin;
+            IsKohser = u.IsKohser;
+            Vegetarianism = u.Vegetarianism;
+            IsManager = isManager;
+            IsNotManager = isNotManager;
+            IsLoggedUser = isLoggedUser;
         }
     }
 }

@@ -10,10 +10,10 @@
              VerticalOptions="Center"
              x:Class="RecipesAppApp.Views.CreateIngredientView">
     <VerticalStackLayout Margin="0,10,0,0">
-        <cv:CameraView x:Name="cameraView" VerticalOptions="Start" WidthRequest="390" HeightRequest="300" IsVisible="False" 
-                       CamerasLoaded="cameraView_CamerasLoaded" BarCodeDetectionEnabled="True" BarcodeDetected="cameraView_BarcodeDetected_1"/>
-        <Entry Text="{Binding IngredientCode}" IsVisible="{Binding IsInCameraMode}"/>
-        <Button Text="Save" Clicked="Button_Clicked_2" IsVisible="{Binding IsInCameraMode}"/>
+        <cv:CameraView x:Name="cameraView" VerticalOptions="Start" WidthRequest="390" HeightRequest="300" IsVisible="{Binding IsInCameraMode}" 
+                       CamerasLoaded="cameraView_CamerasLoaded"/>
+        <Entry Text="{Binding IngredientCode}" IsVisible="False"/>
+        <Button Text="Save" Clicked="Button_Clicked_2" IsVisible="False"/>
         <Grid ColumnDefinitions="*,*"  IsVisible="{Binding IsNewingredientVisible}">
             <Entry Grid.Column="1" Text="{Binding NewIngredientName}" WidthRequest="150" HorizontalOptions="End" VerticalOptions="Start"
                    FontSize="40" Margin="0,30,10,0"/>

@@ -205,13 +205,31 @@ namespace RecipesAppApp.ViewModels
             List<UsersWithManager> usersWithManager = new List<UsersWithManager>();
             foreach (User user in users) 
             {
+                UsersWithManager u = new UsersWithManager();
                 if(LoggedUserStorage.Manager == user.Id)
                 {
-                    usersWithManager.Add(new UsersWithManager(user, true));
+                     u = new UsersWithManager(user, true, false, false);
+                    usersWithManager.Add(u);
+                }
+                else if(loggedUser.Id == LoggedUserStorage.Manager)
+                {
+                     u = new UsersWithManager(user, false, false, false);
+                    usersWithManager.Add(u);
                 }
                 else
                 {
-                    usersWithManager.Add(new UsersWithManager(user, false));
+                     u = new UsersWithManager(user, false, true, false);
+                    usersWithManager.Add(u);
+                }
+
+                if(loggedUser.Id == u.Id && u.Id == LoggedUserStorage.Manager)
+                {
+                    u.IsLoggedUser = true;
+                    u.IsManager = false;
+                }
+                else if(loggedUser.Id == u.Id)
+                {
+                    u.IsLoggedUser = true;
                 }
             }
 
