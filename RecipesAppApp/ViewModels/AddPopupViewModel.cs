@@ -28,6 +28,8 @@ namespace RecipesAppApp.ViewModels
             {
                     this.amount = value;
                     OnPropertyChanged();
+                ValidateAmount();
+                ((Command)SaveIngredientCommand).ChangeCanExecute();
 
             }
         }
@@ -53,21 +55,21 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged("amountError");
             }
         }
-        //private bool ValidateAmount()
-        //{
-        //    int d = 0;
-        //    if (!int.TryParse(this.Amount, out d))
-        //    {
-        //        this.ShowAmountError = false;
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        this.ShowAmountError = true;
-        //        return true;
-        //    }
-
-        //}
+        private bool ValidateAmount()
+        {
+            if(Amount < 0)
+            {
+                ShowAmountError = true;
+                AmountError = "Please enter a valid amount";
+                return false;
+            }
+            else
+            {
+                ShowAmountError = false;
+                AmountError = "";
+                return true;
+            }
+        }
         #endregion
         #region MeasureUnits
         private string measureUnit;
@@ -78,6 +80,7 @@ namespace RecipesAppApp.ViewModels
             {
                 measureUnit = value;
                 OnPropertyChanged();
+                ((Command)SaveIngredientCommand).ChangeCanExecute();
             }
         }
         private bool showMeasureUnitError;
@@ -154,10 +157,10 @@ namespace RecipesAppApp.ViewModels
 
         public void SaveIngredient()
         {
-            
-            if (!ValidateMeasurementUnits())
+
+            if (!ValidateMeasurementUnits() && ValidateAmount())
             {
-             IngredientsWithNameAndAmount NewIngredient = new IngredientsWithNameAndAmount(IngredientId ,0,Amount,MeasureUnit, IngredientName,false);
+                IngredientsWithNameAndAmount NewIngredient = new IngredientsWithNameAndAmount(IngredientId ,0,Amount,MeasureUnit, IngredientName,false);
                 ListOfNewIngredients.Add(NewIngredient);
                 ListOfAddedIngredient = new ObservableCollection<IngredientsWithNameAndAmount>(ListOfNewIngredients);
                 MeasureUnit = "";

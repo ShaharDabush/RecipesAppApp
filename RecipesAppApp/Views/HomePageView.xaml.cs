@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.Messaging;
 using RecipesAppApp.Classes;
 using RecipesAppApp.ViewModels;
@@ -7,7 +8,8 @@ namespace RecipesAppApp.Views;
 
 public partial class HomePageView : ContentPage
 {
-	public HomePageView(HomePageViewModel vm)
+   
+    public HomePageView(HomePageViewModel vm)
 	{
         BindingContext = vm;
         //WeakReferenceMessenger.Default.Register<TriggerUiMessage>(this, (r, m) =>
@@ -33,7 +35,6 @@ public partial class HomePageView : ContentPage
         HomePageViewModel vm = (HomePageViewModel)this.BindingContext;
         vm.FilterRecipes();
     }
-
 
     //private void YourAllergiesCheck(object sender, Syncfusion.Maui.Buttons.StateChangedEventArgs e)
     //{

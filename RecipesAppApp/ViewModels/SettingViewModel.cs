@@ -1,4 +1,4 @@
-﻿using AndroidX.Annotations;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using RecipesAppApp.Classes;
 using RecipesAppApp.Models;
 using RecipesAppApp.Services;
-using Android.Service.Voice;
 using System.Windows.Input;
 
 namespace RecipesAppApp.ViewModels

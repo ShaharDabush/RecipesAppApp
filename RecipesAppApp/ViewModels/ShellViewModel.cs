@@ -75,8 +75,8 @@ namespace RecipesAppApp.ViewModels
             if (IsLogged)
             {
                 ((App)Application.Current).LoggedInUser = null;
-                AppShell shell = serviceProvider.GetService<AppShell>();
-                Application.Current.MainPage = shell;
+                ((App)Application.Current).UserStorage = null;
+                await ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<LoadingPageView>());
                 LogText = "Login";
                 Refresh();
             }

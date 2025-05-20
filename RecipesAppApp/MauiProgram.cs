@@ -46,6 +46,7 @@ namespace RecipesAppApp
         {
 
             builder.Services.AddTransient<AppShell>();
+            builder.Services.AddTransient<LoadingPageView>();
             builder.Services.AddTransient<SignUpView>();
             builder.Services.AddTransient<LoginView>();
             builder.Services.AddTransient<CreateIngredientView>();
@@ -72,6 +73,7 @@ namespace RecipesAppApp
         public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)
         {
             builder.Services.AddTransient<LoginViewModel>();
+            builder.Services.AddTransient<LoadingPageViewModel>();
             builder.Services.AddTransient<SignUpViewModel>();
             builder.Services.AddTransient<CreateRecipeViewModel>();
             builder.Services.AddTransient<EditProfileViewModel>();

@@ -10,7 +10,6 @@ using System.Windows.Input;
 using RecipesAppApp.Classes;
 using RecipesAppApp.Models;
 using RecipesAppApp.Services;
-using static Android.Graphics.Paint;
 
 namespace RecipesAppApp.ViewModels
 {
@@ -341,7 +340,7 @@ namespace RecipesAppApp.ViewModels
         {
             this.RecipesService = service;
             UploadPhotoCommand = new Command(OnUploadPhoto);
-            SaveIngredientCommand = new Command(SaveIngredient);
+            SaveIngredientCommand = new Command(SaveIngredient, () => (!string.IsNullOrEmpty(MeasureUnit) && Amount > 0));
             AddDirectionCommand = new Command(AddDirection);
             SaveRecipeCommand = new Command(SaveRecipe);
             DiscardLevelCommand = new Command<int>((int levelCount) => RemoveLevel(levelCount));
@@ -377,6 +376,7 @@ namespace RecipesAppApp.ViewModels
             ListOfKind.Add("Japanise");
             ListOfKind.Add("Italian");
             ListOfKind.Add("French");
+            ListOfKind.Add("German");
             GetIngredients();
             GetAllergies();
         }
@@ -482,7 +482,14 @@ namespace RecipesAppApp.ViewModels
             newRecipe.RecipeImage = photoURL;
             newRecipe.RecipesName = recipeName;
             newRecipe.RecipeDescription = Desciption;
-            newRecipe.Kind = Kind;
+            if(Kind == null)
+            {
+                newRecipe.Kind = "Does not have";
+            }
+            else
+            {
+                newRecipe.Kind = Kind;
+            }
             newRecipe.MadeBy = ((App)Application.Current).LoggedInUser.Id;
             newRecipe.Rating = 0;
             newRecipe.IsKosher = IsKosher;

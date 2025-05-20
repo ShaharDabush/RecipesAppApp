@@ -30,7 +30,7 @@
             <Entry  Text="{Binding Email}" HorizontalOptions="Start"  WidthRequest="290" ClearButtonVisibility="WhileEditing" Grid.Column="0" Grid.Row="1"/>
         </Grid>
         <!-- Storage Changes -->
-        <Label Text="Storage" Margin="4,20,0,0" FontSize="30" FontAttributes="Bold" />
+        <Label Text="Storage" Margin="4,20,0,0" FontSize="30" FontAttributes="Bold" IsVisible="{Binding IsInStorage}" />
         <Grid IsVisible="{Binding LoggedUser.IsAdmin}"
              ColumnDefinitions="*,*"
              RowDefinitions="*,*" >
@@ -38,20 +38,25 @@
             <Button Command="{Binding StorageNameCommand}" Text="Update" BackgroundColor="#a0522d" Grid.Column="1" WidthRequest="80" Grid.Row="1" HorizontalOptions="End" />
             <Entry  Text="{Binding StorageName}" HorizontalOptions="Start"  WidthRequest="290" ClearButtonVisibility="WhileEditing" Grid.Column="0" Grid.Row="1"/>
         </Grid>
-        <Label Text="Storage member" FontSize="20" Grid.Column="0" Margin="4,0,0,0"/>
-        <Border Stroke="#a0522d" Margin="5" StrokeThickness="2">
+        <Label Text="Storage member" FontSize="20" Grid.Column="0" Margin="4,0,0,0" IsVisible="{Binding IsInStorage}"/>
+        <Border Stroke="#a0522d" Margin="5" StrokeThickness="2" IsVisible="{Binding IsInStorage}">
             <CollectionView  x:Name="membersCV" Grid.Column="0"  Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="4" ItemsSource="{Binding UsersWithSameStorage}" BackgroundColor="Wheat" Margin="5">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="classes:UsersWithManager">
                         <Grid ColumnDefinitions="*,0.2*">
                             <Label Text="{Binding UserName}" Grid.Column="0" Margin="3" />
                             <Label Text="(Manager)" TextColor="#cd853f" Grid.Column="3" Margin="-6,2,2,2" IsVisible="{Binding IsManager}"/>
-                            <Label Text="(You)" TextColor="#cd853f" Grid.Column="3" Margin="2" IsVisible="{Binding IsAdmin}"/>
+                            <Label Text="(You)" TextColor="#cd853f" Grid.Column="3" Margin="2" IsVisible="{Binding IsLoggedUser}"/>
                             <ImageButton Source="removeuser.png" Grid.Column="3" Command="{Binding Path=BindingContext.DiscardMembersCommand, Source={x:Reference VSL}} " CommandParameter="{Binding Id}" CornerRadius="500" WidthRequest="30" HeightRequest="30" IsVisible="{Binding IsNotManager}" />
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </Border>
+        <Label  TextColor="#a0522d" Text="Leave Storage" HorizontalOptions="End" TextDecorations="Underline" Margin="10" IsVisible="{Binding IsInStorage}" >
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding LeaveStorageCommand}"/>
+            </Label.GestureRecognizers>
+        </Label>
     </VerticalStackLayout>
 </ContentPage>

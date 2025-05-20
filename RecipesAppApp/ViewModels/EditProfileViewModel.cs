@@ -10,11 +10,13 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Maui;
+using Microsoft.Extensions.DependencyInjection;
+using RecipesAppApp.Views;
 
 
 namespace RecipesAppApp.ViewModels
 {
-    public class EditProfileViewModel : ViewModelBase
+    public partial class EditProfileViewModel : ViewModelBase
     {
         #region attributes and properties
         #region ValidationForm
@@ -139,11 +141,24 @@ namespace RecipesAppApp.ViewModels
         #endregion
         #endregion
         private RecipesAppWebAPIProxy RecipesService;
+        private IServiceProvider serviceProvider;
         private User loggedUser;
-        
+        public event Action<List<string>> OpenPopup;
         private ObservableCollection<UsersWithManager> usersWithSameStorage;
         public ICommand DiscardMembersCommand { get; set; }
+        public ICommand LeaveStorageCommand { get; set; }
         private bool isNotAdmin;
+        private bool isInStorage;
+
+        public bool IsInStorage
+        {
+            get { return isInStorage; }
+            set
+            {
+                this.isInStorage = value;
+                OnPropertyChanged();
+            }
+        }
 
         public bool IsNotAdmin
         {
@@ -186,23 +201,35 @@ namespace RecipesAppApp.ViewModels
         }
         #endregion
 
-        public EditProfileViewModel(RecipesAppWebAPIProxy service)
+        public EditProfileViewModel(RecipesAppWebAPIProxy service, IServiceProvider sp)
         {
             this.RecipesService = service;
+            serviceProvider = sp;
             LoggedUser = ((App)Application.Current).LoggedInUser;
             LoggedUserStorage = ((App)Application.Current).UserStorage;
+            if(LoggedUserStorage == null)
+            {
+                IsInStorage = false;
+            }
+            else
+            {
+                StorageName = LoggedUserStorage.StorageName;
+                IsInStorage = true;
+            }
             this.Name = LoggedUser.UserName;
             this.Email = LoggedUser.Email;
             DiscardMembersCommand = new Command<int>((int Id) => RemoveMembers(Id));
+            LeaveStorageCommand = new Command(LeaveStorage);
             GetusersList();
             IsNotAdmin = !loggedUser.IsAdmin.Value;
-            StorageName = LoggedUserStorage.StorageName;
 
         }
         public async void GetusersList()
         {
             List<User> users = await RecipesService.GetUsersbyStorage(LoggedUser.Id);
             List<UsersWithManager> usersWithManager = new List<UsersWithManager>();
+            if(LoggedUserStorage != null)
+            {
             foreach (User user in users) 
             {
                 UsersWithManager u = new UsersWithManager();
@@ -213,12 +240,12 @@ namespace RecipesAppApp.ViewModels
                 }
                 else if(loggedUser.Id == LoggedUserStorage.Manager)
                 {
-                     u = new UsersWithManager(user, false, false, false);
+                     u = new UsersWithManager(user, false, true, false);
                     usersWithManager.Add(u);
                 }
                 else
                 {
-                     u = new UsersWithManager(user, false, true, false);
+                     u = new UsersWithManager(user, false, false, false);
                     usersWithManager.Add(u);
                 }
 
@@ -232,8 +259,8 @@ namespace RecipesAppApp.ViewModels
                     u.IsLoggedUser = true;
                 }
             }
-
             this.UsersWithSameStorage = new ObservableCollection<UsersWithManager>(usersWithManager);
+            }
 
         }
         public async void ChangeName()
@@ -304,6 +331,39 @@ namespace RecipesAppApp.ViewModels
                 }
                 GetusersList();
             }
+        }
+        public async void LeaveStorage()
+        {
+           bool isChanged = false;
+           if((LoggedUserStorage.Manager == LoggedUser.Id) && (UsersWithSameStorage.Count > 1))
+           {
+              //await Application.Current.MainPage.DisplayAlert("Error", "You are the manager of the storage, please assign another manager before leaving", "ok");
+              isChanged = await this.RecipesService.RemoveMember(LoggedUser.Id);
+              if (OpenPopup != null)
+              {
+                  List<string> l = new List<string>();
+                  OpenPopup(l);
+              }
+           }
+           else if ((LoggedUserStorage.Manager == LoggedUser.Id))
+           {
+                isChanged = await this.RecipesService.RemoveMember(LoggedUser.Id);
+                await this.RecipesService.DeleteStorage(LoggedUserStorage);
+           }
+           else
+           {
+               isChanged = await this.RecipesService.RemoveMember(LoggedUser.Id);
+           }
+           if (!isChanged)
+           {
+              await Application.Current.MainPage.DisplayAlert("Error", "Try again later", "ok");
+           }
+           else
+           {
+              await AppShell.Current.GoToAsync("///HomePage");
+           }
+           IsInStorage = false;
+           GetusersList();
         }
     }
 }

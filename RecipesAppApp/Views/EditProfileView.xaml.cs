@@ -1,12 +1,21 @@
+using CommunityToolkit.Maui.Views;
 using RecipesAppApp.ViewModels;
 
 namespace RecipesAppApp.Views;
 
 public partial class EditProfileView : ContentPage
 {
-	public EditProfileView(EditProfileViewModel vm)
+    private readonly IServiceProvider serviceProvider;
+    public EditProfileView(EditProfileViewModel vm, IServiceProvider sp)
 	{
+        this.serviceProvider = sp;
         BindingContext = vm;
+        vm.OpenPopup += DisplayPopup;
         InitializeComponent();
 	}
+    public void DisplayPopup(List<string> l)
+    {
+        var popup = new CreateIngredientView((StorageViewModel)this.BindingContext);
+        this.ShowPopup(popup);
+    }
 }

@@ -14,6 +14,7 @@ public partial class AddPopup : Popup
 
     private void Button_Clicked(object sender, EventArgs e)
     {
+        //CreateRecipeViewModel vm = (CreateRecipeViewModel)this.BindingContext;
         this.Close();
     }
 }

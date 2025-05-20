@@ -21,6 +21,7 @@ namespace RecipesAppApp.ViewModels
         public ICommand RemoveIngredientsCommand => new Command(RemoveIngredients);
         public ICommand ChangeAmountCommand { get; set; }
         private RecipesAppWebAPIProxy RecipesService;
+        private List<IngredientsWithNameAndAmount> trueListA;
         public event Action<List<string>> OpenPopup;
         public ObservableCollection<Level> levels;
         public ObservableCollection<IngredientRecipe> ingredientRecipes;
@@ -123,6 +124,15 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged();
             }
         }
+        public List<IngredientsWithNameAndAmount> TrueListA
+        {
+            get { return trueListA; }
+            set
+            {
+                this.trueListA = value;
+                OnPropertyChanged();
+            }
+        }
         public ObservableCollection<IngredientsWithNameAndAmount> TrueList
         {
             get { return trueList; }
@@ -132,6 +142,7 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public ObservableCollection<IngredientRecipe> IngredientRecipes
         {
             get { return ingredientRecipes; }
@@ -160,7 +171,7 @@ namespace RecipesAppApp.ViewModels
             this.IngredientRecipes = new ObservableCollection<IngredientRecipe>(IngredientRecipeList);
             List<Level> Levellist = await RecipesService.GetLevelsByRecipe(Recipe.Id);
             this.Levels = new ObservableCollection<Level>(Levellist);
-            List<IngredientsWithNameAndAmount> TrueListA = new List<IngredientsWithNameAndAmount>();
+            TrueListA = new List<IngredientsWithNameAndAmount>();
             for(int i = 0;i < IngredientList.Count; i++) 
             {
                 TrueListA.Add(new IngredientsWithNameAndAmount(this.IngredientRecipes[i].IngredientId, this.IngredientRecipes[i].RecipeId, this.IngredientRecipes[i].Amount, this.IngredientRecipes[i].MeasureUnits, this.ingredients[i].IngredientName,false));
@@ -255,19 +266,47 @@ namespace RecipesAppApp.ViewModels
             MakeListsForRemoveIngredients();
         }
 
-        public void ChangeAmount()
+        public async void ChangeAmount()
         {
-            MakeLists();
+            await RefreshIngredients();
             foreach(IngredientsWithNameAndAmount i in TrueList)
             {
                 i.Amount = Amount * i.Amount;
             }
-            OnPropertyChanged("TrueList");
+            TrueList = new ObservableCollection<IngredientsWithNameAndAmount>(TrueList);
         }
 
-        public void Refresh()
+        public async Task RefreshIngredients()
         {
-            OnPropertyChanged("TrueList");
+            List<Ingredient> IngredientList = await RecipesService.GetIngredientsByRecipe(Recipe.Id);
+            this.Ingredients = new ObservableCollection<Ingredient>(IngredientList);
+            List<IngredientRecipe> IngredientRecipeList = await RecipesService.GetIngredientRecipesByRecipe(Recipe.Id);
+            this.IngredientRecipes = new ObservableCollection<IngredientRecipe>(IngredientRecipeList);
+            TrueListA = new List<IngredientsWithNameAndAmount>();
+            for (int i = 0; i < IngredientList.Count; i++)
+            {
+                TrueListA.Add(new IngredientsWithNameAndAmount(this.IngredientRecipes[i].IngredientId, this.IngredientRecipes[i].RecipeId, this.IngredientRecipes[i].Amount, this.IngredientRecipes[i].MeasureUnits, this.ingredients[i].IngredientName, false));
+            }
+            if (((App)Application.Current).LoggedInUser != null)
+            {
+                Storage s = await RecipesService.GetStoragesbyUser(((App)Application.Current).LoggedInUser.Id);
+                List<Ingredient> UserIngredient = await RecipesService.GetIngredientsByStorage(s.Id);
+                if (UserIngredient != null)
+                {
+                    foreach (Ingredient i in UserIngredient)
+                    {
+                        foreach (IngredientsWithNameAndAmount iwna in TrueListA)
+                        {
+                            if (i.Id == iwna.IngredientId)
+                            {
+                                iwna.IsChecked = true;
+                            }
+                        }
+                    }
+                }
+
+            }
+            this.TrueList = new ObservableCollection<IngredientsWithNameAndAmount>(TrueListA);
         }
     }
 }

@@ -26,6 +26,13 @@ public partial class StorageView : ContentPage
         this.ShowPopup(popup);
     }
 
-   
-    
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        StorageViewModel vm = (StorageViewModel)this.BindingContext;
+        vm.StorageNullInitData();
+    }
+
+
+
 }

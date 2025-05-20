@@ -7,7 +7,6 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Android.Health.Connect.DataTypes;
 using RecipesAppApp.Classes;
 using RecipesAppApp.Models;
 
@@ -873,6 +872,35 @@ namespace RecipesAppApp.Services
             try
             {
                 string json = JsonSerializer.Serialize(userId);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteStorage(Storage storage)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}deleteStorage";
+            try
+            {
+                string json = JsonSerializer.Serialize(storage);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)

@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Views;
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace RecipesAppApp.ViewModels
 {
@@ -19,6 +20,7 @@ namespace RecipesAppApp.ViewModels
     {
         #region attributes and properties
         private RecipesAppWebAPIProxy RecipesService;
+        private IServiceProvider serviceProvider;
         private User loggedUser;
         private ObservableCollection<Ingredient> ingredientsList1;
         private ObservableCollection<Ingredient> ingredientsList2;
@@ -132,9 +134,10 @@ namespace RecipesAppApp.ViewModels
 
         #endregion
 
-        public StorageViewModel(RecipesAppWebAPIProxy service)
+        public StorageViewModel(RecipesAppWebAPIProxy service, IServiceProvider sp)
         {
             this.RecipesService = service;
+            serviceProvider = sp;
             loggedUser = ((App)Application.Current).LoggedInUser;
             UploadPhotoCommand = new Command(OnUploadPhoto);
             OpenCreateIngredientCommand = new Command(OpenCreateIngredient);
@@ -142,11 +145,7 @@ namespace RecipesAppApp.ViewModels
             BackToBarcodeCommend = new Command(BackToBarcode);
             IsInCameraMode = false;
 
-            if (loggedUser.StorageId == null)
-            {
-                Test();
-            }
-            else
+            if (loggedUser.StorageId != null)
             {
                 SetUserIngredients();
             }
@@ -236,15 +235,14 @@ namespace RecipesAppApp.ViewModels
             PopupSize = new Size(270, 300);
         }
 
-        public async void Test()
+        public async void StorageNullInitData()
         {
             await StorageNull();
         }
-        public async Task<bool> StorageNull()
+        public async Task StorageNull()
         {
-            Shell.Current.Navigation.PopAsync();
+            await AppShell.Current.GoToAsync("///HomePage");
             await Application.Current.MainPage.DisplayAlert("Storage does not exeist", "You have been kicked out of your storage please create new one", "ok");
-            return true;
         }
     }
 }

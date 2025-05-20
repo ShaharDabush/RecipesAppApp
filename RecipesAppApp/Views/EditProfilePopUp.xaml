@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewmodels="clr-namespace:RecipesAppApp.ViewModels"
+             xmlns:models="clr-namespace:RecipesAppApp.Models"
+             xmlns:classes="clr-namespace:RecipesAppApp.Classes"
+             HorizontalOptions="Center"
+             Size="270,200"
+             Color="Wheat"
+             VerticalOptions="Center"
+             x:Class="RecipesAppApp.Views.EditProfilePopUp">
+    <VerticalStackLayout>
+        <Label Text="You are the manager of the storage, please assign another manager before leaving"/>
+        <CollectionView  x:Name="membersCV" ItemsSource="{Binding UsersWithSameStorage}" BackgroundColor="Wheat" >
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="classes:UsersWithManager">
+                    <RadioButton
+                           Margin="20,0,0,0"
+                           Content="{Binding UserName}"
+                            />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Text="Save New Manager" />
+    </VerticalStackLayout>
+</toolkit:Popup>
