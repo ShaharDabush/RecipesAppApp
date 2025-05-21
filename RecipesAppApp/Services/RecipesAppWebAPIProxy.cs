@@ -684,13 +684,13 @@ namespace RecipesAppApp.Services
                 return null;
             }
         }
-        public async Task<Storage> GetStoragesbyUser(int StorageId)
+        public async Task<Storage?> GetStoragesbyUser(int userId)
         {
             //Set URI to the specific function API
             string url = $"{this.baseUrl}getStorageByUser";
             try
             {
-                string json = JsonSerializer.Serialize(StorageId);
+                string json = JsonSerializer.Serialize(userId);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)
@@ -978,6 +978,34 @@ namespace RecipesAppApp.Services
                 return false;
             }
         }
+        public async Task<bool> ChangeManager( int userId)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}changeManager";
+            try
+            {
+                string json = JsonSerializer.Serialize(userId);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
         public async Task<SaveRecipeInfo?> SaveRecipe(SaveRecipeInfo saveRecipeInfo)
         {
             //Set URI to the specific function API
@@ -1174,6 +1202,34 @@ namespace RecipesAppApp.Services
             try
             {
                 string json = JsonSerializer.Serialize(rate);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+        public async Task<bool> saveNewStorage(Storage storage)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}saveNewStorage";
+            try
+            {
+                string json = JsonSerializer.Serialize(storage);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)

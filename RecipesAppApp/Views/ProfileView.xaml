@@ -27,9 +27,18 @@
             <Border Stroke="#cd853f"  Grid.Column="0" Grid.Row="1" StrokeThickness="3" Margin="5" >
                 <Label Text="{Binding RatingsAmount}" Grid.Column="0" Grid.Row="1" Margin="155,9,0,0" Padding="5"/>
             </Border>
-            <Border Stroke="#cd853f" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="3" StrokeThickness="3" Margin="5" >
+            <Border Stroke="#cd853f" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="3" StrokeThickness="3" Margin="5" IsVisible="{Binding IsHasStorage}" >
                 <Grid>
-                    <Label Text="Your Storage family" Margin="5" FontSize="20" />
+                    <Label  Margin="5" FontSize="20" IsVisible="{Binding IsHasStorage}" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Your Storage family" />
+                                <Span Text="  (code: " />
+                                <Span Text="{Binding LoggedUserStorageCode}" />
+                                <Span Text=")" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
                 <CollectionView Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="4" ItemsSource="{Binding UsersWithSameStorage}" Margin="5,30,5,5">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:User">

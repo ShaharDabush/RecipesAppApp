@@ -179,11 +179,13 @@ namespace RecipesAppApp.ViewModels
             if(((App)Application.Current).LoggedInUser != null)
             {
                 Storage s = await RecipesService.GetStoragesbyUser(((App)Application.Current).LoggedInUser.Id);
-                List<Ingredient> UserIngredient = await RecipesService.GetIngredientsByStorage(s.Id);
-                if(UserIngredient != null)
+                if (s != null)
                 {
-                foreach(Ingredient i in UserIngredient)
-                {
+                   List<Ingredient> UserIngredient = await RecipesService.GetIngredientsByStorage(s.Id);
+                  if(UserIngredient != null)
+                   {
+                   foreach(Ingredient i in UserIngredient)
+                   {
                     foreach(IngredientsWithNameAndAmount iwna in TrueListA)
                     {
                         if(i.Id == iwna.IngredientId)
@@ -191,7 +193,8 @@ namespace RecipesAppApp.ViewModels
                             iwna.IsChecked = true;
                         }
                     }
-                }   
+                   }   
+                  }
                 }
 
             }

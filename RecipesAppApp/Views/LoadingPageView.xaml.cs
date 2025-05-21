@@ -4,7 +4,7 @@ namespace RecipesAppApp.Views;
 
 public partial class LoadingPageView : ContentPage
 {
-	public LoadingPageView(HomePageViewModel vm)
+	public LoadingPageView(LoadingPageViewModel vm)
 	{
         BindingContext = vm;
         InitializeComponent();

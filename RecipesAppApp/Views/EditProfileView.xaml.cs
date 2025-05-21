@@ -15,7 +15,7 @@ public partial class EditProfileView : ContentPage
 	}
     public void DisplayPopup(List<string> l)
     {
-        var popup = new CreateIngredientView((StorageViewModel)this.BindingContext);
+        var popup = new EditProfilePopUp((EditProfileViewModel)this.BindingContext);
         this.ShowPopup(popup);
     }
 }

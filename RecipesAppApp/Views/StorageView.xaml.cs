@@ -15,6 +15,7 @@ public partial class StorageView : ContentPage
         this.BindingContext = vm;
         this.vm = vm;
         vm.OpenPopup += DisplayPopup;
+        vm.OpenPopup1 += DisplayPopup1;
         InitializeComponent();
         
         
@@ -25,12 +26,17 @@ public partial class StorageView : ContentPage
         var popup = new CreateIngredientView((StorageViewModel)this.BindingContext);
         this.ShowPopup(popup);
     }
+    public void DisplayPopup1(List<string> l)
+    {
+        var popup = new CreateNewStorageView((StorageViewModel)this.BindingContext);
+        this.ShowPopup(popup);
+    }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
         StorageViewModel vm = (StorageViewModel)this.BindingContext;
-        vm.StorageNullInitData();
+        vm.IsStorageNullInitData();
     }
 
 

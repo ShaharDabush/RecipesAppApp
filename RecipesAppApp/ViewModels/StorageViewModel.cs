@@ -27,6 +27,7 @@ namespace RecipesAppApp.ViewModels
         private ObservableCollection<Ingredient> ingredientsListForStorage;
         private ObservableCollection<Ingredient> ingredientsListForNewIngredient;
         public event Action<List<string>> OpenPopup;
+        public event Action<List<string>> OpenPopup1;
         private Storage storage;
         private string searchedIngredientInStorage;
         private string searchedNewIngredient;
@@ -138,7 +139,9 @@ namespace RecipesAppApp.ViewModels
         {
             this.RecipesService = service;
             serviceProvider = sp;
-            loggedUser = ((App)Application.Current).LoggedInUser;
+            LoggedUser = ((App)Application.Current).LoggedInUser;
+            SaveStorageCommand = new Command(SaveStorage);
+            CancelCommand = new Command(Cancel);
             UploadPhotoCommand = new Command(OnUploadPhoto);
             OpenCreateIngredientCommand = new Command(OpenCreateIngredient);
             SaveingredientCommand = new Command(Saveingredient);
@@ -235,14 +238,22 @@ namespace RecipesAppApp.ViewModels
             PopupSize = new Size(270, 300);
         }
 
-        public async void StorageNullInitData()
+        public async void IsStorageNullInitData()
         {
-            await StorageNull();
+            if(LoggedUser.StorageId == null)
+            {
+                await StorageNull();
+            }
         }
         public async Task StorageNull()
         {
-            await AppShell.Current.GoToAsync("///HomePage");
-            await Application.Current.MainPage.DisplayAlert("Storage does not exeist", "You have been kicked out of your storage please create new one", "ok");
+            //await AppShell.Current.GoToAsync("///HomePage");
+            if (OpenPopup1 != null)
+            {
+                List<string> l = new List<string>();
+                OpenPopup1(l);
+            }
+            //await Application.Current.MainPage.DisplayAlert("Storage does not exeist", "You have been kicked out of your storage please create new one", "ok");
         }
     }
 }

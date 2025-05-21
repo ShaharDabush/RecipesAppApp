@@ -101,6 +101,9 @@
 	  <MauiXaml Update="Views\CreateIngredientView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\CreateNewStorageView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\CreateRecipeView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

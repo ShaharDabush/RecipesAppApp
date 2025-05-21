@@ -18,12 +18,34 @@ namespace RecipesAppApp.ViewModels
         #region attributes and properties
         private RecipesAppWebAPIProxy RecipesService;
         private User loggedUser;
+        private Storage loggedUserStorage;
         private ObservableCollection<User> usersWithSameStorage;
         private int recipesAmount;
         private int commentsAmount;
         private int ratingsAmount;
+        private string loggedUserStorageCode;
+        private bool isHasStorage;
         public ICommand EditProfileCommand => new Command(GoToEditProfile);
 
+
+        public bool IsHasStorage
+        {
+            get { return isHasStorage; }
+            set
+            {
+                this.isHasStorage = value;
+                OnPropertyChanged();
+            }
+        }
+        public string LoggedUserStorageCode
+        {
+            get { return loggedUserStorageCode; }
+            set
+            {
+                this.loggedUserStorageCode = value;
+                OnPropertyChanged();
+            }
+        }
         public User LoggedUser
         {
             get { return loggedUser; }
@@ -33,6 +55,17 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged();
             }
         }
+        public Storage LoggedUserStorage
+        {
+            get { return loggedUserStorage; }
+            set
+            {
+                this.loggedUserStorage = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         public int RecipesAmount
         {
             get { return recipesAmount; }
@@ -74,6 +107,16 @@ namespace RecipesAppApp.ViewModels
         {
             this.RecipesService = service;
             LoggedUser = ((App)Application.Current).LoggedInUser;
+            if(((App)Application.Current).UserStorage == null)
+            {
+                IsHasStorage = false;
+            }
+            else
+            {
+                LoggedUserStorage = ((App)Application.Current).UserStorage;
+                LoggedUserStorageCode = LoggedUserStorage.StorageCode;
+                IsHasStorage = true;
+            }            
             GetsStats();
         }
 

@@ -327,6 +327,7 @@ namespace RecipesAppApp.ViewModels
             PhotoURL = RecipesService.GetImagesBaseAddress() + virtualPath + "?v=" + r.Next();
             LocalPhotoPath = "";
         }
+        #endregion
 
         public ICommand DiscardIngredientCommand { get; set; }
         public ICommand AddDirectionCommand { get; set; }
@@ -335,7 +336,6 @@ namespace RecipesAppApp.ViewModels
         #endregion
         private RecipesAppWebAPIProxy RecipesService;
 
-        #endregion
         public CreateRecipeViewModel(RecipesAppWebAPIProxy service)
         {
             this.RecipesService = service;
@@ -351,7 +351,6 @@ namespace RecipesAppApp.ViewModels
             ImageResult = "";
             UploadPhotoCommand = new Command(OnUploadPhoto);
             RecipeName = "New Recipe";
-            AmountError = "You must use only numbers!";
             MeasureUnitError = "You must choose a measure unit";
             Desciption = "";
             InSearch = false;

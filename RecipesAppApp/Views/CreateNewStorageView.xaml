@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewmodels="clr-namespace:RecipesAppApp.ViewModels"
+             CanBeDismissedByTappingOutsideOfPopup="False"
+             HorizontalOptions="Center"
+             Size="250,150"
+             Color="Wheat"
+             VerticalOptions="Center"
+             x:Class="RecipesAppApp.Views.CreateNewStorageView">
+    <VerticalStackLayout>
+        <Label Text="Enter your new storage name"/>
+        <Entry Text="{Binding StorageNewName}"/>
+        <Grid ColumnDefinitions="*,*" WidthRequest="200" >
+            <Button Text="Save" Command="{Binding SaveStorageCommand}" Clicked="Button_Clicked" BackgroundColor="#a0522d" WidthRequest="80"/>
+            <Button Text="Cancel" Grid.Column="1" Command="{Binding CancelCommand}" BackgroundColor="#a0522d"  WidthRequest="80" Clicked="Button_Clicked"/>
+        </Grid>
+    </VerticalStackLayout>
+</toolkit:Popup>

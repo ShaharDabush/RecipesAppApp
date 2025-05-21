@@ -19,7 +19,7 @@
                       <BoxView Grid.Column="1" Color="Wheat" WidthRequest="55" HeightRequest="5" HorizontalOptions="End" VerticalOptions="End"/>
                    </Grid>
                </Border>
-             <Label Text="{Binding AmountError}" IsVisible="{Binding ShowAmountError}"/>
+            <Label Grid.Row="1" Grid.Column="1" Text="Please enter a valid amount" FontSize="15" VerticalOptions="Center" IsVisible="{Binding ShowAmountError}" HorizontalOptions="Start" Margin="-30,0,0,0" />
             <Border Grid.Row="1" Grid.Column="0" Stroke="#cd853f" WidthRequest="80" HeightRequest="30" Margin="17,0,0,0" HorizontalOptions="Start" StrokeShape="RoundRectangle 10,10,10,10" >
                    <Grid>
                     <Entry Text="{Binding Amount}" WidthRequest="80" HorizontalOptions="Start" Keyboard="Numeric" Margin="0,0,0,-7" HorizontalTextAlignment="Center"/>

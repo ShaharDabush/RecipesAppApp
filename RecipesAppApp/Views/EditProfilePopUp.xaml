@@ -6,22 +6,23 @@
              xmlns:models="clr-namespace:RecipesAppApp.Models"
              xmlns:classes="clr-namespace:RecipesAppApp.Classes"
              HorizontalOptions="Center"
-             Size="270,200"
+             Size="300,230"
              Color="Wheat"
              VerticalOptions="Center"
              x:Class="RecipesAppApp.Views.EditProfilePopUp">
     <VerticalStackLayout>
-        <Label Text="You are the manager of the storage, please assign another manager before leaving"/>
+        <Label Text="You are the manager of the storage, please assign another manager before leaving" />
         <CollectionView  x:Name="membersCV" ItemsSource="{Binding UsersWithSameStorage}" BackgroundColor="Wheat" >
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="classes:UsersWithManager">
                     <RadioButton
-                           Margin="20,0,0,0"
+                           Margin="10,5,0,0"
                            Content="{Binding UserName}"
+                           IsChecked="{Binding IsNewManager}"
                             />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button Text="Save New Manager" />
+        <Button Text="Save New Manager" BackgroundColor="#a0522d" WidthRequest="170" HeightRequest="40" Command="{Binding SaveNewManagerCommand}" Clicked="Button_Clicked" />
     </VerticalStackLayout>
 </toolkit:Popup>

@@ -12,6 +12,7 @@ using System.Security.Cryptography.X509Certificates;
 using Microsoft.Maui;
 using Microsoft.Extensions.DependencyInjection;
 using RecipesAppApp.Views;
+using Android.Print;
 
 
 namespace RecipesAppApp.ViewModels
@@ -146,6 +147,7 @@ namespace RecipesAppApp.ViewModels
         public event Action<List<string>> OpenPopup;
         private ObservableCollection<UsersWithManager> usersWithSameStorage;
         public ICommand DiscardMembersCommand { get; set; }
+        public ICommand SaveNewManagerCommand { get; set; }
         public ICommand LeaveStorageCommand { get; set; }
         private bool isNotAdmin;
         private bool isInStorage;
@@ -220,6 +222,7 @@ namespace RecipesAppApp.ViewModels
             this.Email = LoggedUser.Email;
             DiscardMembersCommand = new Command<int>((int Id) => RemoveMembers(Id));
             LeaveStorageCommand = new Command(LeaveStorage);
+            SaveNewManagerCommand = new Command(ChangeManager);
             GetusersList();
             IsNotAdmin = !loggedUser.IsAdmin.Value;
 
@@ -235,17 +238,17 @@ namespace RecipesAppApp.ViewModels
                 UsersWithManager u = new UsersWithManager();
                 if(LoggedUserStorage.Manager == user.Id)
                 {
-                     u = new UsersWithManager(user, true, false, false);
+                     u = new UsersWithManager(user, true, false, false,false);
                     usersWithManager.Add(u);
                 }
                 else if(loggedUser.Id == LoggedUserStorage.Manager)
                 {
-                     u = new UsersWithManager(user, false, true, false);
+                     u = new UsersWithManager(user, false, true, false,false);
                     usersWithManager.Add(u);
                 }
                 else
                 {
-                     u = new UsersWithManager(user, false, false, false);
+                     u = new UsersWithManager(user, false, false, false, false);
                     usersWithManager.Add(u);
                 }
 
@@ -322,7 +325,7 @@ namespace RecipesAppApp.ViewModels
         public async void RemoveMembers(int Id)
         {
             bool isChanged;
-            if (Id != null)
+            if (Id != 0)
             {
                 isChanged = await this.RecipesService.RemoveMember(Id);
                 if (!isChanged)
@@ -337,33 +340,38 @@ namespace RecipesAppApp.ViewModels
            bool isChanged = false;
            if((LoggedUserStorage.Manager == LoggedUser.Id) && (UsersWithSameStorage.Count > 1))
            {
-              //await Application.Current.MainPage.DisplayAlert("Error", "You are the manager of the storage, please assign another manager before leaving", "ok");
-              isChanged = await this.RecipesService.RemoveMember(LoggedUser.Id);
+                //await Application.Current.MainPage.DisplayAlert("Error", "You are the manager of the storage, please assign another manager before leaving", "ok");
+                //isChanged = await this.RecipesService.RemoveMember(LoggedUser.Id);
+              ReadyToChooseManager();
               if (OpenPopup != null)
               {
                   List<string> l = new List<string>();
                   OpenPopup(l);
               }
            }
-           else if ((LoggedUserStorage.Manager == LoggedUser.Id))
-           {
-                isChanged = await this.RecipesService.RemoveMember(LoggedUser.Id);
-                await this.RecipesService.DeleteStorage(LoggedUserStorage);
-           }
            else
            {
-               isChanged = await this.RecipesService.RemoveMember(LoggedUser.Id);
+                if((LoggedUserStorage.Manager == LoggedUser.Id))
+                {
+                    isChanged = await this.RecipesService.RemoveMember(LoggedUser.Id);
+                    await this.RecipesService.DeleteStorage(LoggedUserStorage);
+                    ((App)Application.Current).Refresh();
+                }
+                else
+                {
+                    isChanged = await this.RecipesService.RemoveMember(LoggedUser.Id);
+                }
+                if (!isChanged)
+                {
+                   await Application.Current.MainPage.DisplayAlert("Error", "Try again later", "ok");
+                }
+                else
+                {
+                 await AppShell.Current.GoToAsync("///HomePage");
+                }
+                IsInStorage = false;
+                GetusersList();
            }
-           if (!isChanged)
-           {
-              await Application.Current.MainPage.DisplayAlert("Error", "Try again later", "ok");
-           }
-           else
-           {
-              await AppShell.Current.GoToAsync("///HomePage");
-           }
-           IsInStorage = false;
-           GetusersList();
         }
     }
 }

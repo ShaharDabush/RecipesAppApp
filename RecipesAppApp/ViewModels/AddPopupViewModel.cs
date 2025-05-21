@@ -41,18 +41,7 @@ namespace RecipesAppApp.ViewModels
             set
             {
                 showAmountError = value;
-                OnPropertyChanged("showAmountError");
-            }
-        }
-        private string amountError;
-
-        public string AmountError
-        {
-            get => amountError;
-            set
-            {
-                amountError = value;
-                OnPropertyChanged("amountError");
+                OnPropertyChanged("ShowAmountError");
             }
         }
         private bool ValidateAmount()
@@ -60,13 +49,11 @@ namespace RecipesAppApp.ViewModels
             if(Amount < 0)
             {
                 ShowAmountError = true;
-                AmountError = "Please enter a valid amount";
                 return false;
             }
             else
             {
                 ShowAmountError = false;
-                AmountError = "";
                 return true;
             }
         }

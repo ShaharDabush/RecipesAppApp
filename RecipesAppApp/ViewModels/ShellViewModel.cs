@@ -75,10 +75,10 @@ namespace RecipesAppApp.ViewModels
             if (IsLogged)
             {
                 ((App)Application.Current).LoggedInUser = null;
-                ((App)Application.Current).UserStorage = null;
+                ((App)Application.Current).UserStorage = null;                
+                //LogText = "Login";
+                //Refresh();
                 await ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<LoadingPageView>());
-                LogText = "Login";
-                Refresh();
             }
             else
             {

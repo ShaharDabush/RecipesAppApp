@@ -35,8 +35,11 @@ namespace RecipesAppApp.Classes
 
         public string? Vegetarianism { get; set; }
 
+        public bool? IsNewManager { get; set; }
+
+
         public UsersWithManager() { }
-        public UsersWithManager(User u , bool isManager, bool isNotManager, bool isLoggedUser)
+        public UsersWithManager(User u , bool isManager, bool isNotManager, bool isLoggedUser, bool? isNewManager)
         {
             Id = u.Id;
             UserName = u.UserName;
@@ -50,6 +53,7 @@ namespace RecipesAppApp.Classes
             IsManager = isManager;
             IsNotManager = isNotManager;
             IsLoggedUser = isLoggedUser;
+            IsNewManager = isNewManager;
         }
     }
 }

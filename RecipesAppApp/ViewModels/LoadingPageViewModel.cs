@@ -19,8 +19,7 @@ namespace RecipesAppApp.ViewModels
         public void NewShell()
         {
             AppShell shell = serviceProvider.GetService<AppShell>();
-            Application.Current.MainPage = shell;
-            shell.FlyoutIsPresented = false;
+            ((App)Application.Current).MainPage = shell;
         }
     }
 }
