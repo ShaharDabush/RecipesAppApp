@@ -12,8 +12,8 @@
     <Grid RowDefinitions="8*,*">
         
     <ScrollView>
-            <VerticalStackLayout>
-                <Border Stroke="Black" >
+            <VerticalStackLayout  x:Name="VSL">
+                <Border Stroke="Black"  WidthRequest="350">
                     <expander:SfExpander>
                     <expander:SfExpander.Header>
                         <Label Margin="5,0,0,0" Text="Search Ingredients"/>
@@ -72,6 +72,10 @@
                             Padding="20"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="Center">
+                                <ImageButton Source="removeuser.png"  Margin="90,0,0,0"
+                                             Command="{Binding Path=BindingContext.RemoveIngredientCommand, Source={x:Reference VSL}} "
+                                             CommandParameter="{Binding Id}" CornerRadius="500" 
+                                             WidthRequest="25" HeightRequest="25"/>
                                 <Image
                             Aspect="Fill"
                             HeightRequest="150"

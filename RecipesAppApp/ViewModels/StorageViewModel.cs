@@ -33,6 +33,7 @@ namespace RecipesAppApp.ViewModels
         private string storageName;
         private string searchedNewIngredient;
         public ICommand OpenCreateIngredientCommand { get; set; }
+        public ICommand RemoveIngredientCommand { get; set; }
 
         public string SearchedNewIngredient
         {
@@ -160,6 +161,7 @@ namespace RecipesAppApp.ViewModels
             OpenCreateIngredientCommand = new Command(OpenCreateIngredient);
             SaveingredientCommand = new Command(Saveingredient);
             BackToBarcodeCommend = new Command(BackToBarcode);
+            RemoveIngredientCommand = new Command<int>((int Id) => RemoveIngredient(Id));
             IsInCameraMode = false;
 
             if (loggedUser.StorageId != null)
@@ -274,6 +276,21 @@ namespace RecipesAppApp.ViewModels
             }
             //await Application.Current.MainPage.DisplayAlert("Storage does not exeist", "You have been kicked out of your storage please create new one", "ok");
         }
+        public async void RemoveIngredient(int Id)
+        {
+            bool isChanged;
+            if (Id != 0)
+            {
+                isChanged = await this.RecipesService.RemoveStorageIngredient(Id, ((App)Application.Current).UserStorage.Id);
+                if (!isChanged)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Try again later", "ok");
+                }
+                SetUserIngredients();
+                OnPropertyChanged("IngredientsListForStorage");
+            }
+        }
+
         #region Single Selection
 
         private Ingredient selectedIngredient;
@@ -297,7 +314,7 @@ namespace RecipesAppApp.ViewModels
             }
         }
 
-        public void OnSingleSelectIngredient()
+        public async void OnSingleSelectIngredient()
         {
             bool AlreadyExists = false;
             foreach (Ingredient i in IngredientsListForStorage)
@@ -309,18 +326,18 @@ namespace RecipesAppApp.ViewModels
             }
             if (AlreadyExists)
             {
-                    await Application.Current.MainPage.DisplayAlert("Add Ingredient", "you already has this ingredient in your storage", "ok");
+                await Application.Current.MainPage.DisplayAlert("Add Ingredient", "you already has this ingredient in your storage", "ok");
             }
             else
             {
-            if (OpenPopup != null)
-            {
-                List<string> l = new List<string>();
-                OpenPopup(l);
-                this.IngredientCode = SelectedIngredient.Barkod;
-                selectedIngredient = null;
-                GetIngredientByBarcode();
-            }       
+              if (OpenPopup != null)
+                {
+                    List<string> l = new List<string>();
+                    OpenPopup(l);
+                    this.IngredientCode = SelectedIngredient.Barkod;
+                    selectedIngredient = null;
+                    GetIngredientByBarcode();
+                }       
             }
 
 
