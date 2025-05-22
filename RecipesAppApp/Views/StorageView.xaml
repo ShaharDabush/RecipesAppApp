@@ -8,7 +8,7 @@
              x:Class="RecipesAppApp.Views.StorageView"
              BackgroundColor="Wheat"
              Shell.BackgroundColor="Wheat"
-             Title="{Binding storage.StorageName}">
+             Title="{Binding StorageName}">
     <Grid RowDefinitions="8*,*">
         
     <ScrollView>
@@ -25,6 +25,8 @@
                                 Margin="10"
                                 ItemsLayout="VerticalGrid, 3"
                                 x:Name="searchCollectionView1"
+                                SelectedItem="{Binding SelectedIngredient}"
+                                SelectionMode="Single"
                                 ItemsSource="{Binding IngredientsListForNewIngredient}">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="models:Ingredient">

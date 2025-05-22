@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using RecipesAppApp.Classes;
 using RecipesAppApp.Models;
+using static AndroidX.Activity.Result.Contract.ActivityResultContracts;
 
 namespace RecipesAppApp.Services
 {
@@ -216,7 +217,7 @@ namespace RecipesAppApp.Services
                 //Call the server API
                 HttpResponseMessage response = await client.PostAsync(url, form);
                 //Check status
-                    if (response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     //Extract the content as string
                     string resContent = await response.Content.ReadAsStringAsync();
@@ -796,7 +797,7 @@ namespace RecipesAppApp.Services
                     {
                         PropertyNameCaseInsensitive = true
                     };
-                     return true;
+                    return true;
                 }
                 else
                 {
@@ -950,7 +951,7 @@ namespace RecipesAppApp.Services
                 return false;
             }
         }
-        public async Task<bool> RemoveStorageIngredients(List<Ingredient> ingredientList,int storageId)
+        public async Task<bool> RemoveStorageIngredients(List<Ingredient> ingredientList, int storageId)
         {
             //Set URI to the specific function API
             string url = $"{this.baseUrl}removeStorageIngredients?storageId={storageId}";
@@ -978,7 +979,7 @@ namespace RecipesAppApp.Services
                 return false;
             }
         }
-        public async Task<bool> ChangeManager( int userId)
+        public async Task<bool> ChangeManager(int userId)
         {
             //Set URI to the specific function API
             string url = $"{this.baseUrl}changeManager";
@@ -1223,33 +1224,39 @@ namespace RecipesAppApp.Services
                 return false;
             }
         }
-        public async Task<bool> saveNewStorage(Storage storage)
+        public async Task<int?> SaveNewStorage(Storage storage)
         {
             //Set URI to the specific function API
             string url = $"{this.baseUrl}saveNewStorage";
             try
             {
+                //Call the server API
                 string json = JsonSerializer.Serialize(storage);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
+                //Check status
                 if (response.IsSuccessStatusCode)
                 {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
                     JsonSerializerOptions options = new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true
                     };
-                    return true;
+                    int? result = JsonSerializer.Deserialize<int?>(resContent, options);
+                    return result;
                 }
                 else
                 {
-                    return false;
+                    return null;
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.Message);
-                return false;
+                return null;
             }
         }
     }
 }
+

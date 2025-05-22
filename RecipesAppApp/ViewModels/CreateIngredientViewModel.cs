@@ -284,6 +284,7 @@ namespace RecipesAppApp.ViewModels
             if(result)
             {
                 await Application.Current.MainPage.DisplayAlert("Add Ingredient", "Ingredient was added to your storage", "ok");
+                SetUserIngredients();
                 OnPropertyChanged("IngredientsListForStorage");
             }
             else
@@ -316,6 +317,7 @@ namespace RecipesAppApp.ViewModels
                 {
                     await Application.Current.MainPage.DisplayAlert("Save Ingredient", "Ingredient was saved and added to your storage", "ok");
                     SetUserIngredients();
+                    OnPropertyChanged("IngredientsListForStorage");
                 }
             }
             else

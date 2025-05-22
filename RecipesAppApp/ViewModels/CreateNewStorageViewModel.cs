@@ -34,20 +34,29 @@ namespace RecipesAppApp.ViewModels
         {
             // Create a new storage object
             Storage newStorage = new Storage();
-            newStorage.StorageName = StorageNewName;
+            if(StorageNewName == null || StorageNewName == "")
+            {
+                newStorage.StorageName = LoggedUser.UserName;
+                newStorage.StorageName += "'s Storage";
+            }
+            else
+            {
+                newStorage.StorageName = StorageNewName;
+            }
             newStorage.Manager = LoggedUser.Id;
            newStorage.StorageCode = "";
-            bool isCreated = false;
-            isCreated = await RecipesService.saveNewStorage(newStorage);
-            if (isCreated)
+            int? NewStorageId = 0;
+            NewStorageId = await RecipesService.SaveNewStorage(newStorage);
+            if (NewStorageId != null)
             {
-                ((App)Application.Current).GetUserStorage();
-                OnPropertyChanged("LoggedUser");
+                ((App)Application.Current).LoggedInUser.StorageId = NewStorageId;
+                ((App)Application.Current).Refresh();
                 await AppShell.Current.GoToAsync("///Storage");
             }
             else
             {
                 await AppShell.Current.DisplayAlert("Error", "Failed to create storage", "OK");
+                await AppShell.Current.GoToAsync("///HomePage");
             }
         }
 

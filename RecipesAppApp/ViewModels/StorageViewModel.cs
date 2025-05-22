@@ -30,6 +30,7 @@ namespace RecipesAppApp.ViewModels
         public event Action<List<string>> OpenPopup1;
         private Storage storage;
         private string searchedIngredientInStorage;
+        private string storageName;
         private string searchedNewIngredient;
         public ICommand OpenCreateIngredientCommand { get; set; }
 
@@ -42,6 +43,19 @@ namespace RecipesAppApp.ViewModels
             set
             {
                 this.searchedNewIngredient = value;
+                OnPropertyChanged();
+                SortForNewIngredients();
+            }
+        }
+        public string StorageName
+        {
+            get
+            {
+                return storageName;
+            }
+            set
+            {
+                this.storageName = value;
                 OnPropertyChanged();
                 SortForNewIngredients();
             }
@@ -151,8 +165,8 @@ namespace RecipesAppApp.ViewModels
             if (loggedUser.StorageId != null)
             {
                 SetUserIngredients();
+               StorageName = ((App)Application.Current).UserStorage.StorageName;
             }
-            
         }
 
         public async void SetUserIngredients()
@@ -244,6 +258,11 @@ namespace RecipesAppApp.ViewModels
             {
                 await StorageNull();
             }
+            else
+            {
+                SetUserIngredients();
+                StorageName = ((App)Application.Current).UserStorage.StorageName;
+            }
         }
         public async Task StorageNull()
         {
@@ -255,5 +274,60 @@ namespace RecipesAppApp.ViewModels
             }
             //await Application.Current.MainPage.DisplayAlert("Storage does not exeist", "You have been kicked out of your storage please create new one", "ok");
         }
+        #region Single Selection
+
+        private Ingredient selectedIngredient;
+        public Ingredient SelectedIngredient
+        {
+            get
+            {
+                return this.selectedIngredient;
+            }
+            set
+            {
+                if (this.selectedIngredient != value)
+                {
+                    this.selectedIngredient = value;
+
+                    if (selectedIngredient != null)
+                        OnSingleSelectIngredient();
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+
+        public void OnSingleSelectIngredient()
+        {
+            bool AlreadyExists = false;
+            foreach (Ingredient i in IngredientsListForStorage)
+            {
+                if(i.Id == SelectedIngredient.Id)
+                {
+                    AlreadyExists = true;
+                }
+            }
+            if (AlreadyExists)
+            {
+                    await Application.Current.MainPage.DisplayAlert("Add Ingredient", "you already has this ingredient in your storage", "ok");
+            }
+            else
+            {
+            if (OpenPopup != null)
+            {
+                List<string> l = new List<string>();
+                OpenPopup(l);
+                this.IngredientCode = SelectedIngredient.Barkod;
+                selectedIngredient = null;
+                GetIngredientByBarcode();
+            }       
+            }
+
+
+        }
+
+
+
+        #endregion
     }
 }

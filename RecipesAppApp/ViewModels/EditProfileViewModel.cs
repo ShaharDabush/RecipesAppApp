@@ -355,6 +355,7 @@ namespace RecipesAppApp.ViewModels
                 {
                     isChanged = await this.RecipesService.RemoveMember(LoggedUser.Id);
                     await this.RecipesService.DeleteStorage(LoggedUserStorage);
+                    ((App)Application.Current).LoggedInUser.StorageId = null;
                     ((App)Application.Current).Refresh();
                 }
                 else
