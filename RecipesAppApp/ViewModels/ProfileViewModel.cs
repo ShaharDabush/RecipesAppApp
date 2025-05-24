@@ -21,7 +21,6 @@ namespace RecipesAppApp.ViewModels
         private Storage loggedUserStorage;
         private ObservableCollection<User> usersWithSameStorage;
         private int recipesAmount;
-        private int commentsAmount;
         private int ratingsAmount;
         private string loggedUserStorageCode;
         private bool isHasStorage;
@@ -75,15 +74,6 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public int CommentsAmount
-        {
-            get { return commentsAmount; }
-            set
-            {
-                this.commentsAmount = value;
-                OnPropertyChanged();
-            }
-        }
         public int RatingsAmount
         {
             get { return ratingsAmount; }
@@ -123,7 +113,6 @@ namespace RecipesAppApp.ViewModels
         public async void GetsStats()
         {
             this.RecipesAmount = await RecipesService.GetRecipesAmountByUser(LoggedUser.Id);
-            this.CommentsAmount = await RecipesService.GetCommentsAmountByUser(LoggedUser.Id);
             this.RatingsAmount = await RecipesService.GetRatingsAmountByUser(LoggedUser.Id);
             List<User> users = await RecipesService.GetUsersbyStorage(LoggedUser.Id);
             this.UsersWithSameStorage = new ObservableCollection<User>(users);
