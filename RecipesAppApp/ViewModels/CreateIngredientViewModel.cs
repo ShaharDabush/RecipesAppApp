@@ -251,7 +251,7 @@ namespace RecipesAppApp.ViewModels
                 IngredientBarcode = new Ingredient();
                 NewIngredientName = "New Ingredient";
                 IngredientBarcode.IngredientImage = PhotoURL;
-                IngredientBarcode.Barkod = IngredientCode;
+                IngredientBarcode.Barcode = IngredientCode;
 
             }
             else
@@ -302,8 +302,7 @@ namespace RecipesAppApp.ViewModels
             IngredientBarcode.IsGloten = IsGloten;
             IngredientBarcode.Dairy = ContainDairy;
             IngredientBarcode.Meat = ContainMeat;
-            IngredientBarcode.Barkod = IngredientCode;
-            IngredientBarcode.KindId = 1;
+            IngredientBarcode.Barcode = IngredientCode;
             bool result = await RecipesService.SaveIngredient(IngredientBarcode,LoggedUser.StorageId.Value);
             if(result)
             {

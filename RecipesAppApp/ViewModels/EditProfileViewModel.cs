@@ -273,7 +273,7 @@ namespace RecipesAppApp.ViewModels
             if (! ShowNameError)
             {
                 LoggedUser.UserName = Name;
-               isChanged = await this.RecipesService.ChangeName(LoggedUser);
+               isChanged = await this.RecipesService.UpdateUser(LoggedUser);
                 if (!isChanged)
                 {
                     await Application.Current.MainPage.DisplayAlert("Error", "Try again later", "ok");
@@ -293,7 +293,7 @@ namespace RecipesAppApp.ViewModels
             if (!ShowEmailError)
             {
                 LoggedUser.Email = Email;
-                isChanged = await this.RecipesService.ChangeName(LoggedUser);
+                isChanged = await this.RecipesService.UpdateUser(LoggedUser);
                 if (!isChanged)
                 {
                     await Application.Current.MainPage.DisplayAlert("Error", "Try again later", "ok");

@@ -12,7 +12,7 @@ namespace RecipesAppApp.Models
 
         public string RecipeImage { get; set; } = null!;
 
-        public string Kind { get; set; } = null!;
+        public string Type { get; set; } = null!;
 
         public int MadeBy { get; set; }
 

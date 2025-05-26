@@ -10,6 +10,7 @@ using RecipesAppApp.Services;
 using System.Collections.ObjectModel;
 
 using System.Windows.Input;
+using System.Security.Cryptography.X509Certificates;
 
 namespace RecipesAppApp.ViewModels
 {
@@ -117,6 +118,21 @@ namespace RecipesAppApp.ViewModels
             List<User> users = await RecipesService.GetUsersbyStorage(LoggedUser.Id);
             this.UsersWithSameStorage = new ObservableCollection<User>(users);
 
+        }
+
+        public async void IsStorageNullInitData()
+        {
+             if (LoggedUser.StorageId == null)
+             {
+                IsHasStorage = false;
+            }
+             else
+             {
+                LoggedUserStorage = ((App)Application.Current).UserStorage;
+                LoggedUserStorageCode = LoggedUserStorage.StorageCode;
+                IsHasStorage = true;
+             }
+             GetsStats();
         }
 
         public async void GoToEditProfile()

@@ -414,13 +414,13 @@ namespace RecipesAppApp.ViewModels
             {
                 this.YourRecipes = new();
             }
-            List<Recipe> DesertList = this.Recipes.Where<Recipe>(r => r.Kind == "Desert").ToList();
+            List<Recipe> DesertList = this.Recipes.Where<Recipe>(r => r.Type == "Desert").ToList();
             this.Deserts = new ObservableCollection<Recipe>(DesertList);
-            List<Recipe> JapaneseList =  this.Recipes.Where<Recipe>(r => r.Kind == "Japanese").ToList();
+            List<Recipe> JapaneseList =  this.Recipes.Where<Recipe>(r => r.Type == "Japanese").ToList();
             this.JapaneseRecipes =  new ObservableCollection<Recipe>(JapaneseList);
-            List<Recipe> FrenchList = this.Recipes.Where<Recipe>(r => r.Kind == "French").ToList();
+            List<Recipe> FrenchList = this.Recipes.Where<Recipe>(r => r.Type == "French").ToList();
             this.FrenchRecipes = new ObservableCollection<Recipe>(FrenchList);
-            List<Recipe> ItalianList = this.Recipes.Where<Recipe>(r => r.Kind == "Italian").ToList();
+            List<Recipe> ItalianList = this.Recipes.Where<Recipe>(r => r.Type == "Italian").ToList();
             this.ItalianRecipes = new ObservableCollection<Recipe>(ItalianList);
             List<Recipe> BreakfastList = this.Recipes.Where<Recipe>(r => r.TimeOfDay == "Morning").ToList();
             this.BreakfastRecipes = new ObservableCollection<Recipe>(BreakfastList);

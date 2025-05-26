@@ -21,10 +21,10 @@ namespace RecipesAppApp.ViewModels
         private ObservableCollection<Allergy> allergies;
         private ObservableCollection<UserAllergyWithIsChecked> allergiesList;
         private ObservableCollection<Level> directions;
-        private List<string> listOfKind = new List<string>();
+        private List<string> listOfType = new List<string>();
         List<Level> ListOfDirections = new List<Level>();
         public event Action<List<string>> OpenPopup;
-        private string kind;
+        private string type;
         private string recipeName;
         private string desciption;
         private string timeOfDay;
@@ -52,28 +52,28 @@ namespace RecipesAppApp.ViewModels
             }
 
         }
-        public string Kind
+        public string Type
         {
             get
             {
-                return this.kind;
+                return this.type;
             }
             set
             {
-                this.kind = value;
+                this.type = value;
                 OnPropertyChanged();
             }
 
         }
-        public List<string> ListOfKind
+        public List<string> ListOfType
         {
             get
             {
-                return this.listOfKind;
+                return this.listOfType;
             }
             set
             {
-                this.listOfKind = value;
+                this.listOfType = value;
                 OnPropertyChanged();
             }
 
@@ -370,12 +370,12 @@ namespace RecipesAppApp.ViewModels
             ListOfMeasureUnits.Add("°F");
             ListOfMeasureUnits.Add("units");
             ListOfMeasureUnits.Add("L");
-            ListOfKind.Add("Does not have");
-            ListOfKind.Add("Desert");
-            ListOfKind.Add("Japanise");
-            ListOfKind.Add("Italian");
-            ListOfKind.Add("French");
-            ListOfKind.Add("German");
+            ListOfType.Add("Does not have");
+            ListOfType.Add("Desert");
+            ListOfType.Add("Japanise");
+            ListOfType.Add("Italian");
+            ListOfType.Add("French");
+            ListOfType.Add("German");
             GetIngredients();
             GetAllergies();
         }
@@ -481,13 +481,13 @@ namespace RecipesAppApp.ViewModels
             newRecipe.RecipeImage = photoURL;
             newRecipe.RecipesName = recipeName;
             newRecipe.RecipeDescription = Desciption;
-            if(Kind == null)
+            if(Type == null)
             {
-                newRecipe.Kind = "Does not have";
+                newRecipe.Type = "Does not have";
             }
             else
             {
-                newRecipe.Kind = Kind;
+                newRecipe.Type = Type;
             }
             newRecipe.MadeBy = ((App)Application.Current).LoggedInUser.Id;
             newRecipe.Rating = 0;

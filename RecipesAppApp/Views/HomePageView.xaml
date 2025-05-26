@@ -136,6 +136,7 @@
             <Label
                 FontAttributes="Bold"
                 IsVisible="{Binding InSearch}"
+                Margin="10,0,0,0"
                 Text="Search results" />
             <CollectionView
                 x:Name="searchCollectionView"
@@ -216,6 +217,7 @@
             <Label
                 FontAttributes="Bold"
                 IsVisible="{Binding NotInSearch}"
+                Margin="10,0,0,0"
                 Text="Kosher Recipes" />
             <CollectionView
                 IsVisible="{Binding NotInSearch}"
@@ -253,6 +255,7 @@
             <Label
       FontAttributes="Bold"
       IsVisible="{Binding NotInSearch}"
+      Margin="10,0,0,0"
       Text="For Breakfast" />
             <CollectionView
       IsVisible="{Binding NotInSearch}"
@@ -290,6 +293,7 @@
             <Label
                 FontAttributes="Bold"
                 IsVisible="{Binding NotInSearch}"
+                Margin="10,0,0,0"
                 Text="Japanese Food" />
             <CollectionView
                 IsVisible="{Binding NotInSearch}"
@@ -327,6 +331,7 @@
             <Label
                 FontAttributes="Bold"
                 IsVisible="{Binding NotInSearch}"
+                Margin="10,0,0,0"
                 Text="Top Ten Most Made Recipes" />
             <CollectionView
                 IsVisible="{Binding NotInSearch}"
@@ -382,6 +387,7 @@
             <Label
       FontAttributes="Bold"
       IsVisible="{Binding NotInSearch}"
+      Margin="10,0,0,0"
       Text="For Lunch" />
             <CollectionView
       IsVisible="{Binding NotInSearch}"
@@ -419,6 +425,7 @@
             <Label
                 FontAttributes="Bold"
                 IsVisible="{Binding NotInSearch}"
+                Margin="10,0,0,0"
                 Text="French Food" />
             <CollectionView
                 IsVisible="{Binding NotInSearch}"
@@ -456,6 +463,7 @@
             <Label
                 FontAttributes="Bold"
                 IsVisible="{Binding NotInSearch}"
+                Margin="10,0,0,0"
                 Text="Deserts" />
             <CollectionView
                 IsVisible="{Binding NotInSearch}"
@@ -493,6 +501,7 @@
             <Label
                 FontAttributes="Bold"
                 IsVisible="{Binding NotInSearch}"
+                Margin="10,0,0,0"
                 Text="Italian Food" />
             <CollectionView
                 IsVisible="{Binding NotInSearch}"
@@ -530,6 +539,7 @@
             <Label
       FontAttributes="Bold"
       IsVisible="{Binding NotInSearch}"
+      Margin="10,0,0,0"
       Text="For Dinner" />
             <CollectionView
       IsVisible="{Binding NotInSearch}"
@@ -567,6 +577,7 @@
             <Label
                 FontAttributes="Bold"
                 IsVisible="{Binding NotInSearch}"
+                Margin="10,0,0,0"
                 Text="Top Ten Most Rated Recipes" />
             <CollectionView
                 IsVisible="{Binding NotInSearch}"

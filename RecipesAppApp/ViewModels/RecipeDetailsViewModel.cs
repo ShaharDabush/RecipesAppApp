@@ -259,8 +259,9 @@ namespace RecipesAppApp.ViewModels
             }
         } 
 
-        public void RemoveIngredients()
+        public async void RemoveIngredients()
         {
+            await MadeRecipe();
             if (OpenPopup != null)
             {
                 List<string> l = new List<string>();

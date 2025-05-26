@@ -39,13 +39,13 @@ namespace RecipesAppApp.ViewModels
         {
             List<IngredientsWithNameAndAmount> IngredientsListForRemoveIngredients = new List<IngredientsWithNameAndAmount>();
             AllUserIngredients = await RecipesService.GetIngredientsByStorage(LoggedUser.Id);
-            foreach(Ingredient i in Ingredients)
+            foreach (Ingredient i in Ingredients)
             {
-                foreach(Ingredient ingredient in AllUserIngredients)
+                foreach (Ingredient ingredient in AllUserIngredients)
                 {
-                    if(i.Id == ingredient.Id)
+                    if (i.Id == ingredient.Id)
                     {
-                        IngredientsWithNameAndAmount iwna = new IngredientsWithNameAndAmount(i.Id, recipe.Id,0,"",i.IngredientName,false);
+                        IngredientsWithNameAndAmount iwna = new IngredientsWithNameAndAmount(i.Id, recipe.Id, 0, "", i.IngredientName, false);
                         IngredientsListForRemoveIngredients.Add(iwna);
                     }
                 }
@@ -60,17 +60,22 @@ namespace RecipesAppApp.ViewModels
             {
                 if (i.IsChecked)
                 {
-                    foreach(Ingredient ui in AllUserIngredients)
+                    foreach (Ingredient ui in AllUserIngredients)
                     {
-                        if(i.IngredientId == ui.Id)
+                        if (i.IngredientId == ui.Id)
                         {
                             ingredientsToRemove.Add(new Ingredient(ui));
+                            
                         }
                     }
                 }
             }
+            foreach(Ingredient i in ingredientsToRemove)
+            {
+                i.Barcode = "";
+            }
 
-            bool IsSuccessful = await RecipesService.RemoveStorageIngredients(ingredientsToRemove,LoggedUser.StorageId.Value);
+            bool IsSuccessful = await RecipesService.RemoveStorageIngredients(ingredientsToRemove, LoggedUser.StorageId.Value);
             if (IsSuccessful)
             {
                 await Application.Current.MainPage.DisplayAlert("Remove Ingredient", "Ingredients were Removed", "ok");
@@ -79,6 +84,12 @@ namespace RecipesAppApp.ViewModels
             {
                 await Application.Current.MainPage.DisplayAlert("Remove Ingredient", "Something went wrong, please try again later", "ok");
             }
+        }
+
+        public async Task MadeRecipe()
+        {
+            Recipe.HowManyMadeIt++;
+            await RecipesService.UpdateRecipe(Recipe);
         }
 
     }

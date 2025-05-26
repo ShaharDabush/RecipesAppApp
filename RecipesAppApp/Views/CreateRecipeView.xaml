@@ -86,8 +86,8 @@
             <Picker
                 Margin="20,0,0,0"
                 HorizontalOptions="Start"
-                ItemsSource="{Binding ListOfKind}"
-                SelectedItem="{Binding Kind}"
+                ItemsSource="{Binding ListOfType}"
+                SelectedItem="{Binding Type}"
                 WidthRequest="100" />
             <Label
                 Margin="20,20,0,10"
@@ -335,6 +335,8 @@
             <Button
                 BackgroundColor="#a0522d"
                 Command="{Binding SaveRecipeCommand}"
+                WidthRequest="200"
+                Margin="-10,0,0,0"
                 Text="Save Recipe" />
         </VerticalStackLayout>
     </ScrollView>

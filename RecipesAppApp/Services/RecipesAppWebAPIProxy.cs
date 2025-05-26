@@ -15,7 +15,7 @@ namespace RecipesAppApp.Services
 {
     public class RecipesAppWebAPIProxy
     {
-            #region without tunnel
+        #region without tunnel
         /*
         //Define the serevr IP address! (should be realIP address if you are using a device that is not running on the same machine as the server)
         private static string serverIP = "localhost";
@@ -128,6 +128,154 @@ namespace RecipesAppApp.Services
             }
         }
 
+        #region Image
+        //This method call the UploadProfileImage web API on the server and return the AppUser object with the given URL
+        //of the profile image or null if the call fails
+        //when registering a user it is better first to call the register command and right after that call this function
+        public async Task<User?> UploadProfileImage(string imagePath)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}uploadprofileimage";
+            try
+            {
+                //Create the form data
+                MultipartFormDataContent form = new MultipartFormDataContent();
+                var fileContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
+                form.Add(fileContent, "file", imagePath);
+                //Call the server API
+                HttpResponseMessage response = await client.PostAsync(url, form);
+                //Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    User? result = JsonSerializer.Deserialize<User>(resContent, options);
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<string?> UploadRecipeImage(Recipe recipe)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}uploadRecipeImage?userId={recipe.MadeBy}&recipeName={recipe.RecipesName}";
+            try
+            {
+                string imagePath = recipe.RecipeImage;
+                //Create the form data
+                MultipartFormDataContent form = new MultipartFormDataContent();
+                var fileContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
+                form.Add(fileContent, "file", imagePath);
+                //Call the server API
+                HttpResponseMessage response = await client.PostAsync(url, form);
+                //Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string? result = resContent;
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<string?> UploadUserImage(User user)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}uploadUserImage?userId={user.Id}";
+            try
+            {
+                string imagePath = user.UserImage;
+                //Create the form data
+                MultipartFormDataContent form = new MultipartFormDataContent();
+                var fileContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
+                form.Add(fileContent, "file", imagePath);
+                //Call the server API
+                HttpResponseMessage response = await client.PostAsync(url, form);
+                //Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string? result = resContent;
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<string?> UploadIngredientImage(Ingredient ingredient)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}UploadIngredientImage?IngredientName={ingredient.IngredientName}";
+            try
+            {
+                string imagePath = ingredient.IngredientImage;
+                //Create the form data
+                MultipartFormDataContent form = new MultipartFormDataContent();
+                var fileContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
+                form.Add(fileContent, "file", imagePath);
+                //Call the server API
+                HttpResponseMessage response = await client.PostAsync(url, form);
+                //Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string resContent = await response.Content.ReadAsStringAsync();
+                    //Desrialize result
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string? result = resContent;
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        #endregion
         public async Task<List<Recipe>> GetAllRecipes()
         {
             try
@@ -568,62 +716,7 @@ namespace RecipesAppApp.Services
                 return false;
             }
         }
-        public async Task<bool> ChangeName(User user)
-        {
-            //Set URI to the specific function API
-            string url = $"{this.baseUrl}changeName";
-            try
-            {
-                string json = JsonSerializer.Serialize(user);
-                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(url, content);
-                if (response.IsSuccessStatusCode)
-                {
-                    JsonSerializerOptions options = new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    };
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return false;
-            }
-        }
-        public async Task<bool> ChangeMail(User user)
-        {
-            //Set URI to the specific function API
-            string url = $"{this.baseUrl}changeMail";
-            try
-            {
-                string json = JsonSerializer.Serialize(user);
-                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(url, content);
-                if (response.IsSuccessStatusCode)
-                {
-                    JsonSerializerOptions options = new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    };
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return false;
-            }
-        }
+
         public async Task<bool> ChangeStorageName(Storage newStorage)
         {
             //Set URI to the specific function API
@@ -954,6 +1047,35 @@ namespace RecipesAppApp.Services
             }
         }
 
+        public async Task<bool> UpdateRecipe(Recipe recipe)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}updateRecipe";
+            try
+            {
+                string json = JsonSerializer.Serialize(recipe);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
         public async Task<bool> SaveAllergy(List<Allergy> allergies, int userId)
         {
             //Set URI to the specific function API
@@ -1044,153 +1166,6 @@ namespace RecipesAppApp.Services
             }
         }
     }
-    #region Image
-    //This method call the UploadProfileImage web API on the server and return the AppUser object with the given URL
-    //of the profile image or null if the call fails
-    //when registering a user it is better first to call the register command and right after that call this function
-    public async Task<User?> UploadProfileImage(string imagePath)
-    {
-        //Set URI to the specific function API
-        string url = $"{this.baseUrl}uploadprofileimage";
-        try
-        {
-            //Create the form data
-            MultipartFormDataContent form = new MultipartFormDataContent();
-            var fileContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
-            form.Add(fileContent, "file", imagePath);
-            //Call the server API
-            HttpResponseMessage response = await client.PostAsync(url, form);
-            //Check status
-            if (response.IsSuccessStatusCode)
-            {
-                //Extract the content as string
-                string resContent = await response.Content.ReadAsStringAsync();
-                //Desrialize result
-                JsonSerializerOptions options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-                User? result = JsonSerializer.Deserialize<User>(resContent, options);
-                return result;
-            }
-            else
-            {
-                return null;
-            }
-        }
-        catch (Exception ex)
-        {
-            return null;
-        }
-    }
-    public async Task<string?> UploadRecipeImage(Recipe recipe)
-    {
-        //Set URI to the specific function API
-        string url = $"{this.baseUrl}uploadRecipeImage?userId={recipe.MadeBy}&recipeName={recipe.RecipesName}";
-        try
-        {
-            string imagePath = recipe.RecipeImage;
-            //Create the form data
-            MultipartFormDataContent form = new MultipartFormDataContent();
-            var fileContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
-            form.Add(fileContent, "file", imagePath);
-            //Call the server API
-            HttpResponseMessage response = await client.PostAsync(url, form);
-            //Check status
-            if (response.IsSuccessStatusCode)
-            {
-                //Extract the content as string
-                string resContent = await response.Content.ReadAsStringAsync();
-                //Desrialize result
-                JsonSerializerOptions options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-                string? result = resContent;
-                return result;
-            }
-            else
-            {
-                return null;
-            }
-        }
-        catch (Exception ex)
-        {
-            return null;
-        }
-    }
-    public async Task<string?> UploadUserImage(User user)
-    {
-        //Set URI to the specific function API
-        string url = $"{this.baseUrl}uploadUserImage?userId={user.Id}";
-        try
-        {
-            string imagePath = user.UserImage;
-            //Create the form data
-            MultipartFormDataContent form = new MultipartFormDataContent();
-            var fileContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
-            form.Add(fileContent, "file", imagePath);
-            //Call the server API
-            HttpResponseMessage response = await client.PostAsync(url, form);
-            //Check status
-            if (response.IsSuccessStatusCode)
-            {
-                //Extract the content as string
-                string resContent = await response.Content.ReadAsStringAsync();
-                //Desrialize result
-                JsonSerializerOptions options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-                string? result = resContent;
-                return result;
-            }
-            else
-            {
-                return null;
-            }
-        }
-        catch (Exception ex)
-        {
-            return null;
-        }
-    }
-    public async Task<string?> UploadIngredientImage(Ingredient ingredient)
-    {
-        //Set URI to the specific function API
-        string url = $"{this.baseUrl}UploadIngredientImage?IngredientName={ingredient.IngredientName}";
-        try
-        {
-            string imagePath = ingredient.IngredientImage;
-            //Create the form data
-            MultipartFormDataContent form = new MultipartFormDataContent();
-            var fileContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
-            form.Add(fileContent, "file", imagePath);
-            //Call the server API
-            HttpResponseMessage response = await client.PostAsync(url, form);
-            //Check status
-            if (response.IsSuccessStatusCode)
-            {
-                //Extract the content as string
-                string resContent = await response.Content.ReadAsStringAsync();
-                //Desrialize result
-                JsonSerializerOptions options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-                string? result = resContent;
-                return result;
-            }
-            else
-            {
-                return null;
-            }
-        }
-        catch (Exception ex)
-        {
-            return null;
-        }
-    }
-    #endregion
+
 }
 

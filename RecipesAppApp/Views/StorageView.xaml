@@ -13,7 +13,7 @@
         
     <ScrollView>
             <VerticalStackLayout  x:Name="VSL">
-                <Border Stroke="Black"  WidthRequest="350">
+                <Border Stroke="#a0522d" StrokeShape="RoundRectangle 10,10,10,10" WidthRequest="350">
                     <expander:SfExpander>
                     <expander:SfExpander.Header>
                         <Label Margin="5,0,0,0" Text="Search Ingredients"/>
@@ -60,7 +60,7 @@
                     </expander:SfExpander.Content>
                 </expander:SfExpander>
                 </Border>
-                <Entry Grid.Row="0" Placeholder="Search by Ingredient name" TextColor="#a0522d" PlaceholderColor="#a0522d" Text="{Binding SearchedIngredientInStorage}" HeightRequest="55"  ClearButtonVisibility="WhileEditing"/>
+                <Entry Grid.Row="0" Margin="10,0,10,0" Placeholder="Search by Ingredient name" TextColor="#a0522d" PlaceholderColor="#a0522d" Text="{Binding SearchedIngredientInStorage}" HeightRequest="55"  ClearButtonVisibility="WhileEditing"/>
                 <CollectionView
                 Margin="10"
                 ItemsLayout="VerticalGrid, 3"

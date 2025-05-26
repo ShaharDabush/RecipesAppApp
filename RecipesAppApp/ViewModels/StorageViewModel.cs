@@ -334,7 +334,7 @@ namespace RecipesAppApp.ViewModels
                 {
                     List<string> l = new List<string>();
                     OpenPopup(l);
-                    this.IngredientCode = SelectedIngredient.Barkod;
+                    this.IngredientCode = SelectedIngredient.Barcode;
                     selectedIngredient = null;
                     GetIngredientByBarcode();
                 }       

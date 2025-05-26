@@ -10,8 +10,6 @@ namespace RecipesAppApp.Models
 
         public string IngredientImage { get; set; } = null!;
 
-        public int KindId { get; set; }
-
         public bool IsKosher { get; set; } 
 
         public bool IsGloten { get; set; } 
@@ -20,7 +18,7 @@ namespace RecipesAppApp.Models
 
         public bool Dairy { get; set; }
 
-        public string Barkod { get; set; } = null!;
+        public string Barcode { get; set; } = null!;
         public string IngredientImageURL
         {
             get
@@ -36,12 +34,10 @@ namespace RecipesAppApp.Models
             Id = i.Id;
             IngredientName = i.IngredientName;
             IngredientImage = i.IngredientImage;
-            KindId = i.KindId;
             IsKosher = i.IsKosher;
             IsGloten = i.IsGloten;
             Meat = i.Meat;
             Dairy = i.Dairy;
-            Barkod = i.Barkod;
         }
 
 
