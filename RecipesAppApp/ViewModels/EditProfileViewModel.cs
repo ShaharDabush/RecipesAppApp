@@ -12,7 +12,6 @@ using System.Security.Cryptography.X509Certificates;
 using Microsoft.Maui;
 using Microsoft.Extensions.DependencyInjection;
 using RecipesAppApp.Views;
-using Android.Print;
 
 
 namespace RecipesAppApp.ViewModels

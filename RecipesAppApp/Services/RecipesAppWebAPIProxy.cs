@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using RecipesAppApp.Classes;
 using RecipesAppApp.Models;
-using static AndroidX.Activity.Result.Contract.ActivityResultContracts;
 
 namespace RecipesAppApp.Services
 {
