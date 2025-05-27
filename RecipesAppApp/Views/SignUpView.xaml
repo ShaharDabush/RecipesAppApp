@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RecipesAppApp.Views.SignUpView"
-             Background="Wheat"
-             Shell.BackgroundColor="Wheat"
-             Title="SignUp">
+<ContentPage
+    x:Class="RecipesAppApp.Views.SignUpView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="SignUp"
+    Background="Wheat"
+    Shell.BackgroundColor="Wheat">
     <ScrollView>
-    <Grid>
+        <Grid>
 
 
-        <!-- Main Content -->
+            <!--  Main Content  -->
 
 
-            <VerticalStackLayout IsEnabled="{Binding NotInServerCall}" Padding="20">
-            <!-- Photo -->
+            <VerticalStackLayout Padding="20" IsEnabled="{Binding NotInServerCall}">
+                <!--  Photo  -->
 
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -33,112 +34,209 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Frame Margin="10" Grid.Row="1" BorderColor="#cd853f" BackgroundColor="Wheat" Grid.RowSpan="4" Grid.Column="3" Grid.ColumnSpan="3" CornerRadius="150" HeightRequest="300" WidthRequest="300" IsClippedToBounds="True">
-                        <Image x:Name="theImageBug" Margin="-20" Source="{Binding PhotoURL}" Grid.Row="4"  Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="3" HeightRequest="300" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill" />
+                    <Frame
+                        Grid.Row="1"
+                        Grid.RowSpan="4"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="3"
+                        Margin="10"
+                        BackgroundColor="Wheat"
+                        BorderColor="#cd853f"
+                        CornerRadius="150"
+                        HeightRequest="300"
+                        IsClippedToBounds="True"
+                        WidthRequest="300">
+                        <Image
+                            x:Name="theImageBug"
+                            Grid.Row="4"
+                            Grid.RowSpan="2"
+                            Grid.Column="2"
+                            Grid.ColumnSpan="3"
+                            Margin="-20"
+                            Aspect="AspectFill"
+                            HeightRequest="300"
+                            HorizontalOptions="FillAndExpand"
+                            Source="{Binding PhotoURL}"
+                            VerticalOptions="FillAndExpand" />
                     </Frame>
-                    <!--{Binding PhotoURL}-->
-                    <ImageButton x:Name="theEditImage" Source="edit.png" CornerRadius="6"  Command="{Binding UploadPhotoCommand}"  Grid.Row="3" Grid.Column="7"   HeightRequest="60" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-
-                    </ImageButton>
+                    <!--  {Binding PhotoURL}  -->
+                    <ImageButton
+                        x:Name="theEditImage"
+                        Grid.Row="3"
+                        Grid.Column="7"
+                        Command="{Binding UploadPhotoCommand}"
+                        CornerRadius="6"
+                        HeightRequest="60"
+                        HorizontalOptions="CenterAndExpand"
+                        Source="edit.png"
+                        VerticalOptions="CenterAndExpand" />
                 </Grid>
-                <!-- First Name -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Label Text="Nickname" Grid.Column="0"/>
-                <Label Text="{Binding NameError}" IsVisible="{Binding ShowNameError}" Grid.Column="1"  />
-            </Grid>
-            <Entry PlaceholderColor="#a0522d" Placeholder="Type First Name" Text="{Binding Name}" />
+                <!--  First Name  -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Nickname" />
+                    <Label
+                        Grid.Column="1"
+                        IsVisible="{Binding ShowNameError}"
+                        Text="{Binding NameError}" />
+                </Grid>
+                <Entry
+                    Placeholder="Type First Name"
+                    PlaceholderColor="#a0522d"
+                    Text="{Binding Name}" />
 
 
-            <!-- Email -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Label Text="Email" Grid.Column="0"  />
-                <Label Text="{Binding EmailError}" IsVisible="{Binding ShowEmailError}" Grid.Column="1"  />
-            </Grid>
-                <Entry PlaceholderColor="#a0522d" Placeholder="Type Email" Text="{Binding Email}"  />
+                <!--  Email  -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Email" />
+                    <Label
+                        Grid.Column="1"
+                        IsVisible="{Binding ShowEmailError}"
+                        Text="{Binding EmailError}" />
+                </Grid>
+                <Entry
+                    Placeholder="Type Email"
+                    PlaceholderColor="#a0522d"
+                    Text="{Binding Email}" />
 
-            <!-- Password -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Label Text="Password" Grid.Column="0" />
-                <Label Text="{Binding PasswordError}" IsVisible="{Binding ShowPasswordError}" Grid.Column="1"  />
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="40" />
-                </Grid.ColumnDefinitions>
-                    <Entry Grid.Column="0" PlaceholderColor="#a0522d" Placeholder="Type Password" Text="{Binding Password}" IsPassword="{Binding IsPassword}"  />
-                <ImageButton Grid.Column="1" HeightRequest="25" Source="passwordeye.jpg" Command="{Binding ShowPasswordCommand}" />
-            </Grid>
+                <!--  Password  -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Password" />
+                    <Label
+                        Grid.Column="1"
+                        IsVisible="{Binding ShowPasswordError}"
+                        Text="{Binding PasswordError}" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <Entry
+                        Grid.Column="0"
+                        IsPassword="{Binding IsPassword}"
+                        Placeholder="Type Password"
+                        PlaceholderColor="#a0522d"
+                        Text="{Binding Password}" />
+                    <ImageButton
+                        Grid.Column="1"
+                        Command="{Binding ShowPasswordCommand}"
+                        HeightRequest="25"
+                        Source="passwordeye.jpg" />
+                </Grid>
 
-            <!-- Storage -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    </Grid.RowDefinitions>
-                <RadioButton Grid.Row="1" Grid.Column="0" Content="If you want to create new storage" IsChecked="{Binding IsNewStorage}"/>
-                <RadioButton Grid.Row="1" Grid.Column="1" Content="If you have storage to use " IsChecked="{Binding IsCodeStorage}" />
-                <Label Text="{Binding StorageError}" IsVisible="{Binding ShowStorageError}" Grid.Row="0" Grid.ColumnSpan="1"  />
-            </Grid>
-            <!-- Storage Name-->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="40" />
-                </Grid.ColumnDefinitions>
+                <!--  Storage  -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
-                    <Label Text="{Binding StorageNameError}" IsVisible="{Binding ShowStorageNameError}" Grid.Column="0" Grid.Row="0" />
-                    <Entry Grid.Row="2"  Grid.Column="0" PlaceholderColor="#a0522d" Placeholder="Type the name of your storage" Text="{Binding StorageName}" IsVisible="{Binding IsNewStorage}" />
-            </Grid>
-            <!-- Storage Code-->
+                    <RadioButton
+                        Grid.Column="0"
+                        Content="If you want to create new storage"
+                        IsChecked="{Binding IsNewStorage}" />
+                    <RadioButton
+                        Grid.Column="1"
+                        Content="If you have storage to use "
+                        IsChecked="{Binding IsCodeStorage}" />
+                    <Label
+                        Grid.Row="0"
+                        Grid.ColumnSpan="1"
+                        IsVisible="{Binding ShowStorageError}"
+                        Text="{Binding StorageError}" />
+                </Grid>
+                <!--  Storage Name  -->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="40" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                <Label Text="{Binding StorageCodeError}" IsVisible="{Binding ShowStorageCodeError}" Grid.Column="0"  Grid.Row="0"/>
-                    <Entry Grid.Column="0" Grid.Row="2" PlaceholderColor="#a0522d" Placeholder="Type your storage code" Text="{Binding StorageCode}"  IsVisible="{Binding IsCodeStorage}" />
-                <!--<ImageButton Grid.Column="1" HeightRequest="25" Source="passwordeye.jpg" Command="{Binding ShowPasswordCommand}" />-->
-            </Grid>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        IsVisible="{Binding ShowStorageNameError}"
+                        Text="{Binding StorageNameError}" />
+                    <Entry
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        IsVisible="{Binding IsNewStorage}"
+                        Placeholder="Type the name of your storage"
+                        PlaceholderColor="#a0522d"
+                        Text="{Binding StorageName}" />
+                </Grid>
+                <!--  Storage Code  -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        IsVisible="{Binding ShowStorageCodeError}"
+                        Text="{Binding StorageCodeError}" />
+                    <Entry
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        IsVisible="{Binding IsCodeStorage}"
+                        Placeholder="Type your storage code"
+                        PlaceholderColor="#a0522d"
+                        Text="{Binding StorageCode}" />
+                    <!--<ImageButton Grid.Column="1" HeightRequest="25" Source="passwordeye.jpg" Command="{Binding ShowPasswordCommand}" />-->
+                </Grid>
 
-            <!-- Register and Cancel Buttons -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                    <Button Text="Register" Margin="5" BackgroundColor="#a0522d" WidthRequest="150" Command="{Binding RegisterCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="1" />
-                    <Button Text="Cancel" Margin="5" BackgroundColor="#a0522d" WidthRequest="150" Command="{Binding CancelCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="0" />
-            </Grid>
-        </VerticalStackLayout>
-        <!-- Centered ActivityIndicator -->
-        <ActivityIndicator IsRunning="{Binding InServerCall}" 
-                   Color="#cd853f" 
-                   VerticalOptions="Center" 
-                   HorizontalOptions="Center" />
-    </Grid>
+                <!--  Register and Cancel Buttons  -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Grid.Column="1"
+                        Margin="5"
+                        BackgroundColor="#a0522d"
+                        Command="{Binding RegisterCommand}"
+                        IsEnabled="{Binding NotInServerCall}"
+                        Text="Register"
+                        WidthRequest="150" />
+                    <Button
+                        Grid.Column="0"
+                        Margin="5"
+                        BackgroundColor="#a0522d"
+                        Command="{Binding CancelCommand}"
+                        IsEnabled="{Binding NotInServerCall}"
+                        Text="Cancel"
+                        WidthRequest="150" />
+                </Grid>
+            </VerticalStackLayout>
+            <!--  Centered ActivityIndicator  -->
+            <ActivityIndicator
+                HorizontalOptions="Center"
+                IsRunning="{Binding InServerCall}"
+                VerticalOptions="Center"
+                Color="#cd853f" />
+        </Grid>
     </ScrollView>
 </ContentPage>

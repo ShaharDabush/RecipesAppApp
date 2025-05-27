@@ -1,35 +1,98 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RecipesAppApp.Views.ProfileView"
-             xmlns:models="clr-namespace:RecipesAppApp.Models"
-             Background="Wheat"
-             Shell.BackgroundColor="Wheat"
-             Title="ProfileView">
+<ContentPage
+    x:Class="RecipesAppApp.Views.ProfileView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:RecipesAppApp.Models"
+    Title="ProfileView"
+    Background="Wheat"
+    Shell.BackgroundColor="Wheat">
     <VerticalStackLayout>
-        <Grid BackgroundColor="Wheat"
+        <Grid
+            BackgroundColor="Wheat"
             ColumnDefinitions="*,*"
-            RowDefinitions="150,*,*,*,10,*,*"
-             
-            >
-            <Border Stroke="#cd853f" Grid.Column="1" Grid.Row="0" StrokeThickness="3" Margin="5" >
-                <Label Text="{Binding LoggedUser.UserName}" Grid.Column="1" Grid.Row="0"  Margin="5,5,5,5" FontSize="30"/>
+            RowDefinitions="150,*,*,*,10,*,*">
+            <Border
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                Stroke="#cd853f"
+                StrokeThickness="3">
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="5,5,5,5"
+                    FontSize="30"
+                    Text="{Binding LoggedUser.UserName}" />
             </Border>
-            <Border Stroke="#cd853f" Grid.Column="0" Grid.Row="0" StrokeThickness="3" Margin="5" >
-                <Image Source="{Binding LoggedUser.UserImageURL}"  Margin="5" />
+            <Border
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="5"
+                Stroke="#cd853f"
+                StrokeThickness="3">
+                <Image Margin="5" Source="{Binding LoggedUser.UserImageURL}" />
             </Border>
-            <Button Text="Edit" Command="{Binding EditProfileCommand}" VerticalOptions="End" BackgroundColor="#a0522d" HorizontalOptions="Start" Margin="20" Grid.Column="2" HeightRequest="30" WidthRequest="90" Padding="0" FontSize="15"/>
-            <Label Text="Recipe Amount:" Grid.Row="1" Grid.Column="1" Margin="15,10,0,0" />
-            <Border Stroke="#cd853f"  Grid.Column="1" Grid.Row="1" StrokeThickness="3" Margin="5" >
-                <Label Text="{Binding RecipesAmount}"  Margin="155,9,0,0" Padding="5"/>
+            <Button
+                Grid.Column="2"
+                Margin="20"
+                Padding="0"
+                BackgroundColor="#a0522d"
+                Command="{Binding EditProfileCommand}"
+                FontSize="15"
+                HeightRequest="30"
+                HorizontalOptions="Start"
+                Text="Edit"
+                VerticalOptions="End"
+                WidthRequest="90" />
+            <Label
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="15,10,0,0"
+                Text="Recipe Amount:" />
+            <Border
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="5"
+                Stroke="#cd853f"
+                StrokeThickness="3">
+                <Label
+                    Margin="155,9,0,0"
+                    Padding="5"
+                    Text="{Binding RecipesAmount}" />
             </Border>
-            <Label Text="Recipe Amount:" Grid.Row="1" Grid.Column="0" Margin="15,10,0,0" />
-            <Border Stroke="#cd853f"  Grid.Column="0" Grid.Row="1" StrokeThickness="3" Margin="5" >
-                <Label Text="{Binding RatingsAmount}" Grid.Column="0" Grid.Row="1" Margin="155,9,0,0" Padding="5"/>
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="15,10,0,0"
+                Text="Rating Amount:" />
+            <Border
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="5"
+                Stroke="#cd853f"
+                StrokeThickness="3">
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="155,9,0,0"
+                    Padding="5"
+                    Text="{Binding RatingsAmount}" />
             </Border>
-            <Border Stroke="#cd853f" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="3" StrokeThickness="3" Margin="5" IsVisible="{Binding IsHasStorage}" >
+            <Border
+                Grid.Row="3"
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="5"
+                IsVisible="{Binding IsHasStorage}"
+                Stroke="#cd853f"
+                StrokeThickness="3">
                 <Grid>
-                    <Label  Margin="5" FontSize="20" IsVisible="{Binding IsHasStorage}" >
+                    <Label
+                        Margin="5"
+                        FontSize="20"
+                        IsVisible="{Binding IsHasStorage}">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Your Storage family" />
@@ -39,16 +102,29 @@
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
-                <CollectionView Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="4" ItemsSource="{Binding UsersWithSameStorage}" Margin="5,30,5,5">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:User">
-                            <Grid ColumnDefinitions="*,0.2*">
-                                <Label Text="{Binding UserName}" Grid.Column="0" Margin="3"/>
-                                <Label Text="(Admin)" Grid.Column="3" Margin="2" IsVisible="{Binding IsAdmin}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    <CollectionView
+                        Grid.Row="4"
+                        Grid.RowSpan="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="5,30,5,5"
+                        ItemsSource="{Binding UsersWithSameStorage}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:User">
+                                <Grid ColumnDefinitions="*,0.2*">
+                                    <Label
+                                        Grid.Column="0"
+                                        Margin="3"
+                                        Text="{Binding UserName}" />
+                                    <Label
+                                        Grid.Column="3"
+                                        Margin="2"
+                                        IsVisible="{Binding IsAdmin}"
+                                        Text="(Admin)" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </Grid>
             </Border>
         </Grid>
