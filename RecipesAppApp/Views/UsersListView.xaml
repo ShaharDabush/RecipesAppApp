@@ -1,54 +1,77 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RecipesAppApp.Views.UsersListView"
-             xmlns:models="clr-namespace:RecipesAppApp.Models"
-             xmlns:classes="clr-namespace:RecipesAppApp.Classes"
-                 Shell.TabBarBackgroundColor="Wheat"
-             Title="UsersListView">
+<ContentPage
+    x:Class="RecipesAppApp.Views.UsersListView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:classes="clr-namespace:RecipesAppApp.Classes"
+    xmlns:models="clr-namespace:RecipesAppApp.Models"
+    Title="UsersListView"
+    BackgroundColor="Wheat"
+    Shell.BackgroundColor="Wheat"
+    Shell.ForegroundColor="Wheat"
+    Shell.TabBarBackgroundColor="Wheat"
+    Shell.TabBarForegroundColor="Wheat">
     <Grid RowDefinitions="55,*">
-    <Entry Grid.Row="0" Placeholder="Search by recipe name" Text="{Binding SearchedName}" HeightRequest="55"  ClearButtonVisibility="WhileEditing"/>
-    <RefreshView 
-             Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" Grid.Row="1">
-            <CollectionView  ItemsSource="{Binding AllUsers}" ItemsLayout="VerticalList" x:Name="theCollectionView" >
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="20" HorizontalOptions="FillAndExpand" ColumnDefinitions="*,*" RowDefinitions="*,*,*,*" VerticalOptions="Start">
-                            <Image Grid.Column="0" Grid.RowSpan="5" Grid.Row="0"  WidthRequest="130"  HeightRequest="130" HorizontalOptions="Start" Aspect="Fill"
-                           Source="{Binding UserImageURL}"
-                            />
-                        <Label Grid.Column="1" Grid.Row="0"
-                           Text="{Binding UserName}"
-                            FontAttributes="Bold"/>
-                        <Label Grid.Column="1" Grid.Row="1">
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span Text="Joined in: "/>
-                                    <Span Text="{Binding Email}"/>
-                                </FormattedString>
-                            </Label.FormattedText>
-                        </Label>
-                        <Label Grid.Column="1" Grid.Row="2">
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span Text="Contact information: "/>
-                                    <Span Text="{Binding Email}"/>
-                                </FormattedString>
-                            </Label.FormattedText>
-                        </Label>
-                        <Label Grid.Column="1" Grid.Row="3" Padding="0,15,0,0">
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span Text="Has "/>
-                                    <Span Text="{Binding RecipeAmout}"/>
-                                    <Span Text=" Recipes"/>
-                                </FormattedString>
-                            </Label.FormattedText>
-                        </Label>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </RefreshView>
-        </Grid>
+        <Entry
+            Grid.Row="0"
+            ClearButtonVisibility="WhileEditing"
+            HeightRequest="55"
+            Placeholder="Search by recipe name"
+            Text="{Binding SearchedName}" />
+        <RefreshView
+            Grid.Row="1"
+            Command="{Binding RefreshCommand}"
+            IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView
+                x:Name="theCollectionView"
+                ItemsLayout="VerticalList"
+                ItemsSource="{Binding AllUsers}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid
+                            Padding="20"
+                            ColumnDefinitions="*,*"
+                            HorizontalOptions="FillAndExpand"
+                            RowDefinitions="*,*,*"
+                            VerticalOptions="Start">
+                            <Image
+                                Grid.Row="0"
+                                Grid.RowSpan="5"
+                                Grid.Column="0"
+                                Aspect="Fill"
+                                HeightRequest="130"
+                                HorizontalOptions="Start"
+                                Source="{Binding UserImageURL}"
+                                WidthRequest="130" />
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                Text="{Binding UserName}" />
+                            <Label Grid.Row="1" Grid.Column="1">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Joined in: " />
+                                        <Span Text="{Binding Email}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Padding="0,15,0,0">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Has " />
+                                        <Span Text="{Binding RecipeAmout}" />
+                                        <Span Text=" Recipes" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
 </ContentPage>
