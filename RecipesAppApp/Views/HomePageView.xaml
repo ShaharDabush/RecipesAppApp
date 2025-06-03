@@ -7,7 +7,7 @@
     xmlns:models="clr-namespace:RecipesAppApp.Models"
     xmlns:sfbutton="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
     xmlns:vm="clr-namespace:RecipesAppApp.ViewModels"
-    Title="HomePageView"
+    Title="Home Page"
     x:DataType="vm:HomePageViewModel"
     BackgroundColor="Wheat"
     Shell.BackgroundColor="Wheat">

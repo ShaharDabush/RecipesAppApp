@@ -492,9 +492,9 @@ namespace RecipesAppApp.ViewModels
 
         }
         
-        public void Refresh2()
+        public async void Refresh()
         {
-            OnPropertyChanged("IsLoggedSearch");
+            await MakeRecipesList();
         }
 
         //on SortCommand change the list and leave only the users that contain the given string

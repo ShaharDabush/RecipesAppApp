@@ -307,6 +307,7 @@ namespace RecipesAppApp.ViewModels
             if(result)
             {
                 Ingredient i = new(IngredientBarcode);
+                i.IngredientImage = PhotoURL;
                 string updatedIngredient = await RecipesService.UploadIngredientImage(i);
                 if (updatedIngredient == null)
                 {

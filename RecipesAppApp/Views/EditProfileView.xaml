@@ -8,7 +8,7 @@
              x:DataType="viewmodels:EditProfileViewModel"
              BackgroundColor="Wheat"
              Shell.BackgroundColor="Wheat"
-             Title="EditProfileView">
+             Title="">
     <VerticalStackLayout x:Name="VSL">
         <!-- Personal Changes -->
         <Label Text="Personal" Margin="4,20,0,0" FontSize="30" FontAttributes="Bold"/>

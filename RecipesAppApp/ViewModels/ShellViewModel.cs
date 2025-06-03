@@ -63,7 +63,14 @@ namespace RecipesAppApp.ViewModels
             this.LogCommand = new Command(OnLog);
             this.SignUpCommand = new Command(OnSignUp);
             this.currentUser = ((App)Application.Current).LoggedInUser;
-            LogText = "Login";
+            if(currentUser != null)
+            {
+                LogText = "Logout";
+            }
+            else
+            {
+                LogText = "Login";
+            }
             
         }
 

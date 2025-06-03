@@ -35,6 +35,12 @@ public partial class HomePageView : ContentPage
         HomePageViewModel vm = (HomePageViewModel)this.BindingContext;
         vm.FilterRecipes();
     }
+    //protected override void OnAppearing()
+    //{
+    //    base.OnAppearing();
+    //    HomePageViewModel vm = (HomePageViewModel)this.BindingContext;
+    //    vm.Refresh();
+    //}
 
     //private void YourAllergiesCheck(object sender, Syncfusion.Maui.Buttons.StateChangedEventArgs e)
     //{

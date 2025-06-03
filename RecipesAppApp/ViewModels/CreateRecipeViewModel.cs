@@ -540,6 +540,7 @@ namespace RecipesAppApp.ViewModels
                 {
 
                     Recipe r = new(saveRecipeInfo.RecipeInfo);
+                    r.RecipeImage = PhotoURL;
                     string updatedRecipe = await RecipesService.UploadRecipeImage(r);
                     if (updatedRecipe == null)
                     {
@@ -548,6 +549,7 @@ namespace RecipesAppApp.ViewModels
                     else
                     {
                         await Application.Current.MainPage.DisplayAlert("Registration", "Recipe Data Was Saved!", "ok");
+                        await AppShell.Current.GoToAsync("///HomePage");
                     }
                 }
             }

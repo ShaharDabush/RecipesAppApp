@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using RecipesAppApp.Views;
 using RecipesAppApp.Services;
+using Microsoft.Extensions.DependencyInjection;
 //using Android.Webkit;
 //using Android.Webkit;
 
@@ -16,9 +17,12 @@ namespace RecipesAppApp.ViewModels
     public class SignUpViewModel : ViewModelBase
     {
         private RecipesAppWebAPIProxy RecipesService;
-        public SignUpViewModel(RecipesAppWebAPIProxy service)
+        private IServiceProvider serviceProvider;
+
+        public SignUpViewModel(RecipesAppWebAPIProxy service, IServiceProvider serviceProvider)
         {
             this.RecipesService = service;
+            this.serviceProvider = serviceProvider;
             RegisterCommand = new Command(OnRegister);
             CancelCommand = new Command(OnCancel);
             ShowPasswordCommand = new Command(OnShowPassword);
@@ -514,6 +518,7 @@ namespace RecipesAppApp.ViewModels
                         
                         LoginInfo li = new(newUser.Email, newUser.UserPassword);
                         await RecipesService.LoginAsync(li);
+                        registerInfo.UserInfo.UserImage = PhotoURL;
                         string updatedUser = await RecipesService.UploadUserImage(registerInfo.UserInfo);
                         if (updatedUser == null)
                         {
@@ -522,8 +527,15 @@ namespace RecipesAppApp.ViewModels
                         }
                     }
                     InServerCall = false;
-
-                    ((App)(Application.Current)).MainPage.Navigation.PopAsync();
+                    ((App)Application.Current).LoggedInUser = registerInfo.UserInfo;
+                    ((App)Application.Current).UserStorage = registerInfo.StorageInfo;
+                    Name = "";
+                    Email = "";
+                    Password = "";
+                    StorageName = "";
+                    StorageCode = "";
+                    PhotoURL = null;
+                    await ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<LoadingPageView>());
                 }
                 else
                 {

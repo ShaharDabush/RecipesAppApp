@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RecipesAppApp.Models;
+using RecipesAppApp.Services;
 namespace RecipesAppApp.Classes
 {
     public class FullUserForList
@@ -25,6 +26,13 @@ namespace RecipesAppApp.Classes
         public bool? IsNotAdmin { get => !IsAdmin; }
 
         public int RecipeAmout { get; set; }
+        public string UserImageURL
+        {
+            get
+            {
+                return RecipesAppWebAPIProxy.ImageBaseAddress + UserImage;
+            }
+        }
 
         public FullUserForList() { }
 
