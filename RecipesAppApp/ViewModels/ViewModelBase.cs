@@ -44,5 +44,27 @@ namespace RecipesAppApp.ViewModels
             }
         }
         #endregion
+
+        #region Shell Refresh
+        public ViewModelBase()
+        {
+            if (Shell.Current != null)
+            {
+                ((AppShell)(Shell.Current)).DataChanged += (type) =>
+                {
+                    if (type == this.GetType())
+                    {
+                        //do something to refresh the page
+                        Refresh();
+                    }
+                };
+            }
+        }
+
+        public virtual void Refresh()
+        {
+            //do something to refresh the page
+        }
+        #endregion
     }
 }

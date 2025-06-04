@@ -27,5 +27,14 @@ namespace RecipesAppApp
             Routing.RegisterRoute("EditProfile", typeof(EditProfileView));
 
         }
+
+        public event Action<Type> DataChanged;
+        public void Refresh(Type type)
+        {
+            if (DataChanged != null)
+            {
+                DataChanged(type);
+            }
+        }
     }
 }

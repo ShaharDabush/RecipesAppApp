@@ -7,9 +7,11 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Android.Service.Voice;
 using RecipesAppApp.Classes;
 using RecipesAppApp.Models;
 using RecipesAppApp.Services;
+using static Android.Util.EventLogTags;
 
 namespace RecipesAppApp.ViewModels
 {
@@ -535,6 +537,9 @@ namespace RecipesAppApp.ViewModels
             saveRecipeInfo = await RecipesService.SaveRecipe(saveRecipeInfo);
             if (saveRecipeInfo != null)
             {
+                OnPropertyChanged("ListOfAddedIngredient");
+                OnPropertyChanged("ListOfDirections");
+                ClearSort();
                 //UPload profile imae if needed
                 if (!string.IsNullOrEmpty(LocalPhotoPath))
                 {
@@ -544,20 +549,42 @@ namespace RecipesAppApp.ViewModels
                     string updatedRecipe = await RecipesService.UploadRecipeImage(r);
                     if (updatedRecipe == null)
                     {
+                        Refresh();
                         await Application.Current.MainPage.DisplayAlert("Registration", "Recipe Data Was Saved BUT recipe image upload failed", "ok");
                     }
-                    else
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Registration", "Recipe Data Was Saved!", "ok");
-                        await AppShell.Current.GoToAsync("///HomePage");
-                    }
+
                 }
+                Refresh();
+                ((AppShell)Shell.Current).Refresh(typeof(HomePageViewModel));
+                await Application.Current.MainPage.DisplayAlert("Registration", "Recipe Data Was Saved!", "ok");
+                await AppShell.Current.GoToAsync("///HomePage");
             }
             else
             {
+
                 await Application.Current.MainPage.DisplayAlert("Registration", "Recipe Data Was not Save, please try again", "ok");
             }
 
+        }
+
+        public override void Refresh()
+        {
+            IsKosher = false;
+            IsGloten = false;
+            ContainDairy = false;
+            ContainMeat = false;
+            RecipeName = "New Recipe";
+            Desciption = "";
+            Type = "";
+            Morning = false;
+            Noon = false;
+            Evening = false;
+            AnyTime = true;
+            directions.Clear();
+            ListOfNewIngredients.Clear();
+            ListOfAddedIngredient.Clear();
+            GetAllergies();
+            photoURL = "";
         }
 
         #region Single Selection
@@ -596,7 +623,7 @@ namespace RecipesAppApp.ViewModels
             
         }
      
-
+        
 
         #endregion
     }

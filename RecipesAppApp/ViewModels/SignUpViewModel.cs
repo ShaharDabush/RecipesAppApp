@@ -525,6 +525,11 @@ namespace RecipesAppApp.ViewModels
                             InServerCall = false;
                             await Application.Current.MainPage.DisplayAlert("Registration", "User Data Was Saved BUT Profile image upload failed", "ok");
                         }
+                        else
+                        {
+                            UpdatePhotoURL(updatedUser);
+                            registerInfo.UserInfo.UserImage = updatedUser;
+                        }
                     }
                     InServerCall = false;
                     ((App)Application.Current).LoggedInUser = registerInfo.UserInfo;

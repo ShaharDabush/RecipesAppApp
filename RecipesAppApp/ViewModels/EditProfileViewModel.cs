@@ -360,6 +360,8 @@ namespace RecipesAppApp.ViewModels
                 else
                 {
                     isChanged = await this.RecipesService.RemoveMember(LoggedUser.Id);
+                    ((App)Application.Current).LoggedInUser.StorageId = null;
+                    ((App)Application.Current).Refresh();
                 }
                 if (!isChanged)
                 {

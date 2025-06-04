@@ -166,8 +166,12 @@ namespace RecipesAppApp.ViewModels
 
             if (loggedUser.StorageId != null)
             {
-                SetUserIngredients();
+               SetUserIngredients();
                StorageName = ((App)Application.Current).UserStorage.StorageName;
+            }
+            else
+            {
+                IsStorageNullInitData();
             }
         }
 

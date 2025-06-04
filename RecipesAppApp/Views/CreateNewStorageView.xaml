@@ -14,7 +14,7 @@
         <Label Text="Enter your new storage name" />
         <Entry Text="{Binding StorageNewName}" />
         <Label Text="Enter storage code to enter the storage" />
-        <Entry Text="{Binding StorageNewName}" />
+        <Entry Text="{Binding NewStorageCode}" />
         <Grid ColumnDefinitions="*,*" WidthRequest="200">
             <Button
                 BackgroundColor="#a0522d"

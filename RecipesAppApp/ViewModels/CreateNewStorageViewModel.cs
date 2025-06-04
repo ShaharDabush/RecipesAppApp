@@ -16,6 +16,19 @@ namespace RecipesAppApp.ViewModels
         public ICommand SaveStorageCommand { get; set; }
         public ICommand CancelCommand { get; set; }
         private string storageNewName;
+        private string newStorageCode;
+        public string NewStorageCode
+        {
+            get
+            {
+                return this.newStorageCode;
+            }
+            set
+            {
+                this.newStorageCode = value;
+                OnPropertyChanged();
+            }
+        }
         public string StorageNewName
         {
             get
@@ -33,30 +46,65 @@ namespace RecipesAppApp.ViewModels
         public async void SaveStorage()
         {
             // Create a new storage object
-            Storage newStorage = new Storage();
-            if(StorageNewName == null || StorageNewName == "")
+            if(StorageName == null && NewStorageCode == null)
             {
-                newStorage.StorageName = LoggedUser.UserName;
-                newStorage.StorageName += "'s Storage";
+                await AppShell.Current.DisplayAlert("Error", "both entries cannot be empty", "OK");
+                return;
+            }
+            if (NewStorageCode == null)
+            {
+            Storage newStoraged = new Storage();
+            if(StorageNewName == "")
+            {
+                newStoraged.StorageName = LoggedUser.UserName;
+                newStoraged.StorageName += "'s Storage";
             }
             else
             {
-                newStorage.StorageName = StorageNewName;
+                newStoraged.StorageName = StorageNewName;
             }
-            newStorage.Manager = LoggedUser.Id;
-           newStorage.StorageCode = "";
+            newStoraged.Manager = LoggedUser.Id;
+            newStoraged.StorageCode = "";
             int? NewStorageId = 0;
-            NewStorageId = await RecipesService.SaveNewStorage(newStorage);
+            NewStorageId = await RecipesService.SaveNewStorage(newStoraged);
             if (NewStorageId != null)
             {
                 ((App)Application.Current).LoggedInUser.StorageId = NewStorageId;
                 ((App)Application.Current).Refresh();
-                await AppShell.Current.GoToAsync("///Storage");
+                    StorageNewName = "";
+                    NewStorageCode = "";
+                    await AppShell.Current.GoToAsync("///Storage");
             }
             else
             {
-                await AppShell.Current.DisplayAlert("Error", "Failed to create storage", "OK");
+                    StorageNewName = "";
+                    NewStorageCode = "";
+                    await AppShell.Current.DisplayAlert("Error", "Failed to create storage", "OK");
                 await AppShell.Current.GoToAsync("///HomePage");
+            }
+            }
+            else
+            {
+                int NewStorageId = await RecipesService.EnterNewStorage(NewStorageCode, LoggedUser.Id);
+                if(NewStorageId != 0)
+                {
+                    ((App)Application.Current).LoggedInUser.StorageId = NewStorageId;
+                    Storage = await RecipesService.GetStoragesbyUser(loggedUser.Id);
+                    ((App)Application.Current).UserStorage = Storage;
+                    ((App)Application.Current).Refresh();
+                    StorageName = ((App)Application.Current).UserStorage.StorageName;
+                    SetUserIngredients();
+                    StorageNewName = "";
+                    NewStorageCode = "";
+                    await AppShell.Current.GoToAsync("///Storage");
+                }
+                else
+                {
+                    StorageNewName = "";
+                    NewStorageCode = "";
+                    await AppShell.Current.DisplayAlert("Error", "Failed to connect to the new storage", "OK");
+                    await AppShell.Current.GoToAsync("///HomePage");
+                }
             }
         }
 

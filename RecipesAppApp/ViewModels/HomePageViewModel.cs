@@ -18,7 +18,7 @@ using System.ComponentModel.Design;
 
 namespace RecipesAppApp.ViewModels
 {
-    [QueryProperty(nameof(IsNotLogged),"IsNotLogged")]
+    [QueryProperty(nameof(IsNotLogged), "IsNotLogged")]
     public class HomePageViewModel : ViewModelBase
     {
         #region attributes and properties
@@ -37,7 +37,7 @@ namespace RecipesAppApp.ViewModels
         private ObservableCollection<TopTenList> topRatedRecipes;
         private ObservableCollection<Recipe> kosherRecipes;
         private ObservableCollection<Recipe> searchedBarList;
-        private ObservableCollection<UserAllergyWithIsChecked> allergiesList = new ObservableCollection<UserAllergyWithIsChecked> ();
+        private ObservableCollection<UserAllergyWithIsChecked> allergiesList = new ObservableCollection<UserAllergyWithIsChecked>();
         private SignUpView signupView;
         private LoginView loginView;
         #region IsVisible properties
@@ -145,7 +145,7 @@ namespace RecipesAppApp.ViewModels
             {
                 this.inSearch = value;
                 OnPropertyChanged();
-                if(InSearch == false)
+                if (InSearch == false)
                 {
                     //SetAllergies();
                 }
@@ -186,7 +186,7 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged();
                 isLoggedSearch = ((App)Application.Current).LoggedInUser != null && !InSearch;
             }
-        }  
+        }
         public ObservableCollection<Recipe> Recipes
         {
             get
@@ -382,7 +382,7 @@ namespace RecipesAppApp.ViewModels
             {
                 loggedUser = value;
                 OnPropertyChanged();
-                
+
             }
         }
         public bool IsYourAllergiesChecked
@@ -416,8 +416,8 @@ namespace RecipesAppApp.ViewModels
             }
             List<Recipe> DesertList = this.Recipes.Where<Recipe>(r => r.Type == "Desert").ToList();
             this.Deserts = new ObservableCollection<Recipe>(DesertList);
-            List<Recipe> JapaneseList =  this.Recipes.Where<Recipe>(r => r.Type == "Japanese").ToList();
-            this.JapaneseRecipes =  new ObservableCollection<Recipe>(JapaneseList);
+            List<Recipe> JapaneseList = this.Recipes.Where<Recipe>(r => r.Type == "Japanese").ToList();
+            this.JapaneseRecipes = new ObservableCollection<Recipe>(JapaneseList);
             List<Recipe> FrenchList = this.Recipes.Where<Recipe>(r => r.Type == "French").ToList();
             this.FrenchRecipes = new ObservableCollection<Recipe>(FrenchList);
             List<Recipe> ItalianList = this.Recipes.Where<Recipe>(r => r.Type == "Italian").ToList();
@@ -433,7 +433,7 @@ namespace RecipesAppApp.ViewModels
             List<TopTenList> l1 = new List<TopTenList>();
             for (int i = 0; i < MostPopular.Count; i++)
             {
-                TopTenList t = new TopTenList(MostPopular[i].Id, MostPopular[i].RecipesName, MostPopular[i].RecipeImage, i+1);
+                TopTenList t = new TopTenList(MostPopular[i].Id, MostPopular[i].RecipesName, MostPopular[i].RecipeImage, i + 1);
                 l1.Add(t);
             }
             this.MostPopularRecipes = new ObservableCollection<TopTenList>(l1);
@@ -451,19 +451,19 @@ namespace RecipesAppApp.ViewModels
             this.SearchedBarList = new ObservableCollection<Recipe>();
             this.InSearch = false;
             this.NotInSearch = true;
-            if(AllergiesList.Count == 0)
+            if (AllergiesList.Count == 0)
             {
                 List<Allergy> allAllergies = await RecipesService.GetAllAllergeis();
                 foreach (Allergy a in allAllergies)
-                {   
-                UserAllergyWithIsChecked u1 = new UserAllergyWithIsChecked(a.Id, a.AllergyName, false);
-                AllergiesList.Add(u1);
+                {
+                    UserAllergyWithIsChecked u1 = new UserAllergyWithIsChecked(a.Id, a.AllergyName, false);
+                    AllergiesList.Add(u1);
                 }
             }
 
         }
         public HomePageViewModel(RecipesAppWebAPIProxy service, SignUpView signUp, LoginView login)
-       {
+        {
             this.signupView = signUp;
             this.RecipesService = service;
             this.loginView = login;
@@ -491,8 +491,8 @@ namespace RecipesAppApp.ViewModels
             await App.Current.MainPage.Navigation.PushAsync(loginView);
 
         }
-        
-        public async void Refresh()
+
+        public override async void Refresh()
         {
             await MakeRecipesList();
         }
@@ -500,7 +500,7 @@ namespace RecipesAppApp.ViewModels
         //on SortCommand change the list and leave only the users that contain the given string
         public void Sort()
         {
-            if(string.IsNullOrEmpty(SearchedName))
+            if (string.IsNullOrEmpty(SearchedName))
             {
                 ClearSort();
             }
@@ -535,16 +535,16 @@ namespace RecipesAppApp.ViewModels
             {
                 IsAllergiesVisble = true;
             }
-            else 
+            else
             {
                 IsAllergiesVisble = false;
             }
-            if(IsAllergiesVisble == false && ((App)Application.Current).LoggedInUser != null)
+            if (IsAllergiesVisble == false && ((App)Application.Current).LoggedInUser != null)
             {
                 LoggedUser = ((App)Application.Current).LoggedInUser;
-                IsYourAllergiesVisble = true ;
+                IsYourAllergiesVisble = true;
             }
-            else if( IsAllergiesVisble == false)
+            else if (IsAllergiesVisble == false)
             {
                 IsYourAllergiesVisble = false;
             }
@@ -553,16 +553,16 @@ namespace RecipesAppApp.ViewModels
         }
         public void CheckAllergy()
         {
-             foreach(UserAllergyWithIsChecked a in AllergiesList)
+            foreach (UserAllergyWithIsChecked a in AllergiesList)
             {
 
-                if(a.IsChecked == true)
+                if (a.IsChecked == true)
                 {
-                    if(a.AllergyName == "Gluten")
+                    if (a.AllergyName == "Gluten")
                     {
                         IsGlutenVisible = false;
                     }
-                    else if(a.AllergyName == "Lactose")
+                    else if (a.AllergyName == "Lactose")
                     {
                         IsLactoseVisible = false;
                     }
@@ -608,7 +608,7 @@ namespace RecipesAppApp.ViewModels
             await MakeRecipesList();
             foreach (UserAllergyWithIsChecked a in AllergiesList)
             {
-                if(a.IsChecked)
+                if (a.IsChecked)
                 {
                     bool IsAllergy;
                     #region Search List
@@ -667,8 +667,8 @@ namespace RecipesAppApp.ViewModels
                     #endregion
                     #region Japanese Recipes
                     List<Recipe> jr = new List<Recipe>();
-                   foreach(Recipe r in JapaneseRecipes)
-                   {
+                    foreach (Recipe r in JapaneseRecipes)
+                    {
                         IsAllergy = false;
                         if (r.Allergies.Count == 0)
                         {
@@ -676,19 +676,19 @@ namespace RecipesAppApp.ViewModels
                         }
                         else
                         {
-                          foreach (Allergy ar in r.Allergies)
-                          { 
-                               if(a.AllergyId == ar.Id)
-                               {
+                            foreach (Allergy ar in r.Allergies)
+                            {
+                                if (a.AllergyId == ar.Id)
+                                {
                                     IsAllergy = true;
-                               }
-                          }
+                                }
+                            }
                         }
                         if (IsAllergy == false)
                         {
                             jr.Add(r);
                         }
-                   }
+                    }
                     JapaneseRecipes = new ObservableCollection<Recipe>(jr);
                     OnPropertyChanged("JapaneseRecipes");
                     #endregion
@@ -856,7 +856,7 @@ namespace RecipesAppApp.ViewModels
                     #endregion
                 }
             }
- 
+
         }
         #endregion
 
@@ -874,12 +874,12 @@ namespace RecipesAppApp.ViewModels
                 if (this.selectedRecipe != value)
                 {
                     this.selectedRecipe = value;
-                    
+
                     if (SelectedRecipe != null)
                         OnSingleSelectRecipe();
                     OnPropertyChanged();
                 }
-                
+
             }
         }
         private TopTenList selectedTopTenRecipe;
@@ -894,23 +894,23 @@ namespace RecipesAppApp.ViewModels
                 if (this.selectedTopTenRecipe != value)
                 {
                     this.selectedTopTenRecipe = value;
-                    
+
                     if (selectedTopTenRecipe != null)
                         OnSingleSelectTopTenRecipe();
                     OnPropertyChanged();
                 }
-                
+
             }
         }
 
         async void OnSingleSelectRecipe()
         {
-                var navParam = new Dictionary<string, object>()
+            var navParam = new Dictionary<string, object>()
                 {
                     { "Recipe",SelectedRecipe }
                 };
-                await Shell.Current.GoToAsync("RecipeDetails", navParam);
-                SelectedRecipe = null;
+            await Shell.Current.GoToAsync("RecipeDetails", navParam);
+            SelectedRecipe = null;
         }
         async void OnSingleSelectTopTenRecipe()
         {
@@ -925,5 +925,6 @@ namespace RecipesAppApp.ViewModels
 
 
         #endregion
+
     }
 }

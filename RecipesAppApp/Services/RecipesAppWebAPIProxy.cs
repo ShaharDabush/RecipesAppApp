@@ -134,7 +134,7 @@ namespace RecipesAppApp.Services
         public async Task<string?> UploadRecipeImage(Recipe recipe)
         {
             //Set URI to the specific function API
-            string url = $"{this.baseUrl}uploadRecipeImage?userId={recipe.MadeBy}&recipeName={recipe.RecipesName}";
+            string url = $"{this.baseUrl}uploadRecipeImage?recipeId={recipe.Id}&recipeName={recipe.RecipesName}";
             try
             {
                 string imagePath = recipe.RecipeImage;
@@ -848,6 +848,39 @@ namespace RecipesAppApp.Services
             {
                 Console.WriteLine(e.Message);
                 return false;
+            }
+        }
+        public async Task<int> EnterNewStorage(string storageCode, int userId)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}enterNewStorage?userId={userId }";
+            try
+            {
+                string json = JsonSerializer.Serialize(storageCode);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+
+                    };
+                    string Responsecontent = await response.Content.ReadAsStringAsync();
+                    int i = JsonSerializer.Deserialize<int>(Responsecontent, options);
+                    if (i == 0)
+                        return 0;
+                    else return i;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return 0;
             }
         }
         public async Task<SaveRecipeInfo?> SaveRecipe(SaveRecipeInfo saveRecipeInfo)
