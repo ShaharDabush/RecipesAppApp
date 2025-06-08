@@ -139,5 +139,11 @@ namespace RecipesAppApp.ViewModels
         {
             await Shell.Current.GoToAsync("EditProfile"); 
         }
+
+        public override void Refresh()
+        {
+            GetsStats();
+            OnPropertyChanged("UsersWithSameStorage");
+        }
     }
 }

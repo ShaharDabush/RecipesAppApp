@@ -180,23 +180,24 @@
             <Label
                 FontAttributes="Bold"
                 IsVisible="{Binding IsLoggedSearch}"
+                Margin="10,0,0,0"
                 Text="Your recipes" />
             <CollectionView
-                IsVisible="{Binding IsLoggedSearch}"
-                ItemsSource="{Binding YourRecipes}"
-                SelectedItem="{Binding SelectedRecipe}"
-                SelectionMode="Single">
+       IsVisible="{Binding IsLoggedSearch}"
+       ItemsSource="{Binding YourRecipes}"
+       SelectedItem="{Binding SelectedRecipe}"
+       SelectionMode="Single">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Recipe">
                         <VerticalStackLayout
-                            Padding="20"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="Center">
+                   Padding="20"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="Center">
                             <Image
-                                Aspect="Fill"
-                                HeightRequest="150"
-                                Source="{Binding RecipeImageURL}"
-                                WidthRequest="100" />
+                       Aspect="Fill"
+                       HeightRequest="150"
+                       Source="{Binding RecipeImageURL}"
+                       WidthRequest="100" />
                             <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
@@ -216,11 +217,11 @@
             </CollectionView>
             <Label
                 FontAttributes="Bold"
-                IsVisible="{Binding NotInSearch}"
+                IsVisible="{Binding IsKosherVisible}"
                 Margin="10,0,0,0"
                 Text="Kosher Recipes" />
             <CollectionView
-                IsVisible="{Binding NotInSearch}"
+                IsVisible="{Binding IsKosherVisible}"
                 ItemsSource="{Binding KosherRecipes}"
                 SelectedItem="{Binding SelectedRecipe}"
                 SelectionMode="Single">

@@ -139,9 +139,10 @@ namespace RecipesAppApp.ViewModels
             this.SearchedRecipes = RecipesForList;
         }
 
-        private async void Refresh()
+        public override void Refresh()
         {
             GetRecipes();
+            OnPropertyChanged("SearchedRecipes");
         }
     }
 }

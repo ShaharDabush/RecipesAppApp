@@ -17,7 +17,6 @@
             <Label Text="Dietary Prefernce" FontSize="25" Margin="40,0,0,10"/>
             <RadioButton Content="None" Margin="40,0,0,0" IsChecked="{Binding None}"/>
             <RadioButton Content="Vegetarian" Margin="40,0,0,0" IsChecked="{Binding Vegetarian}" />
-            <RadioButton  Content="Vegan" Margin="40,0,0,0" IsChecked="{Binding Vegan}" />
             <Label Text="Allergy" FontSize="25" Margin="40,10,0,20"/>
             <CollectionView ItemsSource="{Binding HasAllergy}"  BackgroundColor="Wheat" MinimumHeightRequest="35" MaximumHeightRequest="420" WidthRequest="180" HorizontalOptions="Start" Margin="30,0,0,0">
                 <CollectionView.ItemTemplate>

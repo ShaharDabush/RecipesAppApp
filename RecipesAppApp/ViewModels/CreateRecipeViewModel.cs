@@ -556,6 +556,9 @@ namespace RecipesAppApp.ViewModels
                 }
                 Refresh();
                 ((AppShell)Shell.Current).Refresh(typeof(HomePageViewModel));
+                ((AppShell)Shell.Current).Refresh(typeof(UsersListViewModel));
+                ((AppShell)Shell.Current).Refresh(typeof(RecipesAproveViewModel));
+                ((AppShell)Shell.Current).Refresh(typeof(ProfileViewModel));
                 await Application.Current.MainPage.DisplayAlert("Registration", "Recipe Data Was Saved!", "ok");
                 await AppShell.Current.GoToAsync("///HomePage");
             }

@@ -26,6 +26,7 @@ namespace RecipesAppApp.ViewModels
         private User loggedUser;
         private ObservableCollection<Recipe> recipes;
         private ObservableCollection<Recipe> yourRecipes;
+        private ObservableCollection<Recipe> recipesYouCanMake;
         private ObservableCollection<Recipe> deserts;
         private ObservableCollection<Recipe> japaneseRecipes;
         private ObservableCollection<Recipe> frenchRecipes;
@@ -41,11 +42,7 @@ namespace RecipesAppApp.ViewModels
         private SignUpView signupView;
         private LoginView loginView;
         #region IsVisible properties
-        private bool isGlutenVisible;
-        private bool isLactoseVisible;
         private bool isKosherVisible;
-        private bool isVegetarianVisible;
-        private bool isVeganVisible;
         private bool inSearch;
         private bool notInSearch;
         private bool isAllergiesVisble;
@@ -89,25 +86,6 @@ namespace RecipesAppApp.ViewModels
             }
         }
 
-        public bool IsGlutenVisible
-        {
-            get { return isGlutenVisible; }
-            set
-            {
-                isGlutenVisible = value;
-                OnPropertyChanged("IsGlutenVisible");
-            }
-        }
-
-        public bool IsLactoseVisible
-        {
-            get { return isLactoseVisible; }
-            set
-            {
-                isLactoseVisible = value;
-                OnPropertyChanged("IsLactoseVisible");
-            }
-        }
         public bool IsKosherVisible
         {
             get { return isKosherVisible; }
@@ -115,24 +93,6 @@ namespace RecipesAppApp.ViewModels
             {
                 isKosherVisible = value;
                 OnPropertyChanged("IsKosherVisible");
-            }
-        }
-        public bool IsVegetarianVisible
-        {
-            get { return isVegetarianVisible; }
-            set
-            {
-                isVegetarianVisible = value;
-                OnPropertyChanged("IsVegetarianVisible");
-            }
-        }
-        public bool IsVeganVisible
-        {
-            get { return isVeganVisible; }
-            set
-            {
-                isVeganVisible = value;
-                OnPropertyChanged("IsVeganVisible");
             }
         }
         public bool InSearch
@@ -145,9 +105,13 @@ namespace RecipesAppApp.ViewModels
             {
                 this.inSearch = value;
                 OnPropertyChanged();
-                if (InSearch == false)
+                if (InSearch == true)
                 {
-                    //SetAllergies();
+                    IsKosherVisible = false;
+                }
+                else if (((App)Application.Current).LoggedInUser == null || (((App)Application.Current).LoggedInUser != null && ((App)Application.Current).LoggedInUser.IsKohser == false))
+                {
+                    IsKosherVisible = true;
                 }
             }
         }
@@ -208,6 +172,18 @@ namespace RecipesAppApp.ViewModels
             set
             {
                 this.yourRecipes = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Recipe> RecipesYouCanMake
+        {
+            get
+            {
+                return this.recipesYouCanMake;
+            }
+            set
+            {
+                this.recipesYouCanMake = value;
                 OnPropertyChanged();
             }
         }
@@ -409,6 +385,12 @@ namespace RecipesAppApp.ViewModels
             {
                 List<Recipe> yourlist = this.Recipes.Where<Recipe>(r => r.MadeBy == ((App)Application.Current).LoggedInUser.Id).ToList();
                 this.YourRecipes = new ObservableCollection<Recipe>(yourlist);
+                if(((App)Application.Current).LoggedInUser.StorageId != null)
+                {
+                List<Ingredient> UserIngredient = await RecipesService.GetIngredientsByStorage(((App)Application.Current).LoggedInUser.StorageId.Value);
+                List<Recipe> recipestoucanmakelist = this.Recipes.Where<Recipe>(r => r.MadeBy == ((App)Application.Current).LoggedInUser.Id).ToList();
+                this.RecipesYouCanMake = new ObservableCollection<Recipe>(recipestoucanmakelist);
+                }
             }
             else
             {
@@ -469,8 +451,10 @@ namespace RecipesAppApp.ViewModels
             this.loginView = login;
             this.InSearch = false;
             this.NotInSearch = true;
+            this.IsKosherVisible = true;
             this.IsAllergiesVisble = false;
             this.isYourAllergiesVisble = false;
+            this.IsLoggedSearch = false;
             this.FlipPicker = 0;
             OnPropertyChanged("IsLoggedSearch");
             //LoggedUser = ((App)Application.Current).LoggedInUser;
@@ -478,6 +462,14 @@ namespace RecipesAppApp.ViewModels
             this.LoginCommand = new Command(GoToLogin);
             this.SignUpCommand = new Command(GoToSignUp);
             MakeRecipesList();
+            if(((App)Application.Current).LoggedInUser != null && ((App)Application.Current).LoggedInUser.IsKohser == true)
+            {
+                FilterKosherRecipes();
+            }
+            if (((App)Application.Current).LoggedInUser != null && ((App)Application.Current).LoggedInUser.Vegetarianism == "Vegetarian")
+            {
+                FilterVegetarianRecipes();
+            }
         }
 
 
@@ -494,7 +486,16 @@ namespace RecipesAppApp.ViewModels
 
         public override async void Refresh()
         {
+            this.IsLoggedSearch = false;
             await MakeRecipesList();
+            if(((App)Application.Current).LoggedInUser.Vegetarianism == "Vegetarian")
+            {
+                FilterVegetarianRecipes();
+            }
+            if(((App)Application.Current).LoggedInUser.IsKohser == true)
+            {
+                FilterKosherRecipes();
+            }
         }
 
         //on SortCommand change the list and leave only the users that contain the given string
@@ -527,339 +528,544 @@ namespace RecipesAppApp.ViewModels
             //IsLogged = true;
         }
 
-
+        public async void FilterKosherRecipes()
+        {
+            #region Search List
+            List<Recipe> sbl = new List<Recipe>(Recipes);
+            foreach (Recipe r in Recipes)
+            {
+                if (r.IsKosher == false)
+                {
+                    sbl.Remove(r);
+                }
+            }
+            Recipes = new ObservableCollection<Recipe>(sbl);
+            OnPropertyChanged("Recipes");
+            #endregion
+            #region Deserts
+            List<Recipe> D = new List<Recipe>(Deserts);
+            foreach (Recipe r in Deserts)
+            {
+                if (r.IsKosher == false)
+                {
+                    D.Remove(r);
+                }
+            }
+            Deserts = new ObservableCollection<Recipe>(D);
+            OnPropertyChanged("Deserts");
+            #endregion
+            #region Japanese Recipes
+            List<Recipe> jr = new List<Recipe>(JapaneseRecipes);
+            foreach (Recipe r in JapaneseRecipes)
+            {
+                if (r.IsKosher == false)
+                {
+                    jr.Remove(r);
+                }
+            }
+            JapaneseRecipes = new ObservableCollection<Recipe>(jr);
+            OnPropertyChanged("JapaneseRecipes");
+            #endregion
+            #region French Recipes
+            List<Recipe> fr = new List<Recipe>(FrenchRecipes);
+            foreach (Recipe r in FrenchRecipes)
+            {
+                if (r.IsKosher == false)
+                {
+                    fr.Remove(r);
+                }
+            }
+            FrenchRecipes = new ObservableCollection<Recipe>(fr);
+            OnPropertyChanged("FrenchRecipes");
+            #endregion
+            #region Italian Recipes
+            List<Recipe> ir = new List<Recipe>(ItalianRecipes);
+            foreach (Recipe r in ItalianRecipes)
+            {
+                if (r.IsKosher == false)
+                {
+                    ir.Remove(r);
+                }
+            }
+            ItalianRecipes = new ObservableCollection<Recipe>(ir);
+            OnPropertyChanged("ItalianRecipes");
+            #endregion
+            #region Kosher Recipes
+            List<Recipe> kr = new List<Recipe>(KosherRecipes);
+            foreach (Recipe r in KosherRecipes)
+            {
+                if (r.IsKosher == false)
+                {
+                    kr.Remove(r);
+                }
+            }
+            KosherRecipes = new ObservableCollection<Recipe>(kr);
+            OnPropertyChanged("KosherRecipes");
+            #endregion
+            #region Breakfast Recipes
+            List<Recipe> br = new List<Recipe>(BreakfastRecipes);
+            foreach (Recipe r in BreakfastRecipes)
+            {
+                if (r.IsKosher == false)
+                {
+                    br.Remove(r);
+                }
+            }
+            BreakfastRecipes = new ObservableCollection<Recipe>(br);
+            OnPropertyChanged("BreakfastRecipes");
+            #endregion
+            #region Lunch Recipes
+            List<Recipe> lr = new List<Recipe>(LunchRecipes);
+            foreach (Recipe r in LunchRecipes)
+            {
+                if (r.IsKosher == false)
+                {
+                    lr.Remove(r);
+                }
+            }
+            LunchRecipes = new ObservableCollection<Recipe>(lr);
+            OnPropertyChanged("LunchRecipes");
+            #endregion
+            #region Dinner Recipes
+            List<Recipe> dr = new List<Recipe>(DinnerRecipes);
+            foreach (Recipe r in DinnerRecipes)
+            {
+                if (r.IsKosher == false)
+                {
+                    dr.Remove(r);
+                }
+            }
+            DinnerRecipes = new ObservableCollection<Recipe>(dr);
+            OnPropertyChanged("DinnerRecipes");
+            #endregion
+            IsKosherVisible = false;
+        }
+        public async void FilterVegetarianRecipes()
+        {
+            #region Search List
+            List<Recipe> sbl = new List<Recipe>(Recipes);
+            foreach (Recipe r in Recipes)
+            {
+                if (r.ContainsMeat == true)
+                {
+                    sbl.Remove(r);
+                }
+            }
+            Recipes = new ObservableCollection<Recipe>(sbl);
+            OnPropertyChanged("Recipes");
+            #endregion
+            #region Deserts
+            List<Recipe> D = new List<Recipe>(Deserts);
+            foreach (Recipe r in Deserts)
+            {
+                if (r.ContainsMeat == true)
+                {
+                    D.Remove(r);
+                }
+            }
+            Deserts = new ObservableCollection<Recipe>(D);
+            OnPropertyChanged("Deserts");
+            #endregion
+            #region Japanese Recipes
+            List<Recipe> jr = new List<Recipe>(JapaneseRecipes);
+            foreach (Recipe r in JapaneseRecipes)
+            {
+                if (r.ContainsMeat == true)
+                {
+                    jr.Remove(r);
+                }
+            }
+            JapaneseRecipes = new ObservableCollection<Recipe>(jr);
+            OnPropertyChanged("JapaneseRecipes");
+            #endregion
+            #region French Recipes
+            List<Recipe> fr = new List<Recipe>(FrenchRecipes);
+            foreach (Recipe r in FrenchRecipes)
+            {
+                if (r.ContainsMeat == true)
+                {
+                    fr.Remove(r);
+                }
+            }
+            FrenchRecipes = new ObservableCollection<Recipe>(fr);
+            OnPropertyChanged("FrenchRecipes");
+            #endregion
+            #region Italian Recipes
+            List<Recipe> ir = new List<Recipe>(ItalianRecipes);
+            foreach (Recipe r in ItalianRecipes)
+            {
+                if (r.ContainsMeat == true)
+                {
+                    ir.Remove(r);
+                }
+            }
+            ItalianRecipes = new ObservableCollection<Recipe>(ir);
+            OnPropertyChanged("ItalianRecipes");
+            #endregion
+            #region Kosher Recipes
+            List<Recipe> kr = new List<Recipe>(KosherRecipes);
+            foreach (Recipe r in KosherRecipes)
+            {
+                if (r.ContainsMeat == false)
+                {
+                    kr.Remove(r);
+                }
+            }
+            Recipes = new ObservableCollection<Recipe>(kr);
+            OnPropertyChanged("KosherRecipes");
+            #endregion
+            #region Breakfast Recipes
+            List<Recipe> br = new List<Recipe>(BreakfastRecipes);
+            foreach (Recipe r in BreakfastRecipes)
+            {
+                if (r.ContainsMeat == true)
+                {
+                    br.Remove(r);
+                }
+            }
+            BreakfastRecipes = new ObservableCollection<Recipe>(br);
+            OnPropertyChanged("BreakfastRecipes");
+            #endregion
+            #region Lunch Recipes
+            List<Recipe> lr = new List<Recipe>(LunchRecipes);
+            foreach (Recipe r in LunchRecipes)
+            {
+                if (r.ContainsMeat == true)
+                {
+                    lr.Remove(r);
+                }
+            }
+            LunchRecipes = new ObservableCollection<Recipe>(lr);
+            OnPropertyChanged("LunchRecipes");
+            #endregion
+            #region Dinner Recipes
+            List<Recipe> dr = new List<Recipe>(DinnerRecipes);
+            foreach (Recipe r in DinnerRecipes)
+            {
+                if (r.ContainsMeat == true)
+                {
+                    dr.Remove(r);
+                }
+            }
+            DinnerRecipes = new ObservableCollection<Recipe>(dr);
+            OnPropertyChanged("DinnerRecipes");
+            #endregion
+        }
         #region Allergy
         public void ShowAllergies()
-        {
-            if (IsAllergiesVisble == false)
             {
-                IsAllergiesVisble = true;
-            }
-            else
-            {
-                IsAllergiesVisble = false;
-            }
-            if (IsAllergiesVisble == false && ((App)Application.Current).LoggedInUser != null)
-            {
-                LoggedUser = ((App)Application.Current).LoggedInUser;
-                IsYourAllergiesVisble = true;
-            }
-            else if (IsAllergiesVisble == false)
-            {
-                IsYourAllergiesVisble = false;
-            }
-            FlipPicker += 180;
-            FlipPicker = FlipPicker % 360;
-        }
-        public void CheckAllergy()
-        {
-            foreach (UserAllergyWithIsChecked a in AllergiesList)
-            {
-
-                if (a.IsChecked == true)
+                if (IsAllergiesVisble == false)
                 {
-                    if (a.AllergyName == "Gluten")
-                    {
-                        IsGlutenVisible = false;
-                    }
-                    else if (a.AllergyName == "Lactose")
-                    {
-                        IsLactoseVisible = false;
-                    }
+                    IsAllergiesVisble = true;
                 }
-            }
-        }
-
-        public async void AddYourAllergies()
-        {
-            List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
-            List<UserAllergyWithIsChecked> aL = new(AllergiesList);
-            foreach (UserAllergyWithIsChecked a in aL)
-            {
-                foreach (Allergy au in UsersAllergy)
+                else
                 {
-                    if (a.AllergyId == au.Id)
-                    {
-                        a.IsChecked = true;
-                    }
+                    IsAllergiesVisble = false;
                 }
-            }
-            AllergiesList = new(aL);
-            FilterRecipes();
-        }
-        public async void RemoveYourAllergies()
-        {
-            List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
-            List<UserAllergyWithIsChecked> aL = new(AllergiesList);
-            foreach (UserAllergyWithIsChecked a in aL)
-            {
-                foreach (Allergy au in UsersAllergy)
+                if (IsAllergiesVisble == false && ((App)Application.Current).LoggedInUser != null)
                 {
-                    if (a.AllergyId == au.Id)
-                    {
-                        a.IsChecked = false;
-                    }
+                    LoggedUser = ((App)Application.Current).LoggedInUser;
+                    IsYourAllergiesVisble = true;
                 }
-            }
-            AllergiesList = new(aL);
-        }
-        public async void FilterRecipes()
-        {
-            await MakeRecipesList();
-            foreach (UserAllergyWithIsChecked a in AllergiesList)
-            {
-                if (a.IsChecked)
+                else if (IsAllergiesVisble == false)
                 {
-                    bool IsAllergy;
-                    #region Search List
-                    List<Recipe> sbl = new List<Recipe>();
-                    foreach (Recipe r in Recipes)
-                    {
-                        IsAllergy = false;
-                        if (r.Allergies.Count == 0)
-                        {
-                            sbl.Add(r);
-                        }
-                        else
-                        {
-                            foreach (Allergy ar in r.Allergies)
-                            {
-                                if (a.AllergyId == ar.Id)
-                                {
-                                    IsAllergy = true;
-                                }
-                            }
-                        }
-                        if (IsAllergy == false)
-                        {
-                            sbl.Add(r);
-                        }
-                    }
-                    Recipes = new ObservableCollection<Recipe>(sbl);
-                    OnPropertyChanged("Recipes");
-                    #endregion
-                    #region Deserts
-                    List<Recipe> D = new List<Recipe>();
-                    foreach (Recipe r in Deserts)
-                    {
-                        IsAllergy = false;
-                        if (r.Allergies.Count == 0)
-                        {
-                            D.Add(r);
-                        }
-                        else
-                        {
-                            foreach (Allergy ar in r.Allergies)
-                            {
-                                if (a.AllergyId == ar.Id)
-                                {
-                                    IsAllergy = true;
-                                }
-                            }
-                        }
-                        if (IsAllergy == false)
-                        {
-                            D.Add(r);
-                        }
-                    }
-                    Deserts = new ObservableCollection<Recipe>(D);
-                    OnPropertyChanged("Deserts");
-                    #endregion
-                    #region Japanese Recipes
-                    List<Recipe> jr = new List<Recipe>();
-                    foreach (Recipe r in JapaneseRecipes)
-                    {
-                        IsAllergy = false;
-                        if (r.Allergies.Count == 0)
-                        {
-                            jr.Add(r);
-                        }
-                        else
-                        {
-                            foreach (Allergy ar in r.Allergies)
-                            {
-                                if (a.AllergyId == ar.Id)
-                                {
-                                    IsAllergy = true;
-                                }
-                            }
-                        }
-                        if (IsAllergy == false)
-                        {
-                            jr.Add(r);
-                        }
-                    }
-                    JapaneseRecipes = new ObservableCollection<Recipe>(jr);
-                    OnPropertyChanged("JapaneseRecipes");
-                    #endregion
-                    #region French Recipes
-                    List<Recipe> fr = new List<Recipe>();
-                    foreach (Recipe r in FrenchRecipes)
-                    {
-                        IsAllergy = false;
-                        if (r.Allergies.Count == 0)
-                        {
-                            fr.Add(r);
-                        }
-                        else
-                        {
-                            foreach (Allergy ar in r.Allergies)
-                            {
-                                if (a.AllergyId == ar.Id)
-                                {
-                                    IsAllergy = true;
-                                }
-                            }
-                        }
-                        if (IsAllergy == false)
-                        {
-                            fr.Add(r);
-                        }
-                    }
-                    FrenchRecipes = new ObservableCollection<Recipe>(fr);
-                    OnPropertyChanged("FrenchRecipes");
-                    #endregion
-                    #region Italian Recipes
-                    List<Recipe> ir = new List<Recipe>();
-                    foreach (Recipe r in ItalianRecipes)
-                    {
-                        IsAllergy = false;
-                        if (r.Allergies.Count == 0)
-                        {
-                            ir.Add(r);
-                        }
-                        else
-                        {
-                            foreach (Allergy ar in r.Allergies)
-                            {
-                                if (a.AllergyId == ar.Id)
-                                {
-                                    IsAllergy = true;
-                                }
-                            }
-                        }
-                        if (IsAllergy == false)
-                        {
-                            ir.Add(r);
-                        }
-                    }
-                    ItalianRecipes = new ObservableCollection<Recipe>(ir);
-                    OnPropertyChanged("ItalianRecipes");
-                    #endregion
-                    #region Kosher Recipes
-                    List<Recipe> kr = new List<Recipe>();
-                    foreach (Recipe r in KosherRecipes)
-                    {
-                        IsAllergy = false;
-                        if (r.Allergies.Count == 0)
-                        {
-                            kr.Add(r);
-                        }
-                        else
-                        {
-                            foreach (Allergy ar in r.Allergies)
-                            {
-                                if (a.AllergyId == ar.Id)
-                                {
-                                    IsAllergy = true;
-                                }
-                            }
-                        }
-                        if (IsAllergy == false)
-                        {
-                            kr.Add(r);
-                        }
-                    }
-                    KosherRecipes = new ObservableCollection<Recipe>(kr);
-                    OnPropertyChanged("KosherRecipes");
-                    #endregion
-                    #region Breakfast Recipes
-                    List<Recipe> br = new List<Recipe>();
-                    foreach (Recipe r in BreakfastRecipes)
-                    {
-                        IsAllergy = false;
-                        if (r.Allergies.Count == 0)
-                        {
-                            br.Add(r);
-                        }
-                        else
-                        {
-                            foreach (Allergy ar in r.Allergies)
-                            {
-                                if (a.AllergyId == ar.Id)
-                                {
-                                    IsAllergy = true;
-                                }
-                            }
-                        }
-                        if (IsAllergy == false)
-                        {
-                            br.Add(r);
-                        }
-                    }
-                    BreakfastRecipes = new ObservableCollection<Recipe>(br);
-                    OnPropertyChanged("BreakfastRecipes");
-                    #endregion
-                    #region Lunch Recipes
-                    List<Recipe> lr = new List<Recipe>();
-                    foreach (Recipe r in LunchRecipes)
-                    {
-                        IsAllergy = false;
-                        if (r.Allergies.Count == 0)
-                        {
-                            lr.Add(r);
-                        }
-                        else
-                        {
-                            foreach (Allergy ar in r.Allergies)
-                            {
-                                if (a.AllergyId == ar.Id)
-                                {
-                                    IsAllergy = true;
-                                }
-                            }
-                        }
-                        if (IsAllergy == false)
-                        {
-                            lr.Add(r);
-                        }
-                    }
-                    LunchRecipes = new ObservableCollection<Recipe>(lr);
-                    OnPropertyChanged("LunchRecipes");
-                    #endregion
-                    #region Dinner Recipes
-                    List<Recipe> dr = new List<Recipe>();
-                    foreach (Recipe r in DinnerRecipes)
-                    {
-                        IsAllergy = false;
-                        if (r.Allergies.Count == 0)
-                        {
-                            dr.Add(r);
-                        }
-                        else
-                        {
-                            foreach (Allergy ar in r.Allergies)
-                            {
-                                if (a.AllergyId == ar.Id)
-                                {
-                                    IsAllergy = true;
-                                }
-                            }
-                        }
-                        if (IsAllergy == false)
-                        {
-                            dr.Add(r);
-                        }
-                    }
-                    DinnerRecipes = new ObservableCollection<Recipe>(dr);
-                    OnPropertyChanged("DinnerRecipes");
-                    #endregion
+                    IsYourAllergiesVisble = false;
                 }
+                FlipPicker += 180;
+                FlipPicker = FlipPicker % 360;
             }
 
-        }
-        #endregion
+            public async void AddYourAllergies()
+            {
+                List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
+                List<UserAllergyWithIsChecked> aL = new(AllergiesList);
+                foreach (UserAllergyWithIsChecked a in aL)
+                {
+                    foreach (Allergy au in UsersAllergy)
+                    {
+                        if (a.AllergyId == au.Id)
+                        {
+                            a.IsChecked = true;
+                        }
+                    }
+                }
+                AllergiesList = new(aL);
+                FilterRecipes();
+            }
+            public async void RemoveYourAllergies()
+            {
+                List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
+                List<UserAllergyWithIsChecked> aL = new(AllergiesList);
+                foreach (UserAllergyWithIsChecked a in aL)
+                {
+                    foreach (Allergy au in UsersAllergy)
+                    {
+                        if (a.AllergyId == au.Id)
+                        {
+                            a.IsChecked = false;
+                        }
+                    }
+                }
+                AllergiesList = new(aL);
+            }
+            public async void FilterRecipes()
+            {
+                await MakeRecipesList();
+                foreach (UserAllergyWithIsChecked a in AllergiesList)
+                {
+                    if (a.IsChecked)
+                    {
+                        bool IsAllergy;
+                        #region Search List
+                        List<Recipe> sbl = new List<Recipe>();
+                        foreach (Recipe r in Recipes)
+                        {
+                            IsAllergy = false;
+                            if (r.Allergies.Count == 0)
+                            {
+                                sbl.Add(r);
+                            }
+                            else
+                            {
+                                foreach (Allergy ar in r.Allergies)
+                                {
+                                    if (a.AllergyId == ar.Id)
+                                    {
+                                        IsAllergy = true;
+                                    }
+                                }
+                            }
+                            if (IsAllergy == false)
+                            {
+                                sbl.Add(r);
+                            }
+                        }
+                        Recipes = new ObservableCollection<Recipe>(sbl);
+                        OnPropertyChanged("Recipes");
+                        #endregion
+                        #region Deserts
+                        List<Recipe> D = new List<Recipe>();
+                        foreach (Recipe r in Deserts)
+                        {
+                            IsAllergy = false;
+                            if (r.Allergies.Count == 0)
+                            {
+                                D.Add(r);
+                            }
+                            else
+                            {
+                                foreach (Allergy ar in r.Allergies)
+                                {
+                                    if (a.AllergyId == ar.Id)
+                                    {
+                                        IsAllergy = true;
+                                    }
+                                }
+                            }
+                            if (IsAllergy == false)
+                            {
+                                D.Add(r);
+                            }
+                        }
+                        Deserts = new ObservableCollection<Recipe>(D);
+                        OnPropertyChanged("Deserts");
+                        #endregion
+                        #region Japanese Recipes
+                        List<Recipe> jr = new List<Recipe>();
+                        foreach (Recipe r in JapaneseRecipes)
+                        {
+                            IsAllergy = false;
+                            if (r.Allergies.Count == 0)
+                            {
+                                jr.Add(r);
+                            }
+                            else
+                            {
+                                foreach (Allergy ar in r.Allergies)
+                                {
+                                    if (a.AllergyId == ar.Id)
+                                    {
+                                        IsAllergy = true;
+                                    }
+                                }
+                            }
+                            if (IsAllergy == false)
+                            {
+                                jr.Add(r);
+                            }
+                        }
+                        JapaneseRecipes = new ObservableCollection<Recipe>(jr);
+                        OnPropertyChanged("JapaneseRecipes");
+                        #endregion
+                        #region French Recipes
+                        List<Recipe> fr = new List<Recipe>();
+                        foreach (Recipe r in FrenchRecipes)
+                        {
+                            IsAllergy = false;
+                            if (r.Allergies.Count == 0)
+                            {
+                                fr.Add(r);
+                            }
+                            else
+                            {
+                                foreach (Allergy ar in r.Allergies)
+                                {
+                                    if (a.AllergyId == ar.Id)
+                                    {
+                                        IsAllergy = true;
+                                    }
+                                }
+                            }
+                            if (IsAllergy == false)
+                            {
+                                fr.Add(r);
+                            }
+                        }
+                        FrenchRecipes = new ObservableCollection<Recipe>(fr);
+                        OnPropertyChanged("FrenchRecipes");
+                        #endregion
+                        #region Italian Recipes
+                        List<Recipe> ir = new List<Recipe>();
+                        foreach (Recipe r in ItalianRecipes)
+                        {
+                            IsAllergy = false;
+                            if (r.Allergies.Count == 0)
+                            {
+                                ir.Add(r);
+                            }
+                            else
+                            {
+                                foreach (Allergy ar in r.Allergies)
+                                {
+                                    if (a.AllergyId == ar.Id)
+                                    {
+                                        IsAllergy = true;
+                                    }
+                                }
+                            }
+                            if (IsAllergy == false)
+                            {
+                                ir.Add(r);
+                            }
+                        }
+                        ItalianRecipes = new ObservableCollection<Recipe>(ir);
+                        OnPropertyChanged("ItalianRecipes");
+                        #endregion
+                        #region Kosher Recipes
+                        List<Recipe> kr = new List<Recipe>();
+                        foreach (Recipe r in KosherRecipes)
+                        {
+                            IsAllergy = false;
+                            if (r.Allergies.Count == 0)
+                            {
+                                kr.Add(r);
+                            }
+                            else
+                            {
+                                foreach (Allergy ar in r.Allergies)
+                                {
+                                    if (a.AllergyId == ar.Id)
+                                    {
+                                        IsAllergy = true;
+                                    }
+                                }
+                            }
+                            if (IsAllergy == false)
+                            {
+                                kr.Add(r);
+                            }
+                        }
+                        KosherRecipes = new ObservableCollection<Recipe>(kr);
+                        OnPropertyChanged("KosherRecipes");
+                        #endregion
+                        #region Breakfast Recipes
+                        List<Recipe> br = new List<Recipe>();
+                        foreach (Recipe r in BreakfastRecipes)
+                        {
+                            IsAllergy = false;
+                            if (r.Allergies.Count == 0)
+                            {
+                                br.Add(r);
+                            }
+                            else
+                            {
+                                foreach (Allergy ar in r.Allergies)
+                                {
+                                    if (a.AllergyId == ar.Id)
+                                    {
+                                        IsAllergy = true;
+                                    }
+                                }
+                            }
+                            if (IsAllergy == false)
+                            {
+                                br.Add(r);
+                            }
+                        }
+                        BreakfastRecipes = new ObservableCollection<Recipe>(br);
+                        OnPropertyChanged("BreakfastRecipes");
+                        #endregion
+                        #region Lunch Recipes
+                        List<Recipe> lr = new List<Recipe>();
+                        foreach (Recipe r in LunchRecipes)
+                        {
+                            IsAllergy = false;
+                            if (r.Allergies.Count == 0)
+                            {
+                                lr.Add(r);
+                            }
+                            else
+                            {
+                                foreach (Allergy ar in r.Allergies)
+                                {
+                                    if (a.AllergyId == ar.Id)
+                                    {
+                                        IsAllergy = true;
+                                    }
+                                }
+                            }
+                            if (IsAllergy == false)
+                            {
+                                lr.Add(r);
+                            }
+                        }
+                        LunchRecipes = new ObservableCollection<Recipe>(lr);
+                        OnPropertyChanged("LunchRecipes");
+                        #endregion
+                        #region Dinner Recipes
+                        List<Recipe> dr = new List<Recipe>();
+                        foreach (Recipe r in DinnerRecipes)
+                        {
+                            IsAllergy = false;
+                            if (r.Allergies.Count == 0)
+                            {
+                                dr.Add(r);
+                            }
+                            else
+                            {
+                                foreach (Allergy ar in r.Allergies)
+                                {
+                                    if (a.AllergyId == ar.Id)
+                                    {
+                                        IsAllergy = true;
+                                    }
+                                }
+                            }
+                            if (IsAllergy == false)
+                            {
+                                dr.Add(r);
+                            }
+                        }
+                        DinnerRecipes = new ObservableCollection<Recipe>(dr);
+                        OnPropertyChanged("DinnerRecipes");
+                        #endregion
+                    }
+                }
 
+            }
+
+            #endregion
+        
         #region Single Selection
 
         private Recipe selectedRecipe;

@@ -8,6 +8,7 @@ using RecipesAppApp.Models;
 using RecipesAppApp.Services;
 using System.Windows.Input;
 using RecipesAppApp.Classes;
+using Android.App;
 
 namespace RecipesAppApp.ViewModels
 {
@@ -127,9 +128,10 @@ namespace RecipesAppApp.ViewModels
             this.AllUsers = UserList;
         }
 
-        private async void Refresh()
+        public override void Refresh()
         {
             GetUsers();
+            OnPropertyChanged("AllUsers");
         }
     }
 }

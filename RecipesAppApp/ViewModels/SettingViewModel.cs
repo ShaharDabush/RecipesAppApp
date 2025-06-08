@@ -20,7 +20,6 @@ namespace RecipesAppApp.ViewModels
         public Command SaveCommand { get; }
         private bool none;
         private bool vegetarian;
-        private bool vegan;
         private ObservableCollection<Allergy> allergies;
         private bool? isKosher;
         private string vegetarianism;
@@ -101,15 +100,6 @@ namespace RecipesAppApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public bool Vegan
-        {
-            get { return vegan; }
-            set
-            {
-                this.vegan = value;
-                OnPropertyChanged();
-            }
-        }
         public string Vegetarianism
         {
             get { return vegetarianism; }
@@ -139,17 +129,13 @@ namespace RecipesAppApp.ViewModels
         public async void SaveAllergy()
         {
             LoggedUser.IsKohser = IsKosher;
-            if (None == true)
-            {
-                LoggedUser.Vegetarianism = "None";
-            }
-            else if (Vegetarian == true)
+            if (Vegetarian == true)
             {
                 LoggedUser.Vegetarianism = "Vegetarian";
             }
-            else if (Vegan == true)
+            else
             {
-                LoggedUser.Vegetarianism = "Vegan";
+                LoggedUser.Vegetarianism = "None";
             }
             List<Allergy> SaveAllergy = new List<Allergy>();
             foreach(UserAllergyWithIsChecked a in HasAllergy)
@@ -169,6 +155,7 @@ namespace RecipesAppApp.ViewModels
             else
             {
                 await Application.Current.MainPage.DisplayAlert("Allergies", "Update succeeded!", "ok");
+                ((AppShell)Shell.Current).Refresh(typeof(HomePageViewModel));
             }
 
         }
@@ -177,7 +164,6 @@ namespace RecipesAppApp.ViewModels
         {
             None = false;
             Vegetarian = false;
-            Vegan = false;
             if (Vegetarianism == "None")
             {
                 None = true;
@@ -185,10 +171,6 @@ namespace RecipesAppApp.ViewModels
             else if (Vegetarianism == "Vegetarian")
             {
                 Vegetarian = true;
-            }
-            else if (Vegetarianism == "Vegan")
-            {
-                Vegan = true;
             }
             List<Allergy> UsersAllergy = await RecipesService.GetAllergiesByUser(LoggedUser.Id);
             foreach(Allergy a in Allergies)

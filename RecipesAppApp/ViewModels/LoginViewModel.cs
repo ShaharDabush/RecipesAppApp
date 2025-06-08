@@ -121,6 +121,7 @@ namespace RecipesAppApp.ViewModels
                 ShellViewModel vm = (ShellViewModel)(Shell.Current.BindingContext);
                 vm.LogText = "Logout";
                 vm.Refresh();
+                ((AppShell)Shell.Current).Refresh(typeof(HomePageViewModel));
 
             }
         }
