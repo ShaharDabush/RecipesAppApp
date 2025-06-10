@@ -10,6 +10,8 @@
 
         public int Manager { get; set; }
 
+        public List<Ingredient> Ingredients { get; set; }
+
         public Storage() { } 
     }
 }

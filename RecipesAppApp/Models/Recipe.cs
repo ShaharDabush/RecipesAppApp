@@ -32,6 +32,8 @@ namespace RecipesAppApp.Models
 
         public List<Allergy> Allergies { get; set; }
 
+        public List<IngredientRecipe> IngredientRecipes { get; set; }
+
         public string RecipeImageURL
         {
             get
@@ -55,6 +57,7 @@ namespace RecipesAppApp.Models
             ContainsDairy = r.ContainsDairy;
             TimeOfDay = r.TimeOfDay;
             Allergies = r.Allergies;
+            IngredientRecipes = r.IngredientRecipes;
         }
         public Recipe() { }
     }

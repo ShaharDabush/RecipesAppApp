@@ -385,9 +385,42 @@ namespace RecipesAppApp.ViewModels
             {
                 List<Recipe> yourlist = this.Recipes.Where<Recipe>(r => r.MadeBy == ((App)Application.Current).LoggedInUser.Id).ToList();
                 this.YourRecipes = new ObservableCollection<Recipe>(yourlist);
-                if(((App)Application.Current).LoggedInUser.StorageId != null)
+                List<Recipe> recipes = new List<Recipe>();
+                if (((App)Application.Current).LoggedInUser.StorageId != null)
                 {
-                    List<Recipe> recipes = this.Recipes.Where<Recipe>(r => r.RecipesName == "steak").ToList();
+                    Storage US = await RecipesService.GetStoragesbyUser(((App)Application.Current).LoggedInUser.Id);
+                    bool IsExist = true;
+                    int count = 0;
+                    foreach (Recipe r in Recipes)
+                    {
+                        foreach (IngredientRecipe ir in r.IngredientRecipes) 
+                        {
+                            if (IsExist)
+                            {
+                                foreach (Ingredient i in US.Ingredients)
+                                {
+                                    if (i.Id == ir.IngredientId)
+                                    {
+                                        IsExist = true;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        IsExist = false;
+                                    }
+
+                                }
+                            }
+                            else
+                                break;                            
+                        }
+                        if(IsExist)
+                        {
+                            recipes.Add(r);
+                        }
+                        IsExist = true;
+                    }
+                    
                     this.RecipesYouCanMake = new ObservableCollection<Recipe>(recipes);
                 }
             }
