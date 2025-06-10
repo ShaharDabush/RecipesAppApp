@@ -387,9 +387,8 @@ namespace RecipesAppApp.ViewModels
                 this.YourRecipes = new ObservableCollection<Recipe>(yourlist);
                 if(((App)Application.Current).LoggedInUser.StorageId != null)
                 {
-                List<Ingredient> UserIngredient = await RecipesService.GetIngredientsByStorage(((App)Application.Current).LoggedInUser.StorageId.Value);
-                List<Recipe> recipestoucanmakelist = this.Recipes.Where<Recipe>(r => r.MadeBy == ((App)Application.Current).LoggedInUser.Id).ToList();
-                this.RecipesYouCanMake = new ObservableCollection<Recipe>(recipestoucanmakelist);
+                    List<Recipe> recipes = this.Recipes.Where<Recipe>(r => r.RecipesName == "steak").ToList();
+                    this.RecipesYouCanMake = new ObservableCollection<Recipe>(recipes);
                 }
             }
             else
@@ -835,7 +834,7 @@ namespace RecipesAppApp.ViewModels
                                     }
                                 }
                             }
-                            if (IsAllergy == false)
+                            if (IsAllergy == false && r.Allergies.Count != 0)
                             {
                                 sbl.Add(r);
                             }
@@ -862,7 +861,7 @@ namespace RecipesAppApp.ViewModels
                                     }
                                 }
                             }
-                            if (IsAllergy == false)
+                            if (IsAllergy == false && r.Allergies.Count != 0)
                             {
                                 D.Add(r);
                             }
@@ -889,7 +888,7 @@ namespace RecipesAppApp.ViewModels
                                     }
                                 }
                             }
-                            if (IsAllergy == false)
+                            if (IsAllergy == false && r.Allergies.Count != 0)
                             {
                                 jr.Add(r);
                             }
@@ -916,7 +915,7 @@ namespace RecipesAppApp.ViewModels
                                     }
                                 }
                             }
-                            if (IsAllergy == false)
+                            if (IsAllergy == false && r.Allergies.Count != 0)
                             {
                                 fr.Add(r);
                             }
@@ -943,7 +942,7 @@ namespace RecipesAppApp.ViewModels
                                     }
                                 }
                             }
-                            if (IsAllergy == false)
+                            if (IsAllergy == false && r.Allergies.Count != 0)
                             {
                                 ir.Add(r);
                             }
@@ -970,7 +969,7 @@ namespace RecipesAppApp.ViewModels
                                     }
                                 }
                             }
-                            if (IsAllergy == false)
+                            if (IsAllergy == false && r.Allergies.Count != 0)
                             {
                                 kr.Add(r);
                             }
@@ -997,7 +996,7 @@ namespace RecipesAppApp.ViewModels
                                     }
                                 }
                             }
-                            if (IsAllergy == false)
+                            if (IsAllergy == false && r.Allergies.Count != 0)
                             {
                                 br.Add(r);
                             }
@@ -1024,7 +1023,7 @@ namespace RecipesAppApp.ViewModels
                                     }
                                 }
                             }
-                            if (IsAllergy == false)
+                            if (IsAllergy == false && r.Allergies.Count != 0)
                             {
                                 lr.Add(r);
                             }
@@ -1051,7 +1050,7 @@ namespace RecipesAppApp.ViewModels
                                     }
                                 }
                             }
-                            if (IsAllergy == false)
+                            if (IsAllergy == false && r.Allergies.Count != 0)
                             {
                                 dr.Add(r);
                             }

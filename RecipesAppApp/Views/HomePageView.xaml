@@ -216,6 +216,44 @@
                 </CollectionView.ItemsLayout>
             </CollectionView>
             <Label
+         FontAttributes="Bold"
+         IsVisible="{Binding IsLoggedSearch}"
+         Margin="10,0,0,0"
+         Text="Recipes that can make now" />
+            <CollectionView
+IsVisible="{Binding IsLoggedSearch}"
+ItemsSource="{Binding RecipesYouCanMake}"
+SelectedItem="{Binding SelectedRecipe}"
+SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Recipe">
+                        <VerticalStackLayout
+            Padding="20"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="Center">
+                            <Image
+                Aspect="Fill"
+                HeightRequest="150"
+                Source="{Binding RecipeImageURL}"
+                WidthRequest="100" />
+                            <Label Text="{Binding RecipesName}" WidthRequest="100" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Wheat" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+            <Label
                 FontAttributes="Bold"
                 IsVisible="{Binding IsKosherVisible}"
                 Margin="10,0,0,0"
