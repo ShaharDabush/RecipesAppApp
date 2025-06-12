@@ -144,5 +144,6 @@ namespace RecipesAppApp.ViewModels
             GetRecipes();
             OnPropertyChanged("SearchedRecipes");
         }
+
     }
 }

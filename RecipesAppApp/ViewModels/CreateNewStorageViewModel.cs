@@ -46,7 +46,8 @@ namespace RecipesAppApp.ViewModels
         public async void SaveStorage()
         {
             // Create a new storage object
-            if(StorageName == null && NewStorageCode == null)
+            
+            if(StorageNewName == null && NewStorageCode == null)
             {
                 await AppShell.Current.DisplayAlert("Error", "both entries cannot be empty", "OK");
                 return;

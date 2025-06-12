@@ -249,7 +249,7 @@ namespace RecipesAppApp.ViewModels
                 PopupSize = new Size(340, 600);
                 IsNewingredientVisible = true;
                 IngredientBarcode = new Ingredient();
-                NewIngredientName = "New Ingredient";
+                NewIngredientName = "";
                 IngredientBarcode.IngredientImage = PhotoURL;
                 IngredientBarcode.Barcode = IngredientCode;
 

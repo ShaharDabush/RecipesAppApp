@@ -41,7 +41,7 @@
                     Grid.Column="2"
                     Margin="0,13,0,0"
                     Text="Allergies"
-                    WidthRequest="55">
+                    WidthRequest="65">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ShowAllergiesCommand}" />
                     </Label.GestureRecognizers>
@@ -134,9 +134,9 @@
                 </CollectionView>
             </Grid>
             <Label
+                Margin="10,0,0,0"
                 FontAttributes="Bold"
                 IsVisible="{Binding InSearch}"
-                Margin="10,0,0,0"
                 Text="Search results" />
             <CollectionView
                 x:Name="searchCollectionView"
@@ -178,26 +178,26 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
             <Label
+                Margin="10,0,0,0"
                 FontAttributes="Bold"
                 IsVisible="{Binding IsLoggedSearch}"
-                Margin="10,0,0,0"
                 Text="Your recipes" />
             <CollectionView
-       IsVisible="{Binding IsLoggedSearch}"
-       ItemsSource="{Binding YourRecipes}"
-       SelectedItem="{Binding SelectedRecipe}"
-       SelectionMode="Single">
+                IsVisible="{Binding IsLoggedSearch}"
+                ItemsSource="{Binding YourRecipes}"
+                SelectedItem="{Binding SelectedRecipe}"
+                SelectionMode="Single">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Recipe">
                         <VerticalStackLayout
-                   Padding="20"
-                   HorizontalOptions="FillAndExpand"
-                   VerticalOptions="Center">
+                            Padding="20"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center">
                             <Image
-                       Aspect="Fill"
-                       HeightRequest="150"
-                       Source="{Binding RecipeImageURL}"
-                       WidthRequest="100" />
+                                Aspect="Fill"
+                                HeightRequest="150"
+                                Source="{Binding RecipeImageURL}"
+                                WidthRequest="100" />
                             <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
@@ -216,26 +216,26 @@
                 </CollectionView.ItemsLayout>
             </CollectionView>
             <Label
-         FontAttributes="Bold"
-         IsVisible="{Binding IsLoggedSearch}"
-         Margin="10,0,0,0"
-         Text="Recipes that can make now" />
+                Margin="10,0,0,0"
+                FontAttributes="Bold"
+                IsVisible="{Binding IsLoggedSearch}"
+                Text="Recipes that can make now" />
             <CollectionView
-IsVisible="{Binding IsLoggedSearch}"
-ItemsSource="{Binding RecipesYouCanMake}"
-SelectedItem="{Binding SelectedRecipe}"
-SelectionMode="Single">
+                IsVisible="{Binding IsLoggedSearch}"
+                ItemsSource="{Binding RecipesYouCanMake}"
+                SelectedItem="{Binding SelectedRecipe}"
+                SelectionMode="Single">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Recipe">
                         <VerticalStackLayout
-            Padding="20"
-            HorizontalOptions="FillAndExpand"
-            VerticalOptions="Center">
+                            Padding="20"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center">
                             <Image
-                Aspect="Fill"
-                HeightRequest="150"
-                Source="{Binding RecipeImageURL}"
-                WidthRequest="100" />
+                                Aspect="Fill"
+                                HeightRequest="150"
+                                Source="{Binding RecipeImageURL}"
+                                WidthRequest="100" />
                             <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
@@ -254,9 +254,9 @@ SelectionMode="Single">
                 </CollectionView.ItemsLayout>
             </CollectionView>
             <Label
+                Margin="10,0,0,0"
                 FontAttributes="Bold"
                 IsVisible="{Binding IsKosherVisible}"
-                Margin="10,0,0,0"
                 Text="Kosher Recipes" />
             <CollectionView
                 IsVisible="{Binding IsKosherVisible}"
@@ -292,26 +292,26 @@ SelectionMode="Single">
                 </CollectionView.ItemsLayout>
             </CollectionView>
             <Label
-      FontAttributes="Bold"
-      IsVisible="{Binding NotInSearch}"
-      Margin="10,0,0,0"
-      Text="For Breakfast" />
+                Margin="10,0,0,0"
+                FontAttributes="Bold"
+                IsVisible="{Binding NotInSearch}"
+                Text="For Breakfast" />
             <CollectionView
-      IsVisible="{Binding NotInSearch}"
-      ItemsSource="{Binding BreakfastRecipes}"
-      SelectedItem="{Binding SelectedRecipe}"
-      SelectionMode="Single">
+                IsVisible="{Binding NotInSearch}"
+                ItemsSource="{Binding BreakfastRecipes}"
+                SelectedItem="{Binding SelectedRecipe}"
+                SelectionMode="Single">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Recipe">
                         <VerticalStackLayout
-                  Padding="20"
-                  HorizontalOptions="FillAndExpand"
-                  VerticalOptions="Center">
+                            Padding="20"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center">
                             <Image
-                      Aspect="Fill"
-                      HeightRequest="150"
-                      Source="{Binding RecipeImageURL}"
-                      WidthRequest="100" />
+                                Aspect="Fill"
+                                HeightRequest="150"
+                                Source="{Binding RecipeImageURL}"
+                                WidthRequest="100" />
                             <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
@@ -330,9 +330,9 @@ SelectionMode="Single">
                 </CollectionView.ItemsLayout>
             </CollectionView>
             <Label
+                Margin="10,0,0,0"
                 FontAttributes="Bold"
                 IsVisible="{Binding NotInSearch}"
-                Margin="10,0,0,0"
                 Text="Japanese Food" />
             <CollectionView
                 IsVisible="{Binding NotInSearch}"
@@ -368,9 +368,9 @@ SelectionMode="Single">
                 </CollectionView.ItemsLayout>
             </CollectionView>
             <Label
+                Margin="10,0,0,0"
                 FontAttributes="Bold"
                 IsVisible="{Binding NotInSearch}"
-                Margin="10,0,0,0"
                 Text="Top Ten Most Made Recipes" />
             <CollectionView
                 IsVisible="{Binding NotInSearch}"
@@ -424,26 +424,26 @@ SelectionMode="Single">
                 </CollectionView.ItemsLayout>
             </CollectionView>
             <Label
-      FontAttributes="Bold"
-      IsVisible="{Binding NotInSearch}"
-      Margin="10,0,0,0"
-      Text="For Lunch" />
+                Margin="10,0,0,0"
+                FontAttributes="Bold"
+                IsVisible="{Binding NotInSearch}"
+                Text="For Lunch" />
             <CollectionView
-      IsVisible="{Binding NotInSearch}"
-      ItemsSource="{Binding LunchRecipes}"
-      SelectedItem="{Binding SelectedRecipe}"
-      SelectionMode="Single">
+                IsVisible="{Binding NotInSearch}"
+                ItemsSource="{Binding LunchRecipes}"
+                SelectedItem="{Binding SelectedRecipe}"
+                SelectionMode="Single">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Recipe">
                         <VerticalStackLayout
-                  Padding="20"
-                  HorizontalOptions="FillAndExpand"
-                  VerticalOptions="Center">
+                            Padding="20"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center">
                             <Image
-                      Aspect="Fill"
-                      HeightRequest="150"
-                      Source="{Binding RecipeImageURL}"
-                      WidthRequest="100" />
+                                Aspect="Fill"
+                                HeightRequest="150"
+                                Source="{Binding RecipeImageURL}"
+                                WidthRequest="100" />
                             <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
@@ -462,9 +462,9 @@ SelectionMode="Single">
                 </CollectionView.ItemsLayout>
             </CollectionView>
             <Label
+                Margin="10,0,0,0"
                 FontAttributes="Bold"
                 IsVisible="{Binding NotInSearch}"
-                Margin="10,0,0,0"
                 Text="French Food" />
             <CollectionView
                 IsVisible="{Binding NotInSearch}"
@@ -500,9 +500,9 @@ SelectionMode="Single">
                 </CollectionView.ItemsLayout>
             </CollectionView>
             <Label
+                Margin="10,0,0,0"
                 FontAttributes="Bold"
                 IsVisible="{Binding NotInSearch}"
-                Margin="10,0,0,0"
                 Text="Deserts" />
             <CollectionView
                 IsVisible="{Binding NotInSearch}"
@@ -538,9 +538,9 @@ SelectionMode="Single">
                 </CollectionView.ItemsLayout>
             </CollectionView>
             <Label
+                Margin="10,0,0,0"
                 FontAttributes="Bold"
                 IsVisible="{Binding NotInSearch}"
-                Margin="10,0,0,0"
                 Text="Italian Food" />
             <CollectionView
                 IsVisible="{Binding NotInSearch}"
@@ -576,26 +576,26 @@ SelectionMode="Single">
                 </CollectionView.ItemsLayout>
             </CollectionView>
             <Label
-      FontAttributes="Bold"
-      IsVisible="{Binding NotInSearch}"
-      Margin="10,0,0,0"
-      Text="For Dinner" />
+                Margin="10,0,0,0"
+                FontAttributes="Bold"
+                IsVisible="{Binding NotInSearch}"
+                Text="For Dinner" />
             <CollectionView
-      IsVisible="{Binding NotInSearch}"
-      ItemsSource="{Binding DinnerRecipes}"
-      SelectedItem="{Binding SelectedRecipe}"
-      SelectionMode="Single">
+                IsVisible="{Binding NotInSearch}"
+                ItemsSource="{Binding DinnerRecipes}"
+                SelectedItem="{Binding SelectedRecipe}"
+                SelectionMode="Single">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Recipe">
                         <VerticalStackLayout
-                  Padding="20"
-                  HorizontalOptions="FillAndExpand"
-                  VerticalOptions="Center">
+                            Padding="20"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center">
                             <Image
-                      Aspect="Fill"
-                      HeightRequest="150"
-                      Source="{Binding RecipeImageURL}"
-                      WidthRequest="100" />
+                                Aspect="Fill"
+                                HeightRequest="150"
+                                Source="{Binding RecipeImageURL}"
+                                WidthRequest="100" />
                             <Label Text="{Binding RecipesName}" WidthRequest="100" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>
@@ -614,9 +614,9 @@ SelectionMode="Single">
                 </CollectionView.ItemsLayout>
             </CollectionView>
             <Label
+                Margin="10,0,0,0"
                 FontAttributes="Bold"
                 IsVisible="{Binding NotInSearch}"
-                Margin="10,0,0,0"
                 Text="Top Ten Most Rated Recipes" />
             <CollectionView
                 IsVisible="{Binding NotInSearch}"

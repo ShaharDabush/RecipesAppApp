@@ -1,48 +1,72 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RecipesAppApp.Views.RecipesAproveView"
-             BackgroundColor="Wheat"
-             Shell.BackgroundColor="Wheat"
-             Shell.TabBarBackgroundColor="Wheat"
-             Shell.TabBarForegroundColor="Wheat"
-             Title="Recipe List">
-    <Grid RowDefinitions="55,*">
-        <Entry Grid.Row="0" Placeholder="Search by recipe name" Text="{Binding SearchedName}" HeightRequest="55"  ClearButtonVisibility="WhileEditing"/>
-        <RefreshView 
-          Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" Grid.Row="1">
-            <CollectionView  ItemsSource="{Binding SearchedRecipes}" ItemsLayout="VerticalList" x:Name="theCollectionView">
+<ContentPage
+    x:Class="RecipesAppApp.Views.RecipesAproveView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Recipe List"
+    BackgroundColor="Wheat"
+    Shell.BackgroundColor="Wheat"
+    Shell.TabBarBackgroundColor="Wheat"
+    Shell.TabBarForegroundColor="Wheat">
+    <Grid RowDefinitions="55,*" x:Name="G">
+        <Entry
+            Grid.Row="0"
+            ClearButtonVisibility="WhileEditing"
+            HeightRequest="55"
+            Placeholder="Search by recipe name"
+            Text="{Binding SearchedName}" />
+        <RefreshView
+            Grid.Row="1"
+            Command="{Binding RefreshCommand}"
+            IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView
+                x:Name="theCollectionView"
+                ItemsLayout="VerticalList"
+                ItemsSource="{Binding SearchedRecipes}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="Start" ColumnDefinitions="*,*" RowDefinitions="*,*,*,*">
-                            <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" HorizontalOptions="Start" WidthRequest="130"  HeightRequest="130" Aspect="Fill"
-                        Source="{Binding RecipeImageURL}"
-                         />
-                            <Label Grid.Column="1" Grid.Row="0"
-                        Text="{Binding RecipesName}"
-                         FontAttributes="Bold"/>
-                            <Label Grid.Column="1" Grid.Row="1">
+                        <Grid
+                            Padding="20"
+                            ColumnDefinitions="*,*"
+                            HorizontalOptions="FillAndExpand"
+                            RowDefinitions="*,*,*,*"
+                            VerticalOptions="Start">
+                            <Image
+                                Grid.Row="0"
+                                Grid.RowSpan="5"
+                                Grid.Column="0"
+                                Aspect="Fill"
+                                HeightRequest="130"
+                                HorizontalOptions="Start"
+                                Source="{Binding RecipeImageURL}"
+                                WidthRequest="130" />
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                Text="{Binding RecipesName}" />
+                            <Label Grid.Row="1" Grid.Column="1">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Made by: "/>
-                                        <Span Text="{Binding UserName}"/>
+                                        <Span Text="Made by: " />
+                                        <Span Text="{Binding UserName}" />
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
-                            <Label Grid.Column="1" Grid.Row="2">
+                            <Label Grid.Row="2" Grid.Column="1">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Rating: "/>
-                                        <Span Text="{Binding Rating}"/>
+                                        <Span Text="Rating: " />
+                                        <Span Text="{Binding Rating}" />
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
-                            <Label Grid.Column="1" Grid.Row="3">
+                            <Label Grid.Row="3" Grid.Column="1">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Made it "/>
-                                        <Span Text="{Binding HowManyMadeIt}"/>
-                                        <Span Text=" people"/>
+                                        <Span Text="Made it " />
+                                        <Span Text="{Binding HowManyMadeIt}" />
+                                        <Span Text=" people" />
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>

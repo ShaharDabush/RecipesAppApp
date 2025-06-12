@@ -1,59 +1,116 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:RecipesAppApp.Models"
-             xmlns:classes="clr-namespace:RecipesAppApp.Classes"
-             x:Class="RecipesAppApp.Views.RecipeDetailsView"
-             BackgroundColor="Wheat"
-             Shell.BackgroundColor="Wheat"
-             Title="{Binding Recipe.RecipesName}">
+<ContentPage
+    x:Class="RecipesAppApp.Views.RecipeDetailsView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:classes="clr-namespace:RecipesAppApp.Classes"
+    xmlns:models="clr-namespace:RecipesAppApp.Models"
+    Title="{Binding Recipe.RecipesName}"
+    BackgroundColor="Wheat"
+    Shell.BackgroundColor="Wheat">
     <ScrollView>
         <VerticalStackLayout Padding="10">
-            <Border Stroke="Transparent" Margin="10">
+            <Border Margin="10" Stroke="Transparent">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="30"/>
+                    <RoundRectangle CornerRadius="30" />
                 </Border.StrokeShape>
-                <Image Source="{Binding Recipe.RecipeImageURL}" HeightRequest="300" Aspect="AspectFill"></Image>
+                <Image
+                    Aspect="AspectFill"
+                    HeightRequest="300"
+                    Source="{Binding Recipe.RecipeImageURL}" />
             </Border>
-            <Grid ColumnDefinitions="*,*,1.7*" Margin="0,0,0,3">
-            <Label FontSize="20" Margin="5,-2,0,5" Grid.Column="0">
-                <Label.FormattedText>
-                    <FormattedString>
+            <Grid Margin="0,0,0,3" ColumnDefinitions="*,*,1.7*">
+                <Label
+                    Grid.Column="0"
+                    Margin="5,-2,0,5"
+                    FontSize="20">
+                    <Label.FormattedText>
+                        <FormattedString>
                             <Span Text="Rating: " />
-                            <Span Text="{Binding RecipeRating}" Grid.Column="0"/>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-                <Border Stroke="Black" Grid.Column="1" WidthRequest="50" HeightRequest="30" >
-                    <Picker ItemsSource="{Binding Ratings}" SelectedItem="{Binding Rate}" WidthRequest="50" HeightRequest="40"/>
+                            <Span Grid.Column="0" Text="{Binding RecipeRating}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Border
+                    Grid.Column="1"
+                    HeightRequest="30"
+                    Stroke="Black"
+                    WidthRequest="50">
+                    <Picker
+                        HeightRequest="40"
+                        ItemsSource="{Binding Ratings}"
+                        SelectedItem="{Binding Rate}"
+                        WidthRequest="50" />
                 </Border>
             </Grid>
-            <Label Text="{Binding Recipe.RecipeDescription}" Margin="5,0,0,0"/>
-            <Grid ColumnDefinitions="100*,50*,*" WidthRequest="250" HorizontalOptions="Start"  >
-            <Label Text="Ingredients" Margin="0,20,0,20" FontSize="30" FontAttributes="Bold"/>
-                <Border Grid.Row="1" Grid.Column="1" Stroke="#cd853f" WidthRequest="40" HeightRequest="30" Margin="5,5,0,0" HorizontalOptions="Start" StrokeShape="RoundRectangle 10,10,10,10" >
+            <Label Margin="5,0,0,0" Text="{Binding Recipe.RecipeDescription}" />
+            <Grid
+                ColumnDefinitions="100*,50*,*"
+                HorizontalOptions="Start"
+                WidthRequest="250">
+                <Label
+                    Margin="0,20,0,20"
+                    FontAttributes="Bold"
+                    FontSize="30"
+                    Text="Ingredients"
+                    WidthRequest="25" />
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="10,5,0,0"
+                    HeightRequest="40"
+                    HorizontalOptions="Start"
+                    Stroke="#cd853f"
+                    StrokeShape="RoundRectangle 10,10,10,10"
+                    WidthRequest="70">
                     <Grid>
-                        <Entry Text="{Binding Amount}" WidthRequest="40" HorizontalOptions="Start" Keyboard="Numeric" Margin="-2,0,0,-6" HorizontalTextAlignment="Center"/>
-                        <BoxView Color="Wheat" WidthRequest="75" HeightRequest="5" HorizontalOptions="Center" VerticalOptions="End"/>
+                        <Entry
+                            Margin="-2,0,0,-6"
+                            HorizontalOptions="Start"
+                            HorizontalTextAlignment="Center"
+                            Keyboard="Numeric"
+                            Text="{Binding Amount}"
+                            WidthRequest="40" />
+                        <BoxView
+                            HeightRequest="5"
+                            HorizontalOptions="Center"
+                            VerticalOptions="End"
+                            WidthRequest="75"
+                            Color="Wheat" />
                     </Grid>
                 </Border>
-                <Button Grid.Column="2" WidthRequest="20" HeightRequest="18" Margin="0,5,40,0" BackgroundColor="#a0522d" Command="{Binding ChangeAmountCommand}"/>
+                <Button
+                    Grid.Column="2"
+                    Margin="0,5,40,0"
+                    BackgroundColor="#a0522d"
+                    Command="{Binding ChangeAmountCommand}"
+                    HeightRequest="18"
+                    WidthRequest="20" />
             </Grid>
             <CollectionView ItemsSource="{Binding TrueList}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="classes:IngredientsWithNameAndAmount">
-                        <Grid ColumnDefinitions="20,150" RowDefinitions="20,20" Margin="5,0,0,0">
-                            <Border StrokeShape="Ellipse"  Margin="0,0,0,0">
-                                <CheckBox WidthRequest="1544" HeightRequest="150" Grid.Column="0" Margin="0,0,0,0" Color="Green" IsChecked="{Binding IsChecked}" />
+                        <Grid
+                            Margin="5,0,0,0"
+                            ColumnDefinitions="20,150"
+                            RowDefinitions="20,20">
+                            <Border Margin="0,0,0,0" StrokeShape="Ellipse">
+                                <CheckBox
+                                    Grid.Column="0"
+                                    Margin="0,0,0,0"
+                                    HeightRequest="150"
+                                    IsChecked="{Binding IsChecked}"
+                                    WidthRequest="1544"
+                                    Color="Green" />
                             </Border>
-                            <Label Grid.Column="1"   WidthRequest="100"  >
+                            <Label Grid.Column="1" WidthRequest="100">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="{Binding Amount}"/>
-                                        <Span Text=" "/>
-                                        <Span Text="{Binding MeasureUnits}"/>
-                                        <Span Text=" "/>
-                                        <Span Text="{Binding Name}"/>
+                                        <Span Text="{Binding Amount}" />
+                                        <Span Text=" " />
+                                        <Span Text="{Binding MeasureUnits}" />
+                                        <Span Text=" " />
+                                        <Span Text="{Binding Name}" />
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -61,21 +118,43 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Label Text="Directions" Margin="0,20,0,0" FontSize="30" FontAttributes="Bold"/>
-            <CollectionView  ItemsSource="{Binding Levels}" SelectionMode="None">
+            <Label
+                Margin="0,20,0,0"
+                FontAttributes="Bold"
+                FontSize="30"
+                Text="Directions" />
+            <CollectionView ItemsSource="{Binding Levels}" SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Level">
                         <Grid
-                            ColumnDefinitions="30,*" RowDefinitions="30,*" Margin="5,10,0,0">
-                            <Border StrokeShape="Ellipse" Stroke="Black" StrokeThickness="1">
-                                <Label Text="{Binding LevelCount}" FontAttributes="Bold" Grid.Column="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                            Margin="5,10,0,0"
+                            ColumnDefinitions="30,*"
+                            RowDefinitions="30,*">
+                            <Border
+                                Stroke="Black"
+                                StrokeShape="Ellipse"
+                                StrokeThickness="1">
+                                <Label
+                                    Grid.Column="0"
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Text="{Binding LevelCount}"
+                                    VerticalOptions="CenterAndExpand" />
                             </Border>
-                            <Label Grid.Column="1" Text="{Binding TextLevel}" Grid.RowSpan="2" Margin="5,0,0,0"/>
+                            <Label
+                                Grid.RowSpan="2"
+                                Grid.Column="1"
+                                Margin="5,0,0,0"
+                                Text="{Binding TextLevel}" />
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Button Text="Remove Ingredient" Command="{Binding RemoveIngredientsCommand}" IsVisible="{Binding IsRemoveIngredientVisible}" BackgroundColor="#a0522d"/>
+            <Button
+                BackgroundColor="#a0522d"
+                Command="{Binding RemoveIngredientsCommand}"
+                IsVisible="{Binding IsRemoveIngredientVisible}"
+                Text="Remove Ingredient" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
